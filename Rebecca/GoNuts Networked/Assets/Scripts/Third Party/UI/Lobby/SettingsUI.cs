@@ -10,15 +10,10 @@ using UnityEngine.UI;
 namespace UI.Lobby {
 	public class SettingsUI : NetworkBehaviour {
 
-		[SyncVar]
-		private string timeLimit = "Waiting for first choice";
-
 		public GameObject clientUI;
 		public GameObject serverUI;
 
-		public Dropdown serverTimeSelect;
 		public Text serverIpAddress;
-		public Text clientTimeSelect;
 
 		public GameObject readyWaitingButton;
 		public GameObject readyNowButton;
@@ -37,24 +32,17 @@ namespace UI.Lobby {
 				clientUI.SetActive(true);
 			} else {
 				serverUI.SetActive(true);
-				ChangeTimeLimit(serverTimeSelect);
 				SetIpAddress();
 			}
 		}
 
 		public void OnGUI(){
-			UpdateClientSettings();
 			UpdateServerStartButton();
 		}
 
 		[Server]
 		public void SetIpAddress(){
 			serverIpAddress.text = Network.player.ipAddress;
-		}
-
-		[Server]
-		public void ChangeTimeLimit(Dropdown target){
-			timeLimit = target.options[target.value].text;
 		}
 
 		[Client]
@@ -87,8 +75,8 @@ namespace UI.Lobby {
 				"Yes!",
 				"Not yet...",
 				() => {
-					LevelData.GetInstance().levelTime = (serverTimeSelect.value * 5) + 5;
 					RpcUpdateClientStateOnStart();
+					//TODO Assign a team to each player
 					NetworkManager.singleton.ServerChangeScene("Level A");
 				},
 				() => {
@@ -102,19 +90,8 @@ namespace UI.Lobby {
 			State.GetInstance().Level(State.LEVEL_NOT_READY).Publish();
 		}
 
-		[ClientCallback]
-		private void UpdateClientSettings(){
-			clientTimeSelect.text = timeLimit;
-		}
-
 		[ServerCallback]
 		private void UpdateServerStartButton(){
-			int[] teams = TeamTracker.GetInstance().GetTeams();
-			if (teams[0] == 0 || teams[1] == 0){
-				startGameButtonText.text = "Waiting for teams";
-				allowServerStart = false;
-				return;
-			}
 			bool allReady = true;
 			foreach (GameObject player in PlayerTracker.GetInstance().GetPlayers()){
 				if (!player){

@@ -9,6 +9,7 @@ namespace Player.SyncedData {
 		public int team = 0;
 		public bool isReady = false;
 		public bool isServer = false;
+		public bool hasNut = false;
 
 		private LocalPlayerDataStore(){ }
 

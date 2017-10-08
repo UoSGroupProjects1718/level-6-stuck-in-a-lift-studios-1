@@ -6,11 +6,14 @@ namespace Player.Tracking{
 
 		private static TeamTracker instance;
 
-		public delegate void TeamChanged(int numAlphas, int numBetas);
+		public delegate void TeamChanged(int numA, int numB, int numC, int numD, int numE);
 		public event TeamChanged OnTeamChanged;
 
-		private int alphas = 0;
-		private int betas = 0;
+		private int a = 0;
+		private int b = 0;
+		private int c = 0;
+		private int d = 0;
+		private int e = 0;
 
 		private TeamTracker(){
 			foreach (GameObject player in PlayerTracker.GetInstance().GetPlayers()){
@@ -36,21 +39,33 @@ namespace Player.Tracking{
 		}
 
 		private void CountTeams(){
-			alphas = betas = 0;
+			a = b = c = d = e = 0;
 			foreach (GameObject player in PlayerTracker.GetInstance().GetPlayers()){
-				if (player.GetComponent<PlayerDataForClients>().GetTeam() == PlayerDataForClients.PLAYER_ALPHA) {
-					alphas ++;
-				} else {
-					betas ++;
+				switch (player.GetComponent<PlayerDataForClients>().GetTeam()){
+					case PlayerDataForClients.PLAYER_A:
+						a++;
+						break;
+					case PlayerDataForClients.PLAYER_B:
+						b++;
+						break;
+					case PlayerDataForClients.PLAYER_C:
+						c++;
+						break;
+					case PlayerDataForClients.PLAYER_D:
+						d++;
+						break;
+					case PlayerDataForClients.PLAYER_E:
+						e++;
+						break;
 				}
 			}
 			if (OnTeamChanged != null){
-				OnTeamChanged (alphas, betas);
+				OnTeamChanged (a, b, c, d, e);
 			}
 		}
 
 		public int[] GetTeams(){
-			return new int[] { alphas, betas };
+			return new int[] { a, b, c, d, e };
 		}
 	}
 }

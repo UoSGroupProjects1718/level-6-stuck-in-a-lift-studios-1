@@ -7,8 +7,13 @@ namespace Player.SyncedData {
 
 		public PlayerDataForClients clientData;
 
-		private string[] names = new string[] {"Twilight Sparkle", "Pinkie Pie", "Rarity", "Fluttershy", "Rainbow Dash", "Applejack"};
-		private int[] teams = new int[] {PlayerDataForClients.PLAYER_ALPHA, PlayerDataForClients.PLAYER_BETA};
+		private string[] names = new string[] {"Rebecca", "Max", "Joe", "Elliot", "Zach", "Rob"};
+		private int[] teams = new int[] {
+			PlayerDataForClients.PLAYER_A,
+			PlayerDataForClients.PLAYER_B,
+			PlayerDataForClients.PLAYER_C,
+			PlayerDataForClients.PLAYER_D,
+			PlayerDataForClients.PLAYER_E};
 
 		public override void OnStartLocalPlayer(){
 			LocalPlayerDataStore store = LocalPlayerDataStore.GetInstance();
@@ -21,11 +26,13 @@ namespace Player.SyncedData {
 						clientData.SetTeam(0);
 						clientData.SetIsReadyFlag(false);
 						clientData.SetIsServerFlag(false);
+						clientData.SetHasNutFlag(false);
 					} else {
 						store.playerName = "";
 						store.team = 0;
 						store.isReady = false;
 						store.isServer = false;
+						store.hasNut = false;
 					}
 				}
 			);
@@ -61,8 +68,8 @@ namespace Player.SyncedData {
 			if (store.playerName != "" || store.team != 0 | store.isServer != false || store.isReady != false){
 				return;
 			}
-			store.playerName = names[Random.Range(0, 6)];
-			store.team = teams[Random.Range(0, 2)];
+			store.playerName = names[Random.Range(0, names.Length)];
+			store.team = teams[Random.Range(0, teams.Length)];
 
 			if (State.GetInstance().Network() == State.NETWORK_SERVER){
 				store.isServer = true;

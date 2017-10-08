@@ -24,9 +24,6 @@ namespace UI.Lobby {
 			}
 			PlayerTracker.GetInstance().OnPlayerAdded += NewLobbyPlayerAdded;
 			PlayerTracker.GetInstance().OnPlayerRemoved += OldLobbyPlayerRemoved;
-
-			TeamTracker.GetInstance().OnTeamChanged += UpdateVersusText;
-			TeamTracker.GetInstance().ForceRecount();
 		}
 
 		private void NewLobbyPlayerAdded(GameObject player){
@@ -69,12 +66,6 @@ namespace UI.Lobby {
 
 			RectTransform transform = viewportContent.GetComponent<RectTransform>();
 			transform.sizeDelta = new Vector2(transform.sizeDelta.x, counter * (entryPrefabHeight + 2));
-		}
-
-		private void UpdateVersusText(int alphas, int betas){
-			if (versusText != null){
-				versusText.text = alphas + " vs " + betas;
-			}
 		}
 	}
 }
