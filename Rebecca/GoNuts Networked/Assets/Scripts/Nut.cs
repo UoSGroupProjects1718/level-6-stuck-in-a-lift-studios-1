@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Player.SyncedData;
+using UnityEngine;
 
 public class Nut : MonoBehaviour {
 
