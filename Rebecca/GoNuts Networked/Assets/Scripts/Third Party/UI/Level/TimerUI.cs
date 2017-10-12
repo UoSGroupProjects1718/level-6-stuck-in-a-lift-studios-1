@@ -8,7 +8,7 @@ namespace UI.Level {
 	public class TimerUI : NetworkBehaviour {
 
 		[SyncVar]
-		public int timer = 10;
+		public int timer = 5;
 
 		public Text timerText;
 
@@ -17,8 +17,7 @@ namespace UI.Level {
 		private string niceTime;
 
 		public void Awake(){
-			timer = LevelData.GetInstance().levelTime;
-			timer *= 60; //convert minutes to seconds
+//			timer = LevelData.GetInstance().levelTime;
 			SubscribeToServerReady();
 		}
 
@@ -51,16 +50,12 @@ namespace UI.Level {
 				yield return new WaitForSeconds(1);
 				timer --;
 			}
-			RpcEndTheGame();
+			RpcStartTheGame();
 		}
 
 		[ClientRpc]
 		private void RpcStartTheGame(){
 			State.GetInstance().Level(State.LEVEL_PLAYING).Publish();
-		}
-		[ClientRpc]
-		private void RpcEndTheGame(){
-			State.GetInstance().Level(State.LEVEL_COMPLETE).Publish();
 		}
 	}
 }
