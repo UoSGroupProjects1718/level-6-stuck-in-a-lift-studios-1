@@ -6,15 +6,15 @@ public class Nut : MonoBehaviour {
 	private int uniqueID = -1;
 	private int ownerID = -1;
 
-	void OnCollisionEnter(Collision col){
+	void OnControllerColliderHit(Collision col){
 		if (col.gameObject.tag == "player"){
+			Debug.Log("Player Entered");
 			if (ownerID != -1){
-				
-			} else {
-				col.gameObject.GetComponent<PlayerDataForClients>().SetHasNutFlag(true);
-				this.ownerID = col.gameObject.GetComponent<PlayerDataForClients>().GetTeam();
-				this.gameObject.SetActive(false);
+				return;
 			}
+			col.gameObject.GetComponent<PlayerDataForClients>().SetHasNutFlag(true);
+			this.ownerID = col.gameObject.GetComponent<PlayerDataForClients>().GetTeam();
+			this.gameObject.SetActive(false);
 		}
 	}
 

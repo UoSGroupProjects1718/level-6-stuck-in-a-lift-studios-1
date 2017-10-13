@@ -1,4 +1,5 @@
 ﻿using GameState;
+using Player.SyncedData;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -137,7 +138,22 @@ public class PlayerController : NetworkBehaviour {
 		}
 	}
 
+	void OnTriggerEnter(Collider col){
+		PlayerDataForClients playerData = transform.gameObject.GetComponent<PlayerDataForClients>();
+		if (col.gameObject.tag == "Nut"){
+			if (playerData.GetHasNutFlag()){
+				return;
+			}
+			playerData.SetHasNutFlag(true);
+			Destroy(col.gameObject);
+		}
+	}
+
 	void OnControllerColliderHit(ControllerColliderHit hit){
+		if (hit.transform.tag == "Checkpoint"){
+			hit.transform.SendMessage("PlayerEnter", this.transform.gameObject);
+		}
 		wallNormal = hit.normal;
+
 	}
 }

@@ -1,0 +1,124 @@
+Initialize engine version: 5.6.1f1 (2860b30f0b54)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 760 (ID=0x1187)
+    Vendor:   NVIDIA
+    VRAM:     1989 MB
+    Driver:   10.18.13.6175
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.102 seconds
+Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 3200x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+Initialize engine version: 5.6.1f1 (2860b30f0b54)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 760 (ID=0x1187)
+    Vendor:   NVIDIA
+    VRAM:     1989 MB
+    Driver:   10.18.13.6175
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.017 seconds
+Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 3200x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 2.666806 ms
+<RI> Initialized touch support.
+Setting up 4 worker threads for Enlighten.
+  Thread -> id: 1f80 -> priority: 1 
+  Thread -> id: 1910 -> priority: 1 
+  Thread -> id: 1d10 -> priority: 1 
+  Thread -> id: 1a48 -> priority: 1 
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 14.397601 ms
+
+Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 712.
+Total: 0.546867 ms (FindLiveObjects: 0.037915 ms CreateObjectMapping: 0.022693 ms MarkObjects: 0.471036 ms  DeleteObjects: 0.014944 ms)
+
+UnloadTime: 1.088198 ms
+Setting up 4 worker threads for Enlighten.
+  Thread -> id: 1320 -> priority: 1 
+  Thread -> id: 1654 -> priority: 1 
+  Thread -> id: 1944 -> priority: 1 
+  Thread -> id: 14e8 -> priority: 1 
+Network configuration mismatch detected. The number of networked scripts on the client does not match the number of networked scripts on the server. This could be caused by lazy loading of scripts on the client. This warning can be disabled by the checkbox in NetworkManager Script CRC Check.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+CRC Local Dump PlayerDataForClients : 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+InvalidOperationException: out of sync
+  at System.Collections.Generic.Dictionary`2+Enumerator[System.String,System.Int32].VerifyState () [0x00000] in <filename unknown>:0 
+  at System.Collections.Generic.Dictionary`2+Enumerator[System.String,System.Int32].MoveNext () [0x00000] in <filename unknown>:0 
+  at System.Collections.Generic.Dictionary`2+KeyCollection+Enumerator[System.String,System.Int32].MoveNext () [0x00000] in <filename unknown>:0 
+  at UnityEngine.Networking.NetworkCRC.Dump (UnityEngine.Networking.NetworkSystem.CRCMessageEntry[] remoteScripts) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Networking.NetworkCRC.ValidateInternal (UnityEngine.Networking.NetworkSystem.CRCMessageEntry[] remoteScripts, Int32 numChannels) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Networking.NetworkCRC.Validate (UnityEngine.Networking.NetworkSystem.CRCMessageEntry[] scripts, Int32 numChannels) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Networking.NetworkClient.OnCRC (UnityEngine.Networking.NetworkMessage netMsg) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Networking.NetworkConnection.HandleReader (UnityEngine.Networking.NetworkReader reader, Int32 receivedSize, Int32 channelId) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Networking.NetworkConnection.HandleBytes (System.Byte[] buffer, Int32 receivedSize, Int32 channelId) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Networking.NetworkConnection.TransportReceive (System.Byte[] bytes, Int32 numBytes, Int32 channelId) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Networking.NetworkClient.Update () [0x00000] in <filename unknown>:0 
+  at UnityEngine.Networking.NetworkClient.UpdateClients () [0x00000] in <filename unknown>:0 
+  at UnityEngine.Networking.NetworkIdentity.UNetStaticUpdate () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+UnloadTime: 4.891359 ms
+
+Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 617.
+Total: 0.739488 ms (FindLiveObjects: 0.030443 ms CreateObjectMapping: 0.030996 ms MarkObjects: 0.650096 ms  DeleteObjects: 0.027398 ms)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 9.539729 ms
+UnloadTime: 2.972067 ms
+
+Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 707.
+Total: 0.727587 ms (FindLiveObjects: 0.045941 ms CreateObjectMapping: 0.028228 ms MarkObjects: 0.635151 ms  DeleteObjects: 0.017989 ms)
+
+
+Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 673.
+Total: 0.586442 ms (FindLiveObjects: 0.032657 ms CreateObjectMapping: 0.021586 ms MarkObjects: 0.505630 ms  DeleteObjects: 0.026291 ms)
+
+reactor filed to acomplish request with code {1234}, bytesReceived {0}
+reactor filed to acomplish request with code {1234}, bytesReceived {0}
+reactor filed to acomplish request with code {1234}, bytesReceived {0}
+reactor filed to acomplish request with code {1234}, bytesReceived {0}
+Log: connection {1} has been disconnected by timeout; address {::ffff:127.0.0.1:7777}
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+ClientDisconnected due to error: Timeout
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+UnloadTime: 3.254080 ms
+
+Unloading 14 unused Assets to reduce memory usage. Loaded Objects now: 587.
+Total: 1.234602 ms (FindLiveObjects: 0.061993 ms CreateObjectMapping: 0.067528 ms MarkObjects: 1.015965 ms  DeleteObjects: 0.088561 ms)
+

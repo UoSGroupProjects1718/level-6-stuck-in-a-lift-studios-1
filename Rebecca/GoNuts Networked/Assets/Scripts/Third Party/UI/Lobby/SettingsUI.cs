@@ -76,7 +76,7 @@ namespace UI.Lobby {
 				"Not yet...",
 				() => {
 					RpcUpdateClientStateOnStart();
-					//TODO Assign a team to each player
+					AssignTeams();
 					NetworkManager.singleton.ServerChangeScene("Level A");
 				},
 				() => {
@@ -104,6 +104,29 @@ namespace UI.Lobby {
 			}
 			startGameButtonText.text = allReady ? "Start Game" : "Waiting on Ready";
 			allowServerStart = allReady;
+		}
+
+		private void AssignTeams(){
+			int teamCount = -1;
+			foreach (GameObject player in PlayerTracker.GetInstance().GetPlayers()){
+				switch(teamCount++){
+					case 1:
+						player.GetComponent<PlayerDataForClients>().SetTeam(PlayerDataForClients.PLAYER_A);
+						break;
+					case 2:
+						player.GetComponent<PlayerDataForClients>().SetTeam(PlayerDataForClients.PLAYER_B);
+						break;
+					case 3:
+						player.GetComponent<PlayerDataForClients>().SetTeam(PlayerDataForClients.PLAYER_C);
+						break;
+					case 4:
+						player.GetComponent<PlayerDataForClients>().SetTeam(PlayerDataForClients.PLAYER_D);
+						break;
+					case 5:
+						player.GetComponent<PlayerDataForClients>().SetTeam(PlayerDataForClients.PLAYER_E);
+						break;
+				}
+			}
 		}
 	}
 }
