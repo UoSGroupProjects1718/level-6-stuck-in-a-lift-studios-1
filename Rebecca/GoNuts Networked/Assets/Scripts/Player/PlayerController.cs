@@ -139,21 +139,34 @@ public class PlayerController : NetworkBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col){
+		if (!isLocalPlayer){
+			return;
+		}
 		PlayerDataForClients playerData = transform.gameObject.GetComponent<PlayerDataForClients>();
 		if (col.gameObject.tag == "Nut"){
+			Debug.LogError("playerHasNut:"+playerData.GetHasNutFlag());
 			if (playerData.GetHasNutFlag()){
 				return;
 			}
-			playerData.SetHasNutFlag(true);
-			Destroy(col.gameObject);
+			playerData.CmdSetHasNutFlag(true);
+			CmdDestroyObject(col.gameObject.GetComponent<NetworkIdentity>().netId);
+		}
+		if (col.transform.tag == "Checkpoint"){
+			if (playerData.GetHasNutFlag()){
+				Debug.LogError("Player with Nut at Checkpoint");
+				playerData.IncrementScore();
+				playerData.CmdSetHasNutFlag(false);
+			}
 		}
 	}
 
 	void OnControllerColliderHit(ControllerColliderHit hit){
-		if (hit.transform.tag == "Checkpoint"){
-			hit.transform.SendMessage("PlayerEnter", this.transform.gameObject);
-		}
 		wallNormal = hit.normal;
-
 	}
+
+	[Command]
+	public void CmdDestroyObject(NetworkInstanceId netID){
+		GameObject theObject = NetworkServer.FindLocalObject (netID);
+		NetworkServer.Destroy (theObject);
+    }
 }

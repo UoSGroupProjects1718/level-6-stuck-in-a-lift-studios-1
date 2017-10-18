@@ -101,10 +101,10 @@ namespace Player.SyncedData {
 			score = 0;
 		}
 		[Server]
-		public void ServerIncrementScore(){
+		public void IncrementScore(){
 			score++;
 		}
-		[Client]
+		[Server]
 		public void UpdateScore(int newScore){
 			score = newScore;
 			if (this.OnScoreUpdated != null){
@@ -157,8 +157,8 @@ namespace Player.SyncedData {
 		public bool GetHasNutFlag (){
 			return hasNutFlag;
 		}
-		[Server]
-		public void SetHasNutFlag(bool newHasNut){
+		[Command]
+		public void CmdSetHasNutFlag(bool newHasNut){
 			hasNutFlag = newHasNut;
 		}
 		[Client]

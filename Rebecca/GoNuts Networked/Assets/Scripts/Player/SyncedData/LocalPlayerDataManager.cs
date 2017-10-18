@@ -26,7 +26,7 @@ namespace Player.SyncedData {
 						clientData.SetTeam(0);
 						clientData.SetIsReadyFlag(false);
 						clientData.SetIsServerFlag(false);
-						clientData.SetHasNutFlag(false);
+						clientData.CmdSetHasNutFlag(false);
 					} else {
 						store.playerName = "";
 						store.team = 0;
