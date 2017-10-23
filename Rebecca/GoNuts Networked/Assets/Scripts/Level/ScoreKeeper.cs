@@ -46,6 +46,7 @@ namespace Level {
 			if (!keepScoring){
 //				return;
 			}
+			Debug.LogError("Someone Scored! Checking for win");
 			UpdateScoreUI(player, score);
 			if (score >= maxNuts){
 				RpcEndTheGame();

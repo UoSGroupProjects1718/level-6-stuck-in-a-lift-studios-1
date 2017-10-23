@@ -144,7 +144,6 @@ public class PlayerController : NetworkBehaviour {
 		}
 		PlayerDataForClients playerData = transform.gameObject.GetComponent<PlayerDataForClients>();
 		if (col.gameObject.tag == "Nut"){
-			Debug.LogError("playerHasNut:"+playerData.GetHasNutFlag());
 			if (playerData.GetHasNutFlag()){
 				return;
 			}
@@ -154,7 +153,7 @@ public class PlayerController : NetworkBehaviour {
 		if (col.transform.tag == "Checkpoint"){
 			if (playerData.GetHasNutFlag()){
 				Debug.LogError("Player with Nut at Checkpoint");
-				playerData.IncrementScore();
+				playerData.CmdIncrementScore();
 				playerData.CmdSetHasNutFlag(false);
 			}
 		}

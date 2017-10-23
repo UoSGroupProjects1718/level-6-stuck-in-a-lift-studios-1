@@ -100,12 +100,14 @@ namespace Player.SyncedData {
 		public void ResetScore (){
 			score = 0;
 		}
-		[Server]
-		public void IncrementScore(){
+		[Command]
+		public void CmdIncrementScore(){
+			Debug.LogError("Score Incremented");
 			score++;
 		}
-		[Server]
+		
 		public void UpdateScore(int newScore){
+			Debug.LogError("Score Updated");
 			score = newScore;
 			if (this.OnScoreUpdated != null){
 				this.OnScoreUpdated(gameObject, newScore);
