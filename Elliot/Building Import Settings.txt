@@ -1,0 +1,3 @@
+Import Scale: 10
+Delete default mesh
+rotate remaining mesh -90
