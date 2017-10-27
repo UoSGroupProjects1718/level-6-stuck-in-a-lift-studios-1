@@ -30,6 +30,13 @@ namespace Level {
 			}
 		}
 
+		public void Update(){
+			//This is horrible. But it works. Horrible horrible hack. Sorry Chris.
+			foreach (GameObject player in PlayerTracker.GetInstance().GetPlayers()){
+				CheckScore(player, player.GetComponent<PlayerDataForClients>().GetScore());
+			}
+		}
+
 		[Server]
 		private void ResetPlayerScore(GameObject player){
 			player.GetComponent<PlayerDataForClients>().ResetScore();
@@ -37,16 +44,15 @@ namespace Level {
 
 		[Server]
 		private void SubscribeToServerPlaying(){
-			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_PLAYING),() => { keepScoring = true; } );
+			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_PLAYING), () => { keepScoring = true; } );
 			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_COMPLETE), () => { keepScoring = false; } );
 		}
 
 		[Server]
 		public void CheckScore(GameObject player, int score){
 			if (!keepScoring){
-//				return;
+				return;
 			}
-			Debug.LogError("Someone Scored! Checking for win");
 			UpdateScoreUI(player, score);
 			if (score >= maxNuts){
 				RpcEndTheGame();
