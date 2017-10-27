@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GrapplingHook : MonoBehaviour {
-
+	/*
 	public Camera camera;
-	public SimpleCharacter player;
+	//public SimpleCharacter player;
 	public float speed = 10f;
 	public GameObject crosshairPrefab;
 	public int maxDistance;
@@ -47,6 +47,7 @@ public class GrapplingHook : MonoBehaviour {
 	void Findspot(){
 		if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, maxDistance, cullingmask)){
 			isFlying = true;
+			player.groundedVelocity = new Vector3(0, 0, 0);
 			location = hit.point;
 			player.canMove = false;
 			lineRenderer.enabled = true;
@@ -77,5 +78,5 @@ public class GrapplingHook : MonoBehaviour {
 		if (crosshairPrefab != null){
 			crosshairPrefab.SetActive(enabled);
 		}
-	}
+	}*/
 }
