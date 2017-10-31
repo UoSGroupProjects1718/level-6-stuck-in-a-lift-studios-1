@@ -5,10 +5,13 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public bool canMove;
-	public float groundSpeed;
-	public float gravityStrength;
+	public float baseGroundSpeed = 4;
+	public float groundSpeedModifier = 1;
+	public float baseGravityStrength = 12;
+	public float gravityStrengthModifier = 1;
 	public float glideStregth;
-	public float jumpPower;
+	public float baseJumpPower = 9;
+	public float jumpPowerModifier = 1;
 	public float aerialSpeed;
 	public float momentumMeter;
 	private int maxMeter = 100;
@@ -32,6 +35,9 @@ public class PlayerController : MonoBehaviour {
 	private bool canGlide = true;
 	private CharacterController controller;
 	private float verticalVelocity;
+	private float groundSpeed;
+	private float gravityStrength;
+	private float jumpPower;
 	private Quaternion inputRotation;
 	private Vector3 input;
 	[HideInInspector]
@@ -45,8 +51,7 @@ public class PlayerController : MonoBehaviour {
 		controller = GetComponent<CharacterController>();
 
 		Cursor.lockState = CursorLockMode.Locked;
-		if (crosshairPrefab != null)
-		{
+		if (crosshairPrefab != null) {
 			crosshairPrefab = Instantiate(crosshairPrefab);
 			ToggleCrosshair(false);
 		}
@@ -55,26 +60,20 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		MovePlayer();
 
-		if (Input.GetMouseButtonDown(0))
-		{
+		if (Input.GetMouseButtonDown(0)){
 			Findspot();
 		}
-		if (isFlying)
-		{
+		if (isFlying){
 			Flying();
 		}
-		if (Input.GetMouseButtonDown(1) && isFlying)
-		{
+		if (Input.GetMouseButtonDown(1) && isFlying){
 			isFlying = false;
 			canMove = true;
 			lineRenderer.enabled = false;
 		}
-		if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, maxDistance, cullingmask))
-		{
+		if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, maxDistance, cullingmask)){
 			PositionCrosshair(hit);
-		}
-		else
-		{
+		} else {
 			ToggleCrosshair(false);
 		}
 	}
@@ -119,37 +118,23 @@ public class PlayerController : MonoBehaviour {
 				gravityStrength = 12;
 
 				groundSpeed = 10 + (momentumMeter / 10);
-				if (mSpeed<groundSpeed) {
+				if (mSpeed < groundSpeed) {
 					groundSpeed = mSpeed;
 				}
 
-				if (momentumMeter <= 10)
-				{
-					jumpPower = 9;
-				}
-				if (momentumMeter > 10 && momentumMeter <= 50)
-				{
-					jumpPower = 10;
-				}
-				if (momentumMeter > 50 && momentumMeter <= 90)
-				{
-					jumpPower = 11;
-				}
-				if (momentumMeter > 90)
-				{
-					jumpPower = 12;
+				if (momentumMeter <= 10){
+					jumpPower = baseJumpPower;
+				} else {
+					jumpPower = baseJumpPower + (jumpPowerModifier * (momentumMeter/20f));
 				}
 
-			}
-			else{
+			} else {
 				momentumMeter -= 0.5f;
 				if(momentumMeter < 0){
 					momentumMeter = 0;
 					canGlide = true;
 				}
-
 			}
-				
 		} else {
 			momentumMeter -= 0.05f;
 			if(momentumMeter < 0){
@@ -157,30 +142,17 @@ public class PlayerController : MonoBehaviour {
 				canGlide = true;
 			}
 			if (canGlide) {
-				gravityStrength = 12;
+				gravityStrength = baseGravityStrength;
 			} else {
 				groundSpeed = 4 + (momentumMeter / 10);
-				if (mAirSpeed<groundSpeed) {
+				if (mAirSpeed < groundSpeed) {
 					groundSpeed = mAirSpeed;
 				}
 				if (momentumMeter <= 10) {
-					gravityStrength = 12;
+					gravityStrength = baseGravityStrength;
 					momentumMeter = 0;
-				}
-				if (momentumMeter > 10 && momentumMeter <= 30) {
-					gravityStrength = 10;
-				}
-				if (momentumMeter > 30 && momentumMeter <= 50) {
-					gravityStrength = 8;
-				}
-				if (momentumMeter > 50 && momentumMeter <= 70) {
-					gravityStrength = 6;
-				}
-				if (momentumMeter > 70 && momentumMeter <= 90) {
-					gravityStrength = 4;
-				}
-				if (momentumMeter > 90) {
-					gravityStrength = 2;
+				} else {
+					gravityStrength = baseGravityStrength - (gravityStrengthModifier * (momentumMeter/10f));
 				}
 			}
 			if (Input.GetKeyDown(KeyCode.E) && canGlide == true){
@@ -208,13 +180,11 @@ public class PlayerController : MonoBehaviour {
 			if (canJump){
 				verticalVelocity += jumpPower;
 			}
-	
-
 		}
 
-		if (!onWall && wallJumped)
+		if (!onWall && wallJumped){
 			wallJumped = false;
-
+		}
 
 		moveVector.y = verticalVelocity * Time.deltaTime;
 		moveVector += groundedVelocity;
@@ -227,30 +197,30 @@ public class PlayerController : MonoBehaviour {
 			canJump = true;
 			canGlide = true;
 			onWall = false;
-			groundedVelocity = new Vector3(0, 0, 0);
+			groundedVelocity = Vector3.zero;
 			verticalVelocity = -1f;
 		} else if ((flags & CollisionFlags.Sides) != 0){
 			canJump = true;
 			canGlide = true;
 			onWall = true;
-			groundedVelocity = new Vector3(0, 0, 0);
+			groundedVelocity = Vector3.zero;
 		} else {
 			canJump = false;
 			onWall = false;
 			if ((flags & CollisionFlags.Above) != 0){
 				verticalVelocity = 0f;
-				}
 			}
 		}
+	}
+
 	void OnControllerColliderHit(ControllerColliderHit hit){
 		wallNormal = hit.normal;
 	}
-	void Findspot()
-	{
-		if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, maxDistance, cullingmask))
-		{
+
+	void Findspot() {
+		if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, maxDistance, cullingmask)){
 			isFlying = true;
-			groundedVelocity = new Vector3(0, 0, 0);
+			groundedVelocity = Vector3.zero;
 			location = hit.point;
 			canMove = false;
 			lineRenderer.enabled = true;
@@ -258,36 +228,28 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	void Flying()
-	{
+	void Flying() {
 		transform.position = Vector3.Lerp(transform.position, location, grappleSpeed * Time.deltaTime / Vector3.Distance(transform.position, location));
 		lineRenderer.SetPosition(0, hand.position);
 
-		if (Vector3.Distance(transform.position, location) < 1f)
-		{
+		if (Vector3.Distance(transform.position, location) < 1f){
 			isFlying = false;
 			canMove = true;
 			lineRenderer.enabled = false;
 		}
 	}
 
-	void PositionCrosshair(RaycastHit hit)
-	{
-		if (crosshairPrefab != null)
-		{
+	void PositionCrosshair(RaycastHit hit){
+		if (crosshairPrefab != null) {
 			ToggleCrosshair(true);
 			crosshairPrefab.transform.position = hit.point;
 			crosshairPrefab.transform.LookAt(camera.transform);
 		}
 	}
 
-	void ToggleCrosshair(bool enabled)
-	{
-		if (crosshairPrefab != null)
-		{
+	void ToggleCrosshair(bool enabled) {
+		if (crosshairPrefab != null) {
 			crosshairPrefab.SetActive(enabled);
 		}
 	}
 }
-	
-
