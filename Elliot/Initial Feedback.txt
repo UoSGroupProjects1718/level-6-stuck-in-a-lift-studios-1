@@ -11,3 +11,5 @@ feedback:
 "It's cool though"
 "Camera placement is fucked"
 "Art style works"
+
+"Allow jump at end of grapple 
