@@ -173,8 +173,8 @@ public class PlayerController : MonoBehaviour {
 				Vector3 reflection = Vector3.Reflect(velocity, wallNormal);
 				Vector3 projected = Vector3.ProjectOnPlane(reflection, Vector3.up);
 			   
-				groundedVelocity = ((projected.normalized/10) + wallNormal * aerialSpeed);
-				Debug.Log(groundedVelocity);
+				groundedVelocity = (projected.normalized+ wallNormal) / 10f * aerialSpeed;
+				Debug.Log("groundedVelocity: " + groundedVelocity + " " + "projected.normalized: " + projected.normalized + " " + "wallNormal: " + wallNormal);
 				wallJumped = true;
 			}
 			if (canJump){
