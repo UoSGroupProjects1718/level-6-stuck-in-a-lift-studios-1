@@ -1,0 +1,13 @@
+feedback:
+
+-Falling through the floor sometimes happens on bug collection.
+-Map limits
+-Map needs redesigning
+	-Guide the players through the level -> maybe be more linear?
+	-Maybe reward exploration with extra points?
+
+"Gliding is pointless - too slow"
+"Grapple needs cooldown"
+"It's cool though"
+"Camera placement is fucked"
+"Art style works"
