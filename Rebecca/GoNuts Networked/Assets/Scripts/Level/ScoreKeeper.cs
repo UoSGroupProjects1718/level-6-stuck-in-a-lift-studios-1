@@ -9,7 +9,6 @@ namespace Level {
 	public class ScoreKeeper : NetworkBehaviour {
 
 		public int maxNuts = 2;
-		public Text scoreText;
 
 		private bool keepScoring = false;
 
@@ -61,7 +60,7 @@ namespace Level {
 
 		[Client]
 		private void UpdateScoreUI(GameObject player, int score){
-			scoreText.text = player.GetComponent<PlayerDataForClients>().GetName()+" has scored "+score;
+			//TODO Change score UI
 		}
 
 		[ClientRpc]

@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace UnityStandardAssets.Cameras
 {
-    public abstract class AbstractTargetFollower : MonoBehaviour
+    public abstract class AbstractTargetFollower : NetworkBehaviour
     {
         public enum UpdateType // The available methods of updating are:
         {
@@ -82,11 +83,12 @@ namespace UnityStandardAssets.Cameras
         public void FindAndTargetPlayer()
         {
             // auto target an object tagged player, if no target has been assigned
-            var targetObj = GameObject.FindGameObjectWithTag("Player");
-            if (targetObj)
-            {
-                SetTarget(targetObj.transform);
-            }
+            GameObject[] targetObjs = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject targetObj in targetObjs){
+				if (targetObj && targetObj.GetComponent<NetworkIdentity>().isLocalPlayer) {
+					SetTarget(targetObj.transform);
+				}
+			}
         }
 
 

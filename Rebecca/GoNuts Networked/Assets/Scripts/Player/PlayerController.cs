@@ -177,7 +177,7 @@ namespace Player {
 				if (onWall && !wallJumped){
 					Vector3 reflection = Vector3.Reflect(velocity, wallNormal);
 					Vector3 projected = Vector3.ProjectOnPlane(reflection, Vector3.up);
-					groundedVelocity = ((projected.normalized/10f) + wallNormal) * aerialSpeed;
+					groundedVelocity = (projected.normalized + wallNormal)/10f * aerialSpeed;
 					Debug.Log(groundedVelocity);
 					wallJumped = true;
 				}
