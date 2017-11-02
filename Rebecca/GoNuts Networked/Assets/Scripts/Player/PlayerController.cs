@@ -1,12 +1,14 @@
 ﻿using GameState;
 using Player.SyncedData;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 namespace Player {
 	public class PlayerController : NetworkBehaviour {
 
-		public float baseGroundSpeed = 4;
+		public float baseGroundSpeed = 8;
 		public float groundSpeedModifier = 1;
 		public float baseGravityStrength = 12;
 		public float gravityStrengthModifier = 1;
@@ -15,6 +17,7 @@ namespace Player {
 		public float aerialSpeed = 0.1f;
 		public float momentumMeter;
 		public float grappleSpeed = 10f;
+		public float grappleCooldownTime = 2f;
 		public GameObject crosshairPrefab;
 		public int maxDistance;
 		public LayerMask cullingmask;
@@ -27,12 +30,15 @@ namespace Player {
 		private bool onWall;
 		private bool canGlide = true;
 		private bool wallJumped;
+		private bool grappleOnCooldown = false;
 		private Camera camera;
 		private CharacterController controller;
 		private float verticalVelocity;
 		private float groundSpeed;
 		private float gravityStrength;
 		private float jumpPower;
+		private Image cooldownImage;
+		private Image crosshairImage;
 		private int maxMeter = 100;
 		private int mSpeed = 16;
 		private int mAirSpeed = 20;
@@ -51,22 +57,38 @@ namespace Player {
 			}
 			camera = Camera.main;
 			controller = GetComponent<CharacterController>();
-
-			Cursor.lockState = CursorLockMode.Locked;
+			if (State.GetInstance().Level() != State.LEVEL_PLAYING){
+				Cursor.lockState = CursorLockMode.Locked;
+			}
 			if (crosshairPrefab != null) {
 				crosshairPrefab = Instantiate(crosshairPrefab);
+				Image[] crosshairImages = crosshairPrefab.GetComponentsInChildren<Image>();
+				foreach (Image image in crosshairImages){
+					if (image.gameObject.tag == "Cooldown"){
+						cooldownImage = image;
+					} else if (image.gameObject.tag == "Crosshair"){
+						crosshairImage = image;
+					}
+				}
+				cooldownImage.fillAmount = 0f;
+				crosshairPrefab.SetActive(false);
 				ToggleCrosshair(false);
 			}
 		}
 
 		void Update () {
 			if (!isLocalPlayer || State.GetInstance().Level() != State.LEVEL_PLAYING){
+				crosshairPrefab.SetActive(false);
 				return;
+			} else {
+				crosshairPrefab.SetActive(true);
 			}
 			MovePlayer();
 
 			if (Input.GetMouseButtonDown(0)){
-				Findspot();
+				if (!grappleOnCooldown){
+					StartCoroutine(GrappleCooldown());
+				}
 			}
 			if (isFlying){
 				Flying();
@@ -120,9 +142,9 @@ namespace Player {
 						}
 				}
 				if(canGlide){
-					gravityStrength = 12;
+					gravityStrength = baseGravityStrength;
 
-					groundSpeed = 10 + (momentumMeter / 10);
+					groundSpeed = baseGroundSpeed + (momentumMeter / 10);
 					if (mSpeed < groundSpeed) {
 						groundSpeed = mSpeed;
 					}
@@ -149,7 +171,7 @@ namespace Player {
 				if (canGlide) {
 					gravityStrength = baseGravityStrength;
 				} else {
-					groundSpeed = 4 + (momentumMeter / 10);
+					groundSpeed = (baseGroundSpeed-1) + (momentumMeter / 10);
 					if (mAirSpeed < groundSpeed) {
 						groundSpeed = mAirSpeed;
 					}
@@ -221,7 +243,22 @@ namespace Player {
 			wallNormal = hit.normal;
 		}
 
-		void Findspot() {
+		private IEnumerator GrappleCooldown(){
+			if (Findspot()){
+				grappleOnCooldown = true;
+				cooldownImage.fillAmount = 1f;
+				float elapsed = 0.0f;
+				while (elapsed < grappleCooldownTime){
+					elapsed += Time.deltaTime;
+					cooldownImage.fillAmount = 1f - (elapsed/grappleCooldownTime);
+					yield return new WaitForSeconds(0.01f);
+				}
+				grappleOnCooldown = false;
+				cooldownImage.fillAmount = 0f;
+			}
+		}
+
+		bool Findspot() {
 			if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, maxDistance, cullingmask)){
 				isFlying = true;
 				groundedVelocity = Vector3.zero;
@@ -229,7 +266,9 @@ namespace Player {
 				canMove = false;
 				lineRenderer.enabled = true;
 				lineRenderer.SetPosition(1, location);
+				return true;
 			}
+			return false;
 		}
 
 		void Flying() {
@@ -253,7 +292,12 @@ namespace Player {
 
 		void ToggleCrosshair(bool enabled) {
 			if (crosshairPrefab != null) {
-				crosshairPrefab.SetActive(enabled);
+//				crosshairPrefab.SetActive(enabled);
+				if (enabled){
+					crosshairImage.color = Color.green;
+				} else {
+					crosshairImage.color = Color.red;
+				}
 			}
 		}
 
