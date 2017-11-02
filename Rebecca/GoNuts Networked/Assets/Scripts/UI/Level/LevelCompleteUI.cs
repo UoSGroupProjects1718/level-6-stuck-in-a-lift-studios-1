@@ -31,6 +31,12 @@ namespace UI.Level {
 		}
 
 		public void ShowLevelComplete() {
+			UpdateScoreboard();
+			if (State.GetInstance().Level() == State.LEVEL_PLAYING){
+				Cursor.lockState = CursorLockMode.Locked;
+			} else {
+				Cursor.lockState = CursorLockMode.None;
+			}
 			if (levelComplete == null || clientLevelComplete == null || serverLevelComplete == null){
 				return;
 			}
@@ -40,7 +46,6 @@ namespace UI.Level {
 			} else {
 				serverLevelComplete.SetActive(true);
 			}
-			UpdateScoreboard();
 		}
 
 		public void ReturnToLobby(){

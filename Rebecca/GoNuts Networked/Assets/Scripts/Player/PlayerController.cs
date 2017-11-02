@@ -57,9 +57,7 @@ namespace Player {
 			}
 			camera = Camera.main;
 			controller = GetComponent<CharacterController>();
-			if (State.GetInstance().Level() != State.LEVEL_PLAYING){
-				Cursor.lockState = CursorLockMode.Locked;
-			}
+
 			if (crosshairPrefab != null) {
 				crosshairPrefab = Instantiate(crosshairPrefab);
 				Image[] crosshairImages = crosshairPrefab.GetComponentsInChildren<Image>();
@@ -82,6 +80,11 @@ namespace Player {
 				return;
 			} else {
 				crosshairPrefab.SetActive(true);
+			}
+			if (State.GetInstance().Level() == State.LEVEL_PLAYING){
+				Cursor.lockState = CursorLockMode.Locked;
+			} else {
+				Cursor.lockState = CursorLockMode.None;
 			}
 			MovePlayer();
 
