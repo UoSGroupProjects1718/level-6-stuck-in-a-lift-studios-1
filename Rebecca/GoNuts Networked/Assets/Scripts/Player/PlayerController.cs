@@ -1,4 +1,5 @@
 ﻿using GameState;
+using Nut;
 using Player.SyncedData;
 using System.Collections;
 using UnityEngine;
@@ -42,9 +43,11 @@ namespace Player {
 		private int maxMeter = 100;
 		private int mSpeed = 16;
 		private int mAirSpeed = 20;
+		private PlayerDataForClients playerData;
 		private Quaternion inputRotation;
 		private RaycastHit hit;
 		private Text scoreText;
+		private Transform nutTransform;
 		private Vector3 location;
 		private Vector3 input;
 		private Vector3 groundedVelocity;
@@ -56,6 +59,9 @@ namespace Player {
 			if (!isLocalPlayer){
 				return;
 			}
+
+			playerData = transform.gameObject.GetComponent<PlayerDataForClients>();
+
 			camera = Camera.main;
 			controller = GetComponent<CharacterController>();
 
@@ -100,6 +106,8 @@ namespace Player {
 			}
 			if (isFlying){
 				Flying();
+			} else  if (playerData.GetHasNutFlag()){
+				lineRenderer.enabled = false;
 			}
 			if (Input.GetMouseButtonDown(1) && isFlying){
 				isFlying = false;
@@ -110,6 +118,11 @@ namespace Player {
 				PositionCrosshair(hit);
 			} else {
 				ToggleCrosshair(false);
+			}
+			if (nutTransform != null && !playerData.GetHasNutFlag()){
+				nutTransform.position = Vector3.Lerp(nutTransform.position, transform.position, grappleSpeed * Time.deltaTime / Vector3.Distance(nutTransform.position, transform.position));
+				lineRenderer.SetPosition(0, hand.position);
+				lineRenderer.SetPosition(1, nutTransform.position);
 			}
 		}
 
@@ -268,12 +281,24 @@ namespace Player {
 
 		bool Findspot() {
 			if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, maxDistance, cullingmask)){
-				isFlying = true;
-				groundedVelocity = Vector3.zero;
+				if (hit.transform.gameObject.tag == "Nut"){
+					Debug.Log("Hit Nut");
+					if (playerData.GetHasNutFlag()){
+						return false;
+					}
+					nutTransform = hit.transform;
+					nutTransform.gameObject.GetComponentInParent<NutSpin>().ToggleRotation(false);
+					nutTransform.rotation = Quaternion.identity;
+					nutTransform.LookAt(transform);
+				} else {
+					isFlying = true;
+					groundedVelocity = Vector3.zero;
+					canMove = false;
+				}
 				location = hit.point;
-				canMove = false;
 				lineRenderer.enabled = true;
 				lineRenderer.SetPosition(1, location);
+				Debug.Log("line renderer = "+lineRenderer.enabled);
 				return true;
 			}
 			return false;
@@ -313,7 +338,6 @@ namespace Player {
 			if (!isLocalPlayer){
 				return;
 			}
-			PlayerDataForClients playerData = transform.gameObject.GetComponent<PlayerDataForClients>();
 			if (col.gameObject.tag == "Nut"){
 				if (playerData.GetHasNutFlag()){
 					return;

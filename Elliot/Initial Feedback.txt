@@ -1,15 +1,16 @@
 feedback:
 
--Falling through the floor sometimes happens on bug collection.
--Map limits
+
+-Falling through the floor sometimes happens on nut collection - fixed
+-Map limits - fixed
+"Gliding is pointless - too slow" - fixed
+"Grapple needs cooldown" - fixed
+"Camera placement is fucked" - fixed?
+
 -Map needs redesigning
 	-Guide the players through the level -> maybe be more linear?
 	-Maybe reward exploration with extra points?
+"Allow jump at end of grapple"
 
-"Gliding is pointless - too slow"
-"Grapple needs cooldown"
 "It's cool though"
-"Camera placement is fucked"
 "Art style works"
-
-"Allow jump at end of grapple 
