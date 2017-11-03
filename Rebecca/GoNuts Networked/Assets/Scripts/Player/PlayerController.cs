@@ -44,6 +44,7 @@ namespace Player {
 		private int mAirSpeed = 20;
 		private Quaternion inputRotation;
 		private RaycastHit hit;
+		private Text scoreText;
 		private Vector3 location;
 		private Vector3 input;
 		private Vector3 groundedVelocity;
@@ -71,6 +72,10 @@ namespace Player {
 				cooldownImage.fillAmount = 0f;
 				crosshairPrefab.SetActive(false);
 				ToggleCrosshair(false);
+			}
+			GameObject scoreTextObj = GameObject.FindGameObjectWithTag("ScoreText");
+			if (scoreTextObj != null){
+				scoreText = scoreTextObj.GetComponent<Text>();
 			}
 		}
 
@@ -314,14 +319,26 @@ namespace Player {
 					return;
 				}
 				playerData.CmdSetHasNutFlag(true);
-				CmdDestroyObject(col.gameObject.GetComponent<NetworkIdentity>().netId);
+				CmdDestroyObject(col.gameObject.GetComponentInParent<NetworkIdentity>().netId);
+				scoreText.text = "Nutted!";
 			}
 			if (col.transform.tag == "Checkpoint"){
 				if (playerData.GetHasNutFlag()){
+					StartCoroutine(ScoreTextCooldown());
 					playerData.CmdIncrementScore();
 					playerData.CmdSetHasNutFlag(false);
 				}
 			}
+		}
+
+		private IEnumerator ScoreTextCooldown(){
+			scoreText.text = "Score!";
+			float elapsed = 0.0f;
+			while (elapsed < 3f){
+				elapsed += Time.deltaTime;
+				yield return new WaitForSeconds(0.01f);
+			}
+			scoreText.text = "Go Nuts!";
 		}
 
 		[Command]
