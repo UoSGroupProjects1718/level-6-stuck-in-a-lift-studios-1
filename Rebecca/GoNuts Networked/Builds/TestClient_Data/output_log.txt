@@ -1,0 +1,84 @@
+Initialize engine version: 5.6.1f1 (2860b30f0b54)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 760 (ID=0x1187)
+    Vendor:   NVIDIA
+    VRAM:     1989 MB
+    Driver:   10.18.13.6175
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.017 seconds
+Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Rebecca\GoNuts Networked\Builds\TestClient_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 3200x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 1.850647 ms
+Setting up 4 worker threads for Enlighten.
+  Thread -> id: c4c8 -> priority: 1 
+  Thread -> id: c7b8 -> priority: 1 
+  Thread -> id: 49c -> priority: 1 
+  Thread -> id: bda8 -> priority: 1 
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 4.897144 ms
+
+Unloading 13 unused Assets to reduce memory usage. Loaded Objects now: 708.
+Total: 0.557934 ms (FindLiveObjects: 0.033763 ms CreateObjectMapping: 0.022416 ms MarkObjects: 0.437269 ms  DeleteObjects: 0.063929 ms)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 3.320482 ms
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 1146.
+Total: 0.895572 ms (FindLiveObjects: 0.055073 ms CreateObjectMapping: 0.024631 ms MarkObjects: 0.520018 ms  DeleteObjects: 0.295018 ms)
+
+(-0.2, 0.0, 0.1)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+(0.2, 0.0, 0.1)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+(-0.1, 0.0, -0.1)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+(0.2, 0.0, -0.1)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.284410 ms
+
+Unloading 43 unused Assets to reduce memory usage. Loaded Objects now: 642.
+Total: 1.945296 ms (FindLiveObjects: 0.018265 ms CreateObjectMapping: 0.047324 ms MarkObjects: 0.575646 ms  DeleteObjects: 1.303783 ms)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.630720 ms
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 987.
+Total: 0.711808 ms (FindLiveObjects: 0.024077 ms CreateObjectMapping: 0.023524 ms MarkObjects: 0.443358 ms  DeleteObjects: 0.220295 ms)
+
+(0.2, 0.0, 0.0)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+(0.2, 0.0, 0.0)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+(0.1, 0.0, 0.1)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+

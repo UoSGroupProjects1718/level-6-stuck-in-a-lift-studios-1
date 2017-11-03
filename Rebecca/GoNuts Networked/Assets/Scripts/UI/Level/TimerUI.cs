@@ -22,10 +22,12 @@ namespace UI.Level {
 		}
 
 		public void Update (){
-			minutes = Mathf.FloorToInt(timer/60F);
-			seconds = Mathf.FloorToInt(timer - minutes * 60);
-			niceTime = string.Format("{0:0}:{1:00}", minutes, seconds);
-			timerText.text = niceTime;
+			if (timer > 0){
+				minutes = Mathf.FloorToInt(timer/60F);
+				seconds = Mathf.FloorToInt(timer - minutes * 60);
+				niceTime = string.Format("{0:0}:{1:00}", minutes, seconds);
+				timerText.text = niceTime;
+			}
 		}
 
 		public void OnDestroy(){
@@ -50,6 +52,7 @@ namespace UI.Level {
 				yield return new WaitForSeconds(1);
 				timer --;
 			}
+			timerText.text = "Go Nuts!";
 			RpcStartTheGame();
 		}
 
