@@ -46,7 +46,7 @@ namespace UI.Level {
 				RpcStartTheGame();
 			}
 		}
-		[Server]
+//		[Server]
 		private IEnumerator WaitForTimerToEnd(){
 			while (timer > 0) {
 				yield return new WaitForSeconds(1);
