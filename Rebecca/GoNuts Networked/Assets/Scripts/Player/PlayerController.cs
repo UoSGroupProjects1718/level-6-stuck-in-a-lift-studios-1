@@ -97,6 +97,7 @@ namespace Player {
 			} else {
 				Cursor.lockState = CursorLockMode.None;
 			}
+
 			MovePlayer();
 
 			if (Input.GetMouseButtonDown(0)){
@@ -104,21 +105,24 @@ namespace Player {
 					StartCoroutine(GrappleCooldown());
 				}
 			}
+
 			if (isFlying){
 				Flying();
-			} else  if (playerData.GetHasNutFlag()){
-				lineRenderer.enabled = false;
-			}
-			if (Input.GetMouseButtonDown(1) && isFlying){
+				if (Input.GetMouseButtonDown(1)){
 				isFlying = false;
 				canMove = true;
 				lineRenderer.enabled = false;
+				}
+			} else if (playerData.GetHasNutFlag()){
+				lineRenderer.enabled = false;
 			}
+
 			if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, maxDistance, cullingmask)){
 				PositionCrosshair(hit);
 			} else {
 				ToggleCrosshair(false);
 			}
+
 			if (nutTransform != null && !playerData.GetHasNutFlag()){
 				nutTransform.position = Vector3.Lerp(nutTransform.position, transform.position, grappleSpeed * Time.deltaTime / Vector3.Distance(nutTransform.position, transform.position));
 				lineRenderer.SetPosition(0, hand.position);
@@ -134,7 +138,7 @@ namespace Player {
 
 			if (groundPlane.Raycast(ray, out rayDistance)){
 				Vector3 point = ray.GetPoint(rayDistance);
-				Debug.DrawLine(ray.origin, point, Color.red);
+//				Debug.DrawLine(ray.origin, point, Color.red);
 				transform.LookAt(point);
 			}
 
@@ -151,17 +155,16 @@ namespace Player {
 				inputRotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(camera.transform.forward, Vector3.up), Vector3.up);
 				moveVector = inputRotation * moveVector;
 				moveVector *= groundSpeed;
-				if (input.z > 0) {
+
+				if (input.z > 0) { //Increase Momentum when moving forward on the ground
 					momentumMeter += 0.2f;
 					if(momentumMeter > maxMeter){
 						momentumMeter = maxMeter;
 					}
-				} else {
-						momentumMeter -= 1f;
-						if(momentumMeter < 0){
-							momentumMeter = 0;
-						}
+				} else { //If on the ground and not moving
+					DrainMomentumMeter();
 				}
+
 				if(canGlide){
 					gravityStrength = baseGravityStrength;
 
@@ -175,36 +178,26 @@ namespace Player {
 					} else {
 						jumpPower = baseJumpPower + (jumpPowerModifier * (momentumMeter/20f));
 					}
-
-				} else {
-					momentumMeter -= 0.5f;
-					if(momentumMeter < 0){
-						momentumMeter = 0;
-						canGlide = true;
-					}
 				}
 			} else {
-				momentumMeter -= 0.05f;
-				if(momentumMeter < 0){
-					momentumMeter = 0;
-					canGlide = true;
-				}
+				DrainMomentumMeter();
 				if (canGlide) {
 					gravityStrength = baseGravityStrength;
+					if (Input.GetKeyDown(KeyCode.E)){
+						canGlide = false;
+					}
 				} else {
 					groundSpeed = (baseGroundSpeed-1) + (momentumMeter / 10);
 					if (mAirSpeed < groundSpeed) {
 						groundSpeed = mAirSpeed;
 					}
+
 					if (momentumMeter <= 10) {
 						gravityStrength = baseGravityStrength;
 						momentumMeter = 0;
 					} else {
 						gravityStrength = baseGravityStrength - (gravityStrengthModifier * (momentumMeter/10f));
 					}
-				}
-				if (Input.GetKeyDown(KeyCode.E) && canGlide == true){
-					canGlide = false;
 				}
 
 				moveVector = input;
@@ -221,7 +214,6 @@ namespace Player {
 					Vector3 reflection = Vector3.Reflect(velocity, wallNormal);
 					Vector3 projected = Vector3.ProjectOnPlane(reflection, Vector3.up);
 					groundedVelocity = (projected.normalized + wallNormal)/10f * aerialSpeed;
-					Debug.Log(groundedVelocity);
 					wallJumped = true;
 				}
 				if (canJump){
@@ -257,6 +249,13 @@ namespace Player {
 				if ((flags & CollisionFlags.Above) != 0){
 					verticalVelocity = 0f;
 				}
+			}
+		}
+
+		private void DrainMomentumMeter(){
+			momentumMeter -= 0.05f;
+			if(momentumMeter < 0){
+				momentumMeter = 0;
 			}
 		}
 
@@ -309,6 +308,7 @@ namespace Player {
 			lineRenderer.SetPosition(0, hand.position);
 
 			if (Vector3.Distance(transform.position, location) < 1f){
+				verticalVelocity += jumpPower;
 				isFlying = false;
 				canMove = true;
 				lineRenderer.enabled = false;

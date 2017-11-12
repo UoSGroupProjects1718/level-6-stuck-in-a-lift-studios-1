@@ -6,11 +6,16 @@ namespace Nut {
 
 		public GameObject nutPrefab;
 
+		private bool hasSpawned = false;
+
 		public override void OnStartServer () {
-			GameObject[] spawnLocations = GameObject.FindGameObjectsWithTag("NutSpawn");
-			foreach (GameObject spawnPoint in spawnLocations) {
-				GameObject nut = (GameObject)Instantiate(nutPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
-				NetworkServer.Spawn(nut);
+			if (!hasSpawned){
+				hasSpawned = true;
+				GameObject[] spawnLocations = GameObject.FindGameObjectsWithTag("NutSpawn");
+				foreach (GameObject spawnPoint in spawnLocations) {
+					GameObject nut = (GameObject)Instantiate(nutPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
+					NetworkServer.Spawn(nut);
+				}
 			}
 		}
 
