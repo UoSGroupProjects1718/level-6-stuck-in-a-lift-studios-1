@@ -1,0 +1,4 @@
+jump - running forward flip
+running - 
+walljump - diagonal wall run (cut first half)
+idle - Gold bad shot (frames 34 - 87)
