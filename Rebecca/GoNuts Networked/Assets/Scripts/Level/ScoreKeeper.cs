@@ -1,6 +1,7 @@
 ﻿using GameState;
 using Player.SyncedData;
 using Player.Tracking;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -54,8 +55,15 @@ namespace Level {
 			}
 			UpdateScoreUI(player, score);
 			if (score >= maxNuts){
-				RpcEndTheGame();
+				keepScoring = false;
+				StartCoroutine(WaitForClientSync());
 			}
+		}
+
+		private IEnumerator WaitForClientSync(){
+			//This adds a delay to allow the clients to sync scores before displaying end screen
+			yield return new WaitForSeconds(0.1f);
+			RpcEndTheGame();
 		}
 
 		[Client]

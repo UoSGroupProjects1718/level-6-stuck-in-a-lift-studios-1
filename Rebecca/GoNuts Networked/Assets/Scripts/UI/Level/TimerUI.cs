@@ -46,18 +46,18 @@ namespace UI.Level {
 				RpcStartTheGame();
 			}
 		}
-//		[Server]
+		[Server]
 		private IEnumerator WaitForTimerToEnd(){
 			while (timer > 0) {
 				yield return new WaitForSeconds(1);
 				timer --;
 			}
-			timerText.text = "Go Nuts!";
 			RpcStartTheGame();
 		}
 
 		[ClientRpc]
 		private void RpcStartTheGame(){
+			timerText.text = "Go Nuts!";
 			State.GetInstance().Level(State.LEVEL_PLAYING).Publish();
 		}
 	}
