@@ -11,10 +11,8 @@ namespace Player {
 
 		public float baseGroundSpeed = 8;
 		public float groundSpeedModifier = 1;
-		public float baseGravityStrength = 12;
-		public float gravityStrengthModifier = 1;
-		public float baseJumpPower = 9;
-		public float jumpPowerModifier = 1;
+		public float gravityStrength = 12;
+		public float jumpPower = 9;
 		public float aerialSpeed = 0.1f;
 		public float momentumMeter;
 		public float grappleSpeed = 10f;
@@ -25,24 +23,19 @@ namespace Player {
 		public LineRenderer lineRenderer;
 		public Transform hand;
 
-		private bool isFlying;
 		private bool canMove = true;
 		private bool canJump;
+		private bool isFlying;
 		private bool onWall;
-		private bool canGlide = true;
 		private bool wallJumped;
 		private bool grappleOnCooldown = false;
 		private Camera camera;
 		private CharacterController controller;
 		private float verticalVelocity;
 		private float groundSpeed;
-		private float gravityStrength;
-		private float jumpPower;
 		private Image cooldownImage;
 		private Image crosshairImage;
 		private int maxMeter = 100;
-		private int mSpeed = 16;
-		private int mAirSpeed = 20;
 		private PlayerDataForClients playerData;
 		private Quaternion inputRotation;
 		private RaycastHit hit;
@@ -164,41 +157,10 @@ namespace Player {
 				} else { //If on the ground and not moving
 					DrainMomentumMeter();
 				}
-
-				if(canGlide){
-					gravityStrength = baseGravityStrength;
-
-					groundSpeed = baseGroundSpeed + (momentumMeter / 10);
-					if (mSpeed < groundSpeed) {
-						groundSpeed = mSpeed;
-					}
-
-					if (momentumMeter <= 10){
-						jumpPower = baseJumpPower;
-					} else {
-						jumpPower = baseJumpPower + (jumpPowerModifier * (momentumMeter/20f));
-					}
-				}
+				groundSpeed = baseGroundSpeed + (momentumMeter / 10);
 			} else {
 				DrainMomentumMeter();
-				if (canGlide) {
-					gravityStrength = baseGravityStrength;
-					if (Input.GetKeyDown(KeyCode.E)){
-						canGlide = false;
-					}
-				} else {
-					groundSpeed = (baseGroundSpeed-1) + (momentumMeter / 10);
-					if (mAirSpeed < groundSpeed) {
-						groundSpeed = mAirSpeed;
-					}
-
-					if (momentumMeter <= 10) {
-						gravityStrength = baseGravityStrength;
-						momentumMeter = 0;
-					} else {
-						gravityStrength = baseGravityStrength - (gravityStrengthModifier * (momentumMeter/10f));
-					}
-				}
+				groundSpeed = (baseGroundSpeed-1) + (momentumMeter / 10);
 
 				moveVector = input;
 				inputRotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(camera.transform.forward, Vector3.up), Vector3.up);
@@ -208,7 +170,7 @@ namespace Player {
 			moveVector = Vector3.ClampMagnitude(moveVector, groundSpeed);
 			moveVector *= Time.deltaTime;
 
-			verticalVelocity -= gravityStrength*Time.deltaTime;
+			verticalVelocity += (-gravityStrength) * Time.deltaTime;
 			if (Input.GetButtonDown("Jump")){
 				if (onWall && !wallJumped){
 					Vector3 reflection = Vector3.Reflect(velocity, wallNormal);
@@ -225,7 +187,7 @@ namespace Player {
 				wallJumped = false;
 			}
 
-			moveVector.y = verticalVelocity * Time.deltaTime;
+			moveVector.y += verticalVelocity * Time.deltaTime;
 			moveVector += groundedVelocity;
 
 			CollisionFlags flags = controller.Move(moveVector);
@@ -234,13 +196,11 @@ namespace Player {
 			if ((flags & CollisionFlags.Below) != 0){
 				//groundedVelocity = Vector3.ProjectOnPlane(velocity, Vector3.up);
 				canJump = true;
-				canGlide = true;
 				onWall = false;
 				groundedVelocity = Vector3.zero;
 				verticalVelocity = -1f;
 			} else if ((flags & CollisionFlags.Sides) != 0){
 				canJump = true;
-				canGlide = true;
 				onWall = true;
 				groundedVelocity = Vector3.zero;
 			} else {
