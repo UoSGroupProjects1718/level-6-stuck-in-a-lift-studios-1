@@ -2,101 +2,43 @@ Initialize engine version: 5.6.1f1 (2860b30f0b54)
 GfxDevice: creating device client; threaded=1
 Direct3D:
     Version:  Direct3D 11.0 [level 11.0]
-    Renderer: NVIDIA GeForce GTX 760 (ID=0x1187)
+    Renderer: NVIDIA GeForce GTX 750 Ti (ID=0x1380)
     Vendor:   NVIDIA
-    VRAM:     1990 MB
-    Driver:   23.21.13.8813
+    VRAM:     1993 MB
+    Driver:   21.21.13.7892
 Begin MonoManager ReloadAssembly
-Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
-Loading C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
-Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
-Loading C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.026 seconds
-Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: C:\Users\Games\Documents\StuckInALift\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\System.dll (this message is harmless)
-desktop: 1920x1080 60Hz; virtual: 3200x1080 at 0,0
+Platform assembly: C:\Users\historymaker118\Documents\GitHub\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\historymaker118\Documents\GitHub\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\historymaker118\Documents\GitHub\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\historymaker118\Documents\GitHub\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\historymaker118\Documents\GitHub\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\historymaker118\Documents\GitHub\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\historymaker118\Documents\GitHub\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\historymaker118\Documents\GitHub\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\historymaker118\Documents\GitHub\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\historymaker118\Documents\GitHub\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.029 seconds
+Platform assembly: C:\Users\historymaker118\Documents\GitHub\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\historymaker118\Documents\GitHub\level-6-stuck-in-a-lift-studios-1\Group\Game Project\Builds\TestClient_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 1.179244 ms
-Setting up 4 worker threads for Enlighten.
-  Thread -> id: 860 -> priority: 1 
-  Thread -> id: 1f00 -> priority: 1 
-  Thread -> id: 1538 -> priority: 1 
-  Thread -> id: 988 -> priority: 1 
+UnloadTime: 1.159142 ms
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: bac -> priority: 1 
+  Thread -> id: 438 -> priority: 1 
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 11.950195 ms
+UnloadTime: 4.309851 ms
 
 Unloading 13 unused Assets to reduce memory usage. Loaded Objects now: 708.
-Total: 0.577306 ms (FindLiveObjects: 0.036531 ms CreateObjectMapping: 0.022970 ms MarkObjects: 0.448339 ms  DeleteObjects: 0.069188 ms)
+Total: 0.565650 ms (FindLiveObjects: 0.036365 ms CreateObjectMapping: 0.020739 ms MarkObjects: 0.448599 ms  DeleteObjects: 0.059661 ms)
 
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 7.855357 ms
+UnloadTime: 2.705802 ms
 
-Unloading 11 unused Assets to reduce memory usage. Loaded Objects now: 1397.
-Total: 1.234595 ms (FindLiveObjects: 0.083302 ms CreateObjectMapping: 0.043173 ms MarkObjects: 0.697971 ms  DeleteObjects: 0.409871 ms)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Hit Nut
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+Unloading 11 unused Assets to reduce memory usage. Loaded Objects now: 1409.
+Total: 1.113117 ms (FindLiveObjects: 0.064491 ms CreateObjectMapping: 0.033808 ms MarkObjects: 0.713668 ms  DeleteObjects: 0.300581 ms)
 
 line renderer = True
  
@@ -114,67 +56,7 @@ line renderer = True
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-Hit Nut
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Hit Nut
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Hit Nut
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
 line renderer = True
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-line renderer = True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 6.209230 ms
-
-Unloading 43 unused Assets to reduce memory usage. Loaded Objects now: 728.
-Total: 11.039401 ms (FindLiveObjects: 0.068634 ms CreateObjectMapping: 0.074446 ms MarkObjects: 1.329521 ms  DeleteObjects: 9.565969 ms)
-
-Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.825000 ms
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 578.
-Total: 1.480628 ms (FindLiveObjects: 0.055073 ms CreateObjectMapping: 0.070572 ms MarkObjects: 1.209410 ms  DeleteObjects: 0.144741 ms)
 
