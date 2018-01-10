@@ -138,9 +138,10 @@ namespace Player {
 			if (!canMove){
 				return;
 			}
-
-			input.x = Input.GetAxisRaw("Horizontal");
-			input.z = Input.GetAxisRaw("Vertical");
+			if (!wallJumped){
+				input.x = Input.GetAxisRaw("Horizontal");
+				input.z = Input.GetAxisRaw("Vertical");
+			}
 			input = Vector3.ClampMagnitude(input, 1f);
 
 			if (controller.isGrounded){
