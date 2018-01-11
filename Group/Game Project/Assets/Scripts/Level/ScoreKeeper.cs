@@ -2,6 +2,7 @@
 using Player.SyncedData;
 using Player.Tracking;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -31,10 +32,13 @@ namespace Level {
 		}
 
 		public void Update(){
+			List<GameObject> playerList = PlayerTracker.GetInstance().GetPlayers();
+			RankPlayers(playerList);
 			//This is horrible. But it works. Horrible horrible hack. Sorry Chris.
-			foreach (GameObject player in PlayerTracker.GetInstance().GetPlayers()){
+			foreach (GameObject player in playerList){
 				CheckScore(player, player.GetComponent<PlayerDataForClients>().GetScore());
 			}
+
 		}
 
 		[Server]
@@ -57,6 +61,29 @@ namespace Level {
 			if (score >= maxNuts){
 				keepScoring = false;
 				StartCoroutine(WaitForClientSync());
+			}
+		}
+
+		private int SortByWeight(GameObject p1, GameObject p2){
+			var weightA = p1.GetComponent<PlayerDataForClients>().GetWeight();
+			var weightB = p2.GetComponent<PlayerDataForClients>().GetWeight();
+
+			if (weightA < weightB){
+				return 1;
+			}
+			if (weightA > weightB){
+				return -1;
+			}
+			return 0;
+		}
+
+		[Server]
+		public void RankPlayers(List<GameObject> playerList){
+			playerList.Sort(SortByWeight);
+			for (int i=0; i<playerList.Count; i++){
+				playerList[i].GetComponent<PlayerDataForClients>().SetRank(i);
+				int rank = i + 1;
+				Debug.Log("Player Rank = " + rank);
 			}
 		}
 

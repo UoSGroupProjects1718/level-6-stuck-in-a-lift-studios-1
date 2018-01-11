@@ -23,6 +23,7 @@ namespace Player {
 		public LineRenderer lineRenderer;
 		public Transform hand;
 
+		private bool menuToggled = false;
 		private bool canMove = true;
 		private bool canJump;
 		private bool isFlying;
@@ -86,7 +87,11 @@ namespace Player {
 				crosshairPrefab.SetActive(true);
 			}
 			if (State.GetInstance().Level() == State.LEVEL_PLAYING){
-				Cursor.lockState = CursorLockMode.Locked;
+				if (!menuToggled){
+					Cursor.lockState = CursorLockMode.Locked;
+				} else {
+					Cursor.lockState = CursorLockMode.None;
+				}
 			} else {
 				Cursor.lockState = CursorLockMode.None;
 			}
@@ -125,6 +130,13 @@ namespace Player {
 
 		private void MovePlayer(){
 			//Look Input
+			if (Input.GetButtonDown("Cancel")){
+				menuToggled = !menuToggled;
+			}
+			if (menuToggled){
+				return;
+			}
+
 			Ray ray = new Ray(camera.transform.position, camera.transform.forward); //camera.ScreenPointToRay(Input.mousePosition);
 			Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
 			float rayDistance;
@@ -258,7 +270,6 @@ namespace Player {
 				location = hit.point;
 				lineRenderer.enabled = true;
 				lineRenderer.SetPosition(1, location);
-				Debug.Log("line renderer = "+lineRenderer.enabled);
 				return true;
 			}
 			return false;

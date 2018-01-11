@@ -28,6 +28,12 @@ namespace Player.SyncedData {
 		public delegate void HasNutFlagUpdated (GameObject player, bool hasNut);
 		public event HasNutFlagUpdated OnHasNutFlagUpdated;
 
+		public delegate void WeightUpdated (GameObject player, float weight);
+		public event WeightUpdated OnWeightUpdated;
+
+		public delegate void RankUpdated (GameObject player, int rank);
+		public event RankUpdated OnRankUpdated;
+
 		[SyncVar(hook = "UpdateName")]
 		private string playerName;
 		[SyncVar(hook = "UpdateTeam")]
@@ -40,6 +46,10 @@ namespace Player.SyncedData {
 		private bool isServerFlag;
 		[SyncVar (hook = "UpdateHasNutFlag")]
 		private bool hasNutFlag;
+		[SyncVar (hook = "UpdateWeight")]
+		private float weight;
+		[SyncVar (hook = "UpdateRank")]
+		private int rank;
 
 		public override void OnStartClient(){
 			if (!isLocalPlayer && !isServer){
@@ -104,7 +114,7 @@ namespace Player.SyncedData {
 		public void CmdIncrementScore(){
 			score++;
 		}
-		
+
 		public void UpdateScore(int newScore){
 			score = newScore;
 			if (this.OnScoreUpdated != null){
@@ -166,6 +176,46 @@ namespace Player.SyncedData {
 			hasNutFlag = newHasNut;
 			if (this.OnHasNutFlagUpdated != null){
 				this.OnHasNutFlagUpdated(gameObject, newHasNut);
+			}
+		}
+
+		//Player weighting (ie how close are they from winning)
+		public float GetWeight(){
+			return weight;
+		}
+		[Server]
+		public void ResetWeight (){
+			weight = 0;
+		}
+		[Command]
+		public void CmdSetWeight(float newWeight){
+			weight = newWeight;
+		}
+
+		public void UpdateWeight(float newWeight){
+			weight = newWeight;
+			if (this.OnWeightUpdated != null){
+				this.OnWeightUpdated(gameObject, newWeight);
+			}
+		}
+
+		//Player Rank
+		public int GetRank(){
+			return rank;
+		}
+		[Server]
+		public void ResetRank (){
+			rank = 0;
+		}
+		[Server]
+		public void SetRank(int newRank){
+			rank = newRank;
+		}
+
+		public void UpdateRank(int newRank){
+			rank = newRank;
+			if (this.OnRankUpdated != null){
+				this.OnRankUpdated(gameObject, newRank);
 			}
 		}
 	}

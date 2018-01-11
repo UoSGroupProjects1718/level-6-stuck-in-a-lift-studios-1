@@ -107,11 +107,14 @@ namespace UI.Lobby {
 		}
 
 		private void AssignTeams(){
-			int teamCount = -1;
+			Debug.Log("Assigning Teams");
+			int teamCount = 0;
 			foreach (GameObject player in PlayerTracker.GetInstance().GetPlayers()){
-				switch(teamCount++){
+				teamCount ++;
+				switch(teamCount){
 					case 1:
 						player.GetComponent<PlayerDataForClients>().SetTeam(PlayerDataForClients.PLAYER_A);
+						Debug.Log("Assigning Player A");
 						break;
 					case 2:
 						player.GetComponent<PlayerDataForClients>().SetTeam(PlayerDataForClients.PLAYER_B);

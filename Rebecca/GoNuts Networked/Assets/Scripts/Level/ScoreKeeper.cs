@@ -31,10 +31,15 @@ namespace Level {
 		}
 
 		public void Update(){
+			List<GameObject> playerList = PlayerTracker.GetInstance().GetPlayers();
+			
+			Debug.Log("Calling RankPlayers");
+			RankPlayers(playerList);
 			//This is horrible. But it works. Horrible horrible hack. Sorry Chris.
-			foreach (GameObject player in PlayerTracker.GetInstance().GetPlayers()){
+			foreach (GameObject player in playerList){
 				CheckScore(player, player.GetComponent<PlayerDataForClients>().GetScore());
 			}
+
 		}
 
 		[Server]
@@ -57,6 +62,19 @@ namespace Level {
 			if (score >= maxNuts){
 				keepScoring = false;
 				StartCoroutine(WaitForClientSync());
+			}
+		}
+
+		private static float SortByWeight(GameObject p1, GameObject p2){
+			return p1.GetComponent<PlayerDataForClients>().GetWeight().CompareTo(p2.GetComponent<PlayerDataForClients>().GetWeight());
+		}
+
+		[Server]
+		public void RankPlayers(List<GameObject> playerList){
+			Debug.Log("RankingPlayers");
+			List<GameObject> rankedList = playerList.Sort(SortByWeight);
+			for (int i=0; i<rankedList.Count; i++){
+				rankedList[i].GetComponent<PlayerDataForClients>().SetRank(i);
 			}
 		}
 
