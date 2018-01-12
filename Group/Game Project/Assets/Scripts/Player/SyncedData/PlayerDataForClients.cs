@@ -33,6 +33,9 @@ namespace Player.SyncedData {
 
 		public delegate void RankUpdated (GameObject player, int rank);
 		public event RankUpdated OnRankUpdated;
+		
+		public delegate void PositionUpdated (GameObject player, float position);
+		public event PositionUpdated OnPositionUpdated;
 
 		[SyncVar(hook = "UpdateName")]
 		private string playerName;
@@ -50,6 +53,8 @@ namespace Player.SyncedData {
 		private float weight;
 		[SyncVar (hook = "UpdateRank")]
 		private int rank;
+		[SyncVar (hook = "UpdatePosition")]
+		private float position;
 
 		public override void OnStartClient(){
 			if (!isLocalPlayer && !isServer){
@@ -59,6 +64,9 @@ namespace Player.SyncedData {
 				UpdateIsReadyFlag(isReadyFlag);
 				UpdateIsServerFlag(isServerFlag);
 				UpdateHasNutFlag(hasNutFlag);
+				UpdateWeight(weight);
+				UpdateRank(rank);
+				UpdatePosition(position);
 			}
 		}
 
@@ -216,6 +224,26 @@ namespace Player.SyncedData {
 			rank = newRank;
 			if (this.OnRankUpdated != null){
 				this.OnRankUpdated(gameObject, newRank);
+			}
+		}
+		
+		//Player position on UI
+		public float GetPosition(){
+			return position;
+		}
+		[Server]
+		public void ResetPosition (){
+			weight = 0;
+		}
+		[Command]
+		public void CmdSetPosition(float newPosition){
+			position = newPosition;
+		}
+
+		public void UpdatePosition(float newPosition){
+			position = newPosition;
+			if (this.OnPositionUpdated != null){
+				this.OnPositionUpdated(gameObject, newPosition);
 			}
 		}
 	}
