@@ -9,11 +9,12 @@ namespace UI {
 		public GameObject server;
 
 		public void Awake(){
+			//TODO FIX ME
 			if (State.GetInstance().Network() == State.NETWORK_CLIENT){
-				client.SetActive(true);
+				client.SetActive(false);
 			}
 			if (State.GetInstance().Network() == State.NETWORK_SERVER){
-				server.SetActive(true);
+				server.SetActive(false);
 			}
 		}
 
