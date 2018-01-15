@@ -12,19 +12,23 @@ namespace Nut {
 		private bool hasSpawned = false;
 
 		public override void OnStartServer () {
-			if (!hasSpawned){
-				hasSpawned = true;
-				
-				List<Transform> spawnLocations = new List<Transform>();
-				
-				foreach (Transform nutSpawn in transform){
-					spawnLocations.Add(nutSpawn);
-				}
+			if (hasSpawned){
+				return;
+			}
+			hasSpawned = true;
 
-				for (int i = 0; i < PlayerTracker.GetPlayers().Count; i++){
-					GameObject nut = (GameObject)Instantiate(nutPrefab, spawnLocations[i].position, spawnLocations[i].rotation);
-					NetworkServer.Spawn(nut);
+			List<Transform> spawnLocations = new List<Transform>();
+
+			foreach (Transform child in transform){
+				foreach (Transform grandchild in child){
+					Debug.Log("Found A Nut!");
+					spawnLocations.Add(grandchild);
 				}
+			}
+
+			for (int i = 0; i <= PlayerTracker.GetInstance().GetPlayers().Count; i++){
+				GameObject nut = (GameObject)Instantiate(nutPrefab, spawnLocations[i].position, spawnLocations[i].rotation);
+				NetworkServer.Spawn(nut);
 			}
 		}
 	}
