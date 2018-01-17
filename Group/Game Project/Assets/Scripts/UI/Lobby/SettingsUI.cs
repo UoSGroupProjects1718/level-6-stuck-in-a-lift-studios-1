@@ -75,8 +75,9 @@ namespace UI.Lobby {
 				"Yes!",
 				"Not yet...",
 				() => {
-					RpcUpdateClientStateOnStart();
 					AssignTeams();
+					State.GetInstance().SetPlayerCount(PlayerTracker.GetInstance().GetPlayerCount());
+					RpcUpdateClientStateOnStart();
 					NetworkManager.singleton.ServerChangeScene("Level A");
 				},
 				() => {
@@ -118,15 +119,19 @@ namespace UI.Lobby {
 						break;
 					case 2:
 						player.GetComponent<PlayerDataForClients>().SetTeam(PlayerDataForClients.PLAYER_B);
+						Debug.Log("Assigning Player B");
 						break;
 					case 3:
 						player.GetComponent<PlayerDataForClients>().SetTeam(PlayerDataForClients.PLAYER_C);
+						Debug.Log("Assigning Player C");
 						break;
 					case 4:
 						player.GetComponent<PlayerDataForClients>().SetTeam(PlayerDataForClients.PLAYER_D);
+						Debug.Log("Assigning Player D");
 						break;
 					case 5:
 						player.GetComponent<PlayerDataForClients>().SetTeam(PlayerDataForClients.PLAYER_E);
+						Debug.Log("Assigning Player E");
 						break;
 				}
 			}

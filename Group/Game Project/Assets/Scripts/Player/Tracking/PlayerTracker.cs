@@ -53,8 +53,11 @@ namespace Player.Tracking {
 		}
 
 		public List<GameObject> GetPlayers(){
-            Debug.Log("Number of tracked players = " + players.Count);
 			return players;
+		}
+
+		public int GetPlayerCount(){
+			return players.Count;
 		}
 
 		public void SetLocalPlayer(GameObject obj){

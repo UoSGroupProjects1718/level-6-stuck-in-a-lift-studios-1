@@ -33,6 +33,8 @@ namespace GameState {
 		private string levelState;
 		private string previousLevelState;
 
+		private int playerCount;
+
 		private bool isNetworkDirty = false;
 		private bool isGameDirty = false;
 		private bool isLevelDirty = false;
@@ -121,6 +123,13 @@ namespace GameState {
 			)){
 				subscriberOption.subscriber();
 			}
+		}
+
+		public void SetPlayerCount (int numberOfPlayers){
+			this.playerCount = numberOfPlayers;
+		}
+		public int GetPlayerCount (){
+			return this.playerCount;
 		}
 	}
 }

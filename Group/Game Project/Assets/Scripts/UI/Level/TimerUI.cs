@@ -17,17 +17,18 @@ namespace UI.Level {
 		private string niceTime;
 
 		public void Awake(){
-//			timer = LevelData.GetInstance().levelTime;
 			SubscribeToServerReady();
 		}
 
 		public void Update (){
+			/*
 			if (timer > 0){
 				minutes = Mathf.FloorToInt(timer/60F);
 				seconds = Mathf.FloorToInt(timer - minutes * 60);
 				niceTime = string.Format("{0:0}:{1:00}", minutes, seconds);
 				timerText.text = niceTime;
 			}
+			*/
 		}
 
 		public void OnDestroy(){
@@ -43,15 +44,16 @@ namespace UI.Level {
 		private void StartTimer(){
 			if (this != null) {
 				StartCoroutine(this.WaitForTimerToEnd());
-                RpcStartTheGame();
-            }
-        }
+			}
+		}
 
 		[Server]
 		private IEnumerator WaitForTimerToEnd(){
 			while (timer > 0) {
 				yield return new WaitForSeconds(1);
 				timer --;
+				timerText.text = timer.ToString();
+				RpcStartTheGame();
 			}
 		}
 
