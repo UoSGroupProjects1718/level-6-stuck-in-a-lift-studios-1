@@ -24,11 +24,12 @@ namespace UI.Level {
 		private RectTransform spawnIcon;
 		private RectTransform treeIcon;
 
-		void Start () {
+        void Start () {
 			if (!isLocalPlayer){
+                Debug.Log("Not Local Player PlayerPositionUI");
 				return;
 			}
-
+            Debug.Log("PlayerPositionUI is Local Player");
 			playerData = transform.gameObject.GetComponent<PlayerDataForClients>();
 			playerList = PlayerTracker.GetInstance().GetPlayers();
 
@@ -45,7 +46,6 @@ namespace UI.Level {
 			if (playerIconListObjs != null){
 				if (playerList != null){
 					if (playerIconListObjs.Length > 0){
-						Debug.Log("playerIconListObjs is greater than 0");
 						int i = 0;
 						for (int j=0; j<playerIconListObjs.Length; j++){
 							Debug.Log("Setting Icons Inactive");

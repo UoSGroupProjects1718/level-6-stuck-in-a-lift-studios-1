@@ -37,26 +37,27 @@ namespace UI.Level {
 		[ServerCallback]
 		private void SubscribeToServerReady(){
 			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_READY), StartTimer);
-		}
+        }
 
 		[Server]
 		private void StartTimer(){
 			if (this != null) {
 				StartCoroutine(this.WaitForTimerToEnd());
-				RpcStartTheGame();
-			}
-		}
+                RpcStartTheGame();
+            }
+        }
+
 		[Server]
 		private IEnumerator WaitForTimerToEnd(){
 			while (timer > 0) {
 				yield return new WaitForSeconds(1);
 				timer --;
 			}
-			RpcStartTheGame();
 		}
 
 		[ClientRpc]
 		private void RpcStartTheGame(){
+            Debug.Log("RpcStartTheGame");
 			timerText.text = "Go Nuts!";
 			State.GetInstance().Level(State.LEVEL_PLAYING).Publish();
 		}

@@ -1,4 +1,5 @@
-﻿using Player.Tracking;
+﻿using GameState;
+using Player.Tracking;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,18 @@ namespace Nut {
 
 		private bool hasSpawned = false;
 
-		public override void OnStartServer () {
+        public void Awake()
+        {
+            SubscribeToServerReady();
+        }
+
+        [ServerCallback]
+        private void SubscribeToServerReady()
+        {
+            State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_READY), SpawnNuts);
+        }
+
+        private void SpawnNuts () {
 			if (hasSpawned){
 				return;
 			}

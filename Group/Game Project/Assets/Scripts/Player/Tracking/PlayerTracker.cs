@@ -39,6 +39,7 @@ namespace Player.Tracking {
 		}
 
 		public void RemovePlayer(GameObject obj){
+            Debug.Log("Player removed!");
 			players.Remove(obj);
 			if (this.OnPlayerRemoved != null){
 				this.OnPlayerRemoved(obj);
@@ -52,6 +53,7 @@ namespace Player.Tracking {
 		}
 
 		public List<GameObject> GetPlayers(){
+            Debug.Log("Number of tracked players = " + players.Count);
 			return players;
 		}
 

@@ -5,6 +5,8 @@ using UnityEngine.Networking;
 namespace Player.Tracking{
     class TrackedPlayer : NetworkBehaviour {
 
+        private bool sceneChanging = true;
+
 		public override void OnStartClient (){
 			PlayerTracker.GetInstance().AddPlayer(gameObject);
 			gameObject.GetComponent<PlayerDataForClients>().OnIsServerFlagUpdated += UpdatePlayerIsServer;
@@ -17,8 +19,9 @@ namespace Player.Tracking{
 			PlayerTracker.GetInstance().SetLocalPlayer(gameObject);
 		}
 
-		public void OnDestroy (){
-			PlayerTracker.GetInstance().RemovePlayer(gameObject);
+        public void OnDestroy() {
+            Debug.Log("Player tracker being destroyed!!!");
+            PlayerTracker.GetInstance().RemovePlayer(gameObject);
 		}
 	}
 }
