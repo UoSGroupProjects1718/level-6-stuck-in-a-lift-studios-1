@@ -151,7 +151,6 @@ namespace UI.Level {
 		}
 		
 		private void SetUIPosition(GameObject image, float percentage){
-			//HORRIBLE HACK FIX LATER
 			var maxDistance = (spawnIcon.anchoredPosition.y - treeIcon.anchoredPosition.y);
 			var distance = maxDistance * (1f - percentage);
 			Vector2 newPosition = new Vector3(spawnIcon.anchoredPosition.x, spawnIcon.anchoredPosition.y - distance);

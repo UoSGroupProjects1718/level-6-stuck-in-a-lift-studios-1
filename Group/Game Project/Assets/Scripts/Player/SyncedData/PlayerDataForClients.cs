@@ -33,9 +33,12 @@ namespace Player.SyncedData {
 
 		public delegate void RankUpdated (GameObject player, int rank);
 		public event RankUpdated OnRankUpdated;
-		
+
 		public delegate void PositionUpdated (GameObject player, float position);
 		public event PositionUpdated OnPositionUpdated;
+
+		public delegate void EagleTargetUpdated (GameObject player, int eagleTarget);
+		public event EagleTargetUpdated OnEagleTargetUpdated;
 
 		[SyncVar(hook = "UpdateName")]
 		private string playerName;
@@ -55,6 +58,8 @@ namespace Player.SyncedData {
 		private int rank;
 		[SyncVar (hook = "UpdatePosition")]
 		private float position;
+		[SyncVar (hook= "UpdateEagleTarget")]
+		private int eagleTarget;
 
 		public override void OnStartClient(){
 			if (!isLocalPlayer && !isServer){
@@ -67,6 +72,7 @@ namespace Player.SyncedData {
 				UpdateWeight(weight);
 				UpdateRank(rank);
 				UpdatePosition(position);
+				UpdateEagleTarget(eagleTarget);
 			}
 		}
 
@@ -226,7 +232,7 @@ namespace Player.SyncedData {
 				this.OnRankUpdated(gameObject, newRank);
 			}
 		}
-		
+
 		//Player position on UI
 		public float GetPosition(){
 			return position;
@@ -244,6 +250,26 @@ namespace Player.SyncedData {
 			position = newPosition;
 			if (this.OnPositionUpdated != null){
 				this.OnPositionUpdated(gameObject, newPosition);
+			}
+		}
+
+		//Player's Eagle Targetting Weight
+		public int GetEagleTarget(){
+			return eagleTarget;
+		}
+		[Server]
+		public void ResetEagleTarget (){
+			eagleTarget = 0;
+		}
+		[Server]
+		public void SetEagleTarget(int newEagleTarget){
+			eagleTarget = newEagleTarget;
+		}
+
+		public void UpdateEagleTarget(int newEagleTarget){
+			eagleTarget = newEagleTarget;
+			if (this.OnEagleTargetUpdated != null){
+				this.OnEagleTargetUpdated(gameObject, newEagleTarget);
 			}
 		}
 	}

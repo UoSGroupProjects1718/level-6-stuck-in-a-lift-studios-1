@@ -5,8 +5,6 @@ using UnityEngine.Networking;
 namespace Player.Tracking{
     class TrackedPlayer : NetworkBehaviour {
 
-        private bool sceneChanging = true;
-
 		public override void OnStartClient (){
 			PlayerTracker.GetInstance().AddPlayer(gameObject);
 			gameObject.GetComponent<PlayerDataForClients>().OnIsServerFlagUpdated += UpdatePlayerIsServer;

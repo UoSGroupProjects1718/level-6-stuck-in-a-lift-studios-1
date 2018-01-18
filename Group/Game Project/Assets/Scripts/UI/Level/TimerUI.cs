@@ -29,6 +29,9 @@ namespace UI.Level {
 				timerText.text = niceTime;
 			}
 			*/
+			if (State.GetInstance().Game() != State.LEVEL_PLAYING){
+				timerText.text = timer.ToString();
+			}
 		}
 
 		public void OnDestroy(){
@@ -52,7 +55,6 @@ namespace UI.Level {
 			while (timer > 0) {
 				yield return new WaitForSeconds(1);
 				timer --;
-				timerText.text = timer.ToString();
 				RpcStartTheGame();
 			}
 		}

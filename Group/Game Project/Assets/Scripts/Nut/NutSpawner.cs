@@ -12,11 +12,10 @@ namespace Nut {
 
 		private bool hasSpawned = false;
 
-        public void Start () {
-			if (hasSpawned){
+		public void Update () {
+			if (hasSpawned || State.GetInstance().Game() != State.LEVEL_PLAYING){
 				return;
 			}
-			hasSpawned = true;
 
 			List<Transform> spawnLocations = new List<Transform>();
 
@@ -31,6 +30,7 @@ namespace Nut {
 				GameObject nut = (GameObject)Instantiate(nutPrefab, spawnLocations[i].position, spawnLocations[i].rotation);
 				NetworkServer.Spawn(nut);
 			}
+			hasSpawned = true;
 		}
 	}
 }
