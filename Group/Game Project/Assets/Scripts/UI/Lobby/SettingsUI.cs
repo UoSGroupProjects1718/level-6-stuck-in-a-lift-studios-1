@@ -75,7 +75,6 @@ namespace UI.Lobby {
 				"Yes!",
 				"Not yet...",
 				() => {
-					AssignTeams();
 					State.GetInstance().SetPlayerCount(PlayerTracker.GetInstance().GetPlayerCount());
 					RpcUpdateClientStateOnStart();
 					NetworkManager.singleton.ServerChangeScene("Level A");
@@ -105,36 +104,6 @@ namespace UI.Lobby {
 			}
 			startGameButtonText.text = allReady ? "Start Game" : "Waiting on Ready";
 			allowServerStart = allReady;
-		}
-
-		private void AssignTeams(){
-			Debug.Log("Assigning Teams");
-			int teamCount = 0;
-			foreach (GameObject player in PlayerTracker.GetInstance().GetPlayers()){
-				teamCount ++;
-				switch(teamCount){
-					case 1:
-						player.GetComponent<PlayerDataForClients>().SetTeam(PlayerDataForClients.PLAYER_A);
-						Debug.Log("Assigning Player A");
-						break;
-					case 2:
-						player.GetComponent<PlayerDataForClients>().SetTeam(PlayerDataForClients.PLAYER_B);
-						Debug.Log("Assigning Player B");
-						break;
-					case 3:
-						player.GetComponent<PlayerDataForClients>().SetTeam(PlayerDataForClients.PLAYER_C);
-						Debug.Log("Assigning Player C");
-						break;
-					case 4:
-						player.GetComponent<PlayerDataForClients>().SetTeam(PlayerDataForClients.PLAYER_D);
-						Debug.Log("Assigning Player D");
-						break;
-					case 5:
-						player.GetComponent<PlayerDataForClients>().SetTeam(PlayerDataForClients.PLAYER_E);
-						Debug.Log("Assigning Player E");
-						break;
-				}
-			}
 		}
 	}
 }

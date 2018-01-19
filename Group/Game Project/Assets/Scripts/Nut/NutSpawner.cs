@@ -21,7 +21,6 @@ namespace Nut {
 
 			foreach (Transform child in transform){
 				foreach (Transform grandchild in child){
-					Debug.Log("Found A Nut!");
 					spawnLocations.Add(grandchild);
 				}
 			}

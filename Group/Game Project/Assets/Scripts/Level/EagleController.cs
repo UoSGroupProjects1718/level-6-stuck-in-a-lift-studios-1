@@ -27,11 +27,7 @@ namespace Level {
 		private List<GameObject> playerList;
 
 		void Start(){
-			isAttacking = false;
-			playerPoints = 0;
-			waypointIndex = 0;
-			targetWaypoint = waypoints[waypointIndex];
-			StartCoroutine(this.AttackTimer(Random.Range(attackIntervalMinSec, attackIntervalMaxSec)));
+			ServerStartThings();
 		}
 
 		void Update(){
@@ -49,12 +45,22 @@ namespace Level {
 		}
 
 		[Server]
+		private void ServerStartThings(){
+			isAttacking = false;
+			playerPoints = 0;
+			waypointIndex = 0;
+			targetWaypoint = waypoints[waypointIndex];
+			StartCoroutine(this.AttackTimer(Random.Range(attackIntervalMinSec, attackIntervalMaxSec)));
+		}
+
+		[Server]
 		private void CalculateTargetablePlayers(){
 			playersInScene = GameObject.FindGameObjectsWithTag("Player");
 			playerList = new List<GameObject>();
 			foreach (GameObject player in playersInScene){
 				PlayerDataForClients playerData = player.GetComponent<PlayerDataForClients>();
 				var rank = playerData.GetRank();
+				playerPoints = playerData.GetEagleTarget();
 				if (IsPlayerVisible(player)){
 					if (rank == playersInScene.Length){
 						//Never target the player in last place
@@ -72,15 +78,16 @@ namespace Level {
 			}
 		}
 
+		[Server]
 		private int SortByPoints(GameObject p1, GameObject p2){
 			var pointsA = p1.GetComponent<PlayerDataForClients>().GetEagleTarget();
 			var pointsB = p2.GetComponent<PlayerDataForClients>().GetEagleTarget();
 
 			if (pointsA < pointsB){
-				return 1;
+				return -1;
 			}
 			if (pointsA > pointsB){
-				return -1;
+				return 1;
 			}
 			return 0;
 		}
@@ -90,9 +97,8 @@ namespace Level {
 			RaycastHit checkLineOfSight;
 			Ray ray = new Ray(transform.position, player.transform.position - transform.position);
 			Debug.DrawRay(transform.position, player.transform.position - transform.position, Color.green);
-			if (Physics.Raycast(ray, out checkLineOfSight, 1000f)){
+			if (Physics.Raycast(ray, out checkLineOfSight, 10000f)){
 				if (checkLineOfSight.collider.gameObject.CompareTag("Player")){
-					Debug.Log("player is visible to the eagle");
 					return true;
 				}
 			}
@@ -103,12 +109,22 @@ namespace Level {
 		private GameObject FindTargetPlayer(){
 			playerList.Sort(SortByPoints);
 			//Target visible player with the highest score, ignoring last place
-			for (int i=0; i<playerList.Count; i++){
-				Debug.Log("Searching for valid target");
-				if (IsPlayerVisible(playerList[i])){
-					return playerList[i];
+			if (playerList.Count > 1){
+				for (int i=0; i < playerList.Count-1; i++){
+					Debug.Log("Searching for valid target");
+					if (i == playersInScene.Length){
+						Debug.Log("Can't target player in last place");
+						return null;
+					}
+					if (IsPlayerVisible(playerList[i])){
+						return playerList[i];
+					}
+					Debug.Log("Player not visible. Keep looking");
 				}
-				Debug.Log("Player not visible. Keep looking");
+			} else {
+				if (IsPlayerVisible(playerList[0])){
+					return playerList[0];
+				}
 			}
 			return null;
 		}
@@ -120,7 +136,6 @@ namespace Level {
 				yield return new WaitForSeconds(1);
 				if (State.GetInstance().Level() == State.LEVEL_PLAYING){
 					attackInterval --;
-					Debug.Log("Time to attack: " + attackInterval);
 				}
 			}
 			GameObject player = FindTargetPlayer();
@@ -162,7 +177,6 @@ namespace Level {
 		[Server]
 		private void AttackPlayer(GameObject player){
 			var finishedAttack = false;
-			Debug.Log("Attacking Player!");
 			if (Vector3.Distance(transform.position, player.transform.position) <= 2.0f){
 				player.GetComponent<PlayerDataForClients>().SetCanMoveFlag(false);
 					if (player.transform.position.y >= maxLiftHeight){
@@ -182,17 +196,29 @@ namespace Level {
 			if (finishedAttack){
 				finishedAttack = false;
 				targetPlayer = null;
+				//reset all player's eagle target scores
+				playersInScene = GameObject.FindGameObjectsWithTag("Player");
+				foreach (GameObject p in playersInScene){
+					PlayerDataForClients playerData = p.GetComponent<PlayerDataForClients>();
+					playerData.SetEagleTarget(0);
+				}
 				StartCoroutine(this.AttackTimer(Random.Range(attackIntervalMinSec, attackIntervalMaxSec)));
 				isAttacking = false;
 			}
 		}
 
-		void OnCollisionEnter(Collision col){
+		[Server]
+		private void EagleBonk(Collision col){
 			//if eagle has collided with anything that isn't the player
 			if (col.gameObject.tag != "Player"){
-				//break off attack
+				//break off attack and start looking to attack again
 				isAttacking = false;
+				StartCoroutine(this.AttackTimer(Random.Range(attackIntervalMinSec, attackIntervalMaxSec)));
 			}
+		}
+
+		void OnCollisionEnter(Collision col){
+			EagleBonk(col);
 		}
 	}
 }

@@ -72,6 +72,7 @@ namespace Player.SyncedData {
 				return;
 			}
 			store.playerName = names[Random.Range(0, names.Length)];
+			store.team = teams[Random.Range(0, teams.Length)];
 
 			if (State.GetInstance().Network() == State.NETWORK_SERVER){
 				store.isServer = true;

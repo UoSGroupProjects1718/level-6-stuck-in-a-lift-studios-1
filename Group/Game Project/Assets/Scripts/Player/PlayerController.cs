@@ -147,10 +147,10 @@ namespace Player {
 				transform.LookAt(point);
 			}
 
-			if (!canMove){
+			if (!canMove || !playerData.GetCanMoveFlag()){
 				return;
 			}
-			if (!wallJumped || playerData.GetCanMoveFlag()){
+			if (!wallJumped){
 				input.x = Input.GetAxisRaw("Horizontal");
 				input.z = Input.GetAxisRaw("Vertical");
 			}
