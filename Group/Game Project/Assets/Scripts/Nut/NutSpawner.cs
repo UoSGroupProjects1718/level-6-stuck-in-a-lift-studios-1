@@ -13,7 +13,7 @@ namespace Nut {
 		private bool hasSpawned = false;
 
 		public void Update () {
-			if (hasSpawned || State.GetInstance().Game() != State.LEVEL_PLAYING){
+			if (hasSpawned || State.GetInstance().Level() != State.LEVEL_PLAYING){
 				return;
 			}
 
@@ -26,7 +26,7 @@ namespace Nut {
 				}
 			}
 
-			for (int i = 0; i <= PlayerTracker.GetInstance().GetPlayerCount(); i++){
+			for (int i = 0; i < PlayerTracker.GetInstance().GetPlayerCount(); i++){
 				GameObject nut = (GameObject)Instantiate(nutPrefab, spawnLocations[i].position, spawnLocations[i].rotation);
 				NetworkServer.Spawn(nut);
 			}

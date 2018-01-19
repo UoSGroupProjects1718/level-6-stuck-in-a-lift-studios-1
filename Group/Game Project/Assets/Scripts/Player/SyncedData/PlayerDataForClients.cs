@@ -40,6 +40,9 @@ namespace Player.SyncedData {
 		public delegate void EagleTargetUpdated (GameObject player, int eagleTarget);
 		public event EagleTargetUpdated OnEagleTargetUpdated;
 
+		public delegate void CanMoveFlagUpdated (GameObject player, bool canMove);
+		public event CanMoveFlagUpdated OnCanMoveFlagUpdated;
+
 		[SyncVar(hook = "UpdateName")]
 		private string playerName;
 		[SyncVar(hook = "UpdateTeam")]
@@ -60,6 +63,8 @@ namespace Player.SyncedData {
 		private float position;
 		[SyncVar (hook= "UpdateEagleTarget")]
 		private int eagleTarget;
+		[SyncVar (hook="UpdateCanMoveFlag")]
+		private bool canMoveFlag;
 
 		public override void OnStartClient(){
 			if (!isLocalPlayer && !isServer){
@@ -73,6 +78,7 @@ namespace Player.SyncedData {
 				UpdateRank(rank);
 				UpdatePosition(position);
 				UpdateEagleTarget(eagleTarget);
+				UpdateCanMoveFlag(canMoveFlag);
 			}
 		}
 
@@ -270,6 +276,22 @@ namespace Player.SyncedData {
 			eagleTarget = newEagleTarget;
 			if (this.OnEagleTargetUpdated != null){
 				this.OnEagleTargetUpdated(gameObject, newEagleTarget);
+			}
+		}
+		
+		//Can the player move
+		public bool GetCanMoveFlag(){
+			return canMoveFlag;
+		}
+		[Server]
+		public void SetCanMoveFlag(bool newCanMove){
+			canMoveFlag = newCanMove;
+		}
+
+		public void UpdateCanMoveFlag(bool newCanMove){
+			canMoveFlag = newCanMove;
+			if (this.OnCanMoveFlagUpdated != null){
+				this.OnCanMoveFlagUpdated(gameObject, newCanMove);
 			}
 		}
 	}

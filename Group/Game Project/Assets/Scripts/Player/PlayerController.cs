@@ -150,7 +150,7 @@ namespace Player {
 			if (!canMove){
 				return;
 			}
-			if (!wallJumped){
+			if (!wallJumped || playerData.GetCanMoveFlag()){
 				input.x = Input.GetAxisRaw("Horizontal");
 				input.z = Input.GetAxisRaw("Vertical");
 			}

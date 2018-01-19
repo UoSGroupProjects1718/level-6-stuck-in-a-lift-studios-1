@@ -29,7 +29,7 @@ namespace UI.Level {
 				timerText.text = niceTime;
 			}
 			*/
-			if (State.GetInstance().Game() != State.LEVEL_PLAYING){
+			if (State.GetInstance().Level() != State.LEVEL_PLAYING){
 				timerText.text = timer.ToString();
 			}
 		}

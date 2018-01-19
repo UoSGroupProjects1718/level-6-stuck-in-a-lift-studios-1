@@ -26,10 +26,8 @@ namespace UI.Level {
 
         void Start () {
 			if (!isLocalPlayer){
-                Debug.Log("Not Local Player PlayerPositionUI");
 				return;
 			}
-            Debug.Log("PlayerPositionUI is Local Player");
 			playerData = transform.gameObject.GetComponent<PlayerDataForClients>();
 			playerList = PlayerTracker.GetInstance().GetPlayers();
 
@@ -48,11 +46,9 @@ namespace UI.Level {
 					if (playerIconListObjs.Length > 0){
 						int i = 0;
 						for (int j=0; j<playerIconListObjs.Length; j++){
-							Debug.Log("Setting Icons Inactive");
 							playerIconListObjs[i].SetActive(false);
 						}
 						foreach (GameObject player in playerList){
-							Debug.Log("Setting Icons Active");
 							playerIconListObjs[i].SetActive(true);
 							i++;
 						}

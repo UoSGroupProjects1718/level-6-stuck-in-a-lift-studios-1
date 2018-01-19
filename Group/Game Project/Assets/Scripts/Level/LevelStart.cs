@@ -19,7 +19,9 @@ namespace Level {
 			}
 			playersFromLobbyCount = State.GetInstance().GetPlayerCount();
 			playersInSceneCount = GameObject.FindGameObjectsWithTag("Player").Length;
+			Debug.Log("Players from lobby = " + playersFromLobbyCount + ", players in scene = " + playersInSceneCount);
 			if (playersFromLobbyCount == playersInSceneCount){
+				Debug.Log("Starting Game!");
 				State.GetInstance().Level(State.LEVEL_READY).Publish();
 				ready = true;
 			}

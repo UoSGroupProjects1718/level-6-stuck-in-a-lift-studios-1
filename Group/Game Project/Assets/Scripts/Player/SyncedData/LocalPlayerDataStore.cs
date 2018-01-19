@@ -11,6 +11,7 @@ namespace Player.SyncedData {
 		public bool isReady = false;
 		public bool isServer = false;
 		public bool hasNut = false;
+		public bool canMove = true;
 
 		private LocalPlayerDataStore(){ }
 

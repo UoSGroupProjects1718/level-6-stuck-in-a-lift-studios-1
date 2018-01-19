@@ -27,12 +27,14 @@ namespace Player.SyncedData {
 						clientData.SetIsReadyFlag(false);
 						clientData.SetIsServerFlag(false);
 						clientData.CmdSetHasNutFlag(false);
+						clientData.SetCanMoveFlag(true);
 					} else {
 						store.playerName = "";
 						store.team = 0;
 						store.isReady = false;
 						store.isServer = false;
 						store.hasNut = false;
+						store.canMove = true;
 					}
 				}
 			);
@@ -56,6 +58,7 @@ namespace Player.SyncedData {
 			clientData.SetTeam(store.team);
 			clientData.SetIsReadyFlag(store.isReady);
 			clientData.SetIsServerFlag(store.isServer);
+			clientData.SetCanMoveFlag(store.canMove);
 
 			clientData.OnNameUpdated += OnNameUpdated;
 			clientData.OnTeamUpdated += OnTeamUpdated;
@@ -69,7 +72,6 @@ namespace Player.SyncedData {
 				return;
 			}
 			store.playerName = names[Random.Range(0, names.Length)];
-			store.team = teams[Random.Range(0, teams.Length)];
 
 			if (State.GetInstance().Network() == State.NETWORK_SERVER){
 				store.isServer = true;

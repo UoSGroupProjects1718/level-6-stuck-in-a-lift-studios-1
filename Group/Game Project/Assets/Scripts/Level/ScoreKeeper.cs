@@ -83,7 +83,6 @@ namespace Level {
 			for (int i=0; i<playerList.Count; i++){
 				playerList[i].GetComponent<PlayerDataForClients>().SetRank(i);
 				int rank = i + 1;
-				Debug.Log("Player Rank = " + rank);
 			}
 		}
 
