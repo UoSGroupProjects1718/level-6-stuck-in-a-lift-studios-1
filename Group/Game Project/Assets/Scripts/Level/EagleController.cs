@@ -32,11 +32,9 @@ namespace Level {
 
 		void Update(){
 			if (State.GetInstance().Level() != State.LEVEL_PLAYING){
-				Debug.Log("game not ready");
 				return;
 			}
 			if (!isAttacking){
-				Debug.Log("Not Attacking");
 				CalculateTargetablePlayers();
 				MoveEagle();
 			} else {
@@ -213,6 +211,7 @@ namespace Level {
 			if (col.gameObject.tag != "Player"){
 				//break off attack and start looking to attack again
 				isAttacking = false;
+				targetPlayer.GetComponent<PlayerDataForClients>().SetCanMoveFlag(true);
 				StartCoroutine(this.AttackTimer(Random.Range(attackIntervalMinSec, attackIntervalMaxSec)));
 			}
 		}

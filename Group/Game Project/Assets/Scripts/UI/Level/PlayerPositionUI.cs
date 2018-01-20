@@ -77,7 +77,7 @@ namespace UI.Level {
 			}
 			SetTeamColour(playerData.GetTeam(), positionImage.gameObject);
 			SetRank();
-			
+
 			int i = 0;
 			foreach (GameObject player in playerList){
 				PlayerDataForClients pData = player.GetComponent<PlayerDataForClients>();
