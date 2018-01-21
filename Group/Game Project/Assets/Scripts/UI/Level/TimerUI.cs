@@ -79,6 +79,7 @@ namespace UI.Level {
 
 		private void UpdateTrafficLights(){
 			if (State.GetInstance().Level() == State.LEVEL_READY){
+				trafficLights.gameObject.SetActive(true);
 				switch (countdown){
 					case 3:
 						trafficLights.sprite = redLight;

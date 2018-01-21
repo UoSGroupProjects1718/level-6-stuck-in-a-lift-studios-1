@@ -1,21 +1,39 @@
-﻿using Player.SyncedData;
+﻿using GameState;
+using Player.SyncedData;
 using Player.Tracking;
-using GameState;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Level {
 	class LevelStart : NetworkBehaviour {
 
+		public int delayTimer = 3;
+
 		private bool ready;
 		private int playersFromLobbyCount;
 		private int playersInSceneCount;
 
 		void Start () {
+			ready = false;
+			StartCoroutine(this.DelayStart());
 		}
 
 		void Update(){
+			if (!ready){
+				return;
+			}
 			CheckIfPlayersReady();
+		}
+
+		[Server]
+		private IEnumerator DelayStart(){
+			while (delayTimer > 0){
+				yield return new WaitForSeconds(1);
+				delayTimer --;
+			}
+			Debug.Log("Ready to begin");
+			ready = true;
 		}
 
 		[Server]
