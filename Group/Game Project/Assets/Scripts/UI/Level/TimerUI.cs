@@ -17,6 +17,10 @@ namespace UI.Level {
 		public bool goNuts = false;
 
 		public Text timerText;
+		public Image trafficLights;
+		public Sprite redLight;
+		public Sprite amberLight;
+		public Sprite greenLight;
 
 		private int minutes;
 		private int seconds;
@@ -27,7 +31,7 @@ namespace UI.Level {
 
 		public void Update (){
 			ServerKeepTime();
-			UpdateTimerText();
+			UpdateTrafficLights();
 		}
 
 		public void OnDestroy(){
@@ -73,11 +77,22 @@ namespace UI.Level {
 			niceTime = string.Format("{0:0}:{1:00}", minutes, seconds);
 		}
 
-		private void UpdateTimerText(){
+		private void UpdateTrafficLights(){
 			if (State.GetInstance().Level() == State.LEVEL_READY){
-				timerText.text = countdown.ToString();
+				switch (countdown){
+					case 3:
+						trafficLights.sprite = redLight;
+					break;
+					case 2:
+						trafficLights.sprite = amberLight;
+					break;
+					case 1:
+						trafficLights.sprite = greenLight;
+					break;
+				}
 			}
 			else if (State.GetInstance().Level() == State.LEVEL_PLAYING){
+				trafficLights.gameObject.SetActive(false);
 				if (goNuts){
 					timerText.text = "Go Nuts!";
 				} else {
