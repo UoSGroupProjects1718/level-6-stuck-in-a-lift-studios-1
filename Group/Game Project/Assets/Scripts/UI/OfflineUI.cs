@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-namespace UI{
+namespace UI {
 	public class OfflineUI : MonoBehaviour {
 
 		public int maxConnections = 4;

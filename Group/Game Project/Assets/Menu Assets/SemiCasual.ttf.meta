@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: d90016c60ebbe7d4dbcc71c19d26be89
+timeCreated: 1516744435
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Semi-Casual
+  fontNames:
+  - Semi-Casual
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
