@@ -78,7 +78,8 @@ namespace UI.Level {
 		}
 
 		private void UpdateTrafficLights(){
-			if (State.GetInstance().Level() == State.LEVEL_READY){
+			if (State.GetInstance.Level == LevelState.LEVEL_READY){
+//			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_READY), () => {
 				trafficLights.gameObject.SetActive(true);
 				switch (countdown){
 					case 3:
@@ -90,9 +91,12 @@ namespace UI.Level {
 					case 1:
 						trafficLights.sprite = greenLight;
 					break;
+					default:
+					break;
 				}
-			}
-			else if (State.GetInstance().Level() == State.LEVEL_PLAYING){
+//			} );
+			} else if (State.GetInstance.Level == LevelState.LEVEL_PLAYING){
+//			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_PLAYING), () => {
 				trafficLights.gameObject.SetActive(false);
 				if (goNuts){
 					timerText.text = "Go Nuts!";
@@ -100,6 +104,7 @@ namespace UI.Level {
 					Debug.Log(niceTime);
 					timerText.text = niceTime;
 				}
+//			} );
 			}
 		}
 
