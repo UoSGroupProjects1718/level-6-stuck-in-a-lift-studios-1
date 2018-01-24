@@ -1,0 +1,241 @@
+fileFormatVersion: 2
+guid: 0171edf828ca0b74fbdac7b508e1b9ec
+timeCreated: 1516826858
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: GoNutsLevelPurple_MeshPart0
+    100004: GoNutsLevelPurple_MeshPart1
+    100006: GoNutsLevelPurple_MeshPart10
+    100008: GoNutsLevelPurple_MeshPart11
+    100010: GoNutsLevelPurple_MeshPart12
+    100012: GoNutsLevelPurple_MeshPart13
+    100014: GoNutsLevelPurple_MeshPart14
+    100016: GoNutsLevelPurple_MeshPart15
+    100018: GoNutsLevelPurple_MeshPart16
+    100020: GoNutsLevelPurple_MeshPart17
+    100022: GoNutsLevelPurple_MeshPart18
+    100024: GoNutsLevelPurple_MeshPart19
+    100026: GoNutsLevelPurple_MeshPart2
+    100028: GoNutsLevelPurple_MeshPart20
+    100030: GoNutsLevelPurple_MeshPart21
+    100032: GoNutsLevelPurple_MeshPart22
+    100034: GoNutsLevelPurple_MeshPart23
+    100036: GoNutsLevelPurple_MeshPart24
+    100038: GoNutsLevelPurple_MeshPart25
+    100040: GoNutsLevelPurple_MeshPart26
+    100042: GoNutsLevelPurple_MeshPart3
+    100044: GoNutsLevelPurple_MeshPart4
+    100046: GoNutsLevelPurple_MeshPart5
+    100048: GoNutsLevelPurple_MeshPart6
+    100050: GoNutsLevelPurple_MeshPart7
+    100052: GoNutsLevelPurple_MeshPart8
+    100054: GoNutsLevelPurple_MeshPart9
+    400000: //RootNode
+    400002: GoNutsLevelPurple_MeshPart0
+    400004: GoNutsLevelPurple_MeshPart1
+    400006: GoNutsLevelPurple_MeshPart10
+    400008: GoNutsLevelPurple_MeshPart11
+    400010: GoNutsLevelPurple_MeshPart12
+    400012: GoNutsLevelPurple_MeshPart13
+    400014: GoNutsLevelPurple_MeshPart14
+    400016: GoNutsLevelPurple_MeshPart15
+    400018: GoNutsLevelPurple_MeshPart16
+    400020: GoNutsLevelPurple_MeshPart17
+    400022: GoNutsLevelPurple_MeshPart18
+    400024: GoNutsLevelPurple_MeshPart19
+    400026: GoNutsLevelPurple_MeshPart2
+    400028: GoNutsLevelPurple_MeshPart20
+    400030: GoNutsLevelPurple_MeshPart21
+    400032: GoNutsLevelPurple_MeshPart22
+    400034: GoNutsLevelPurple_MeshPart23
+    400036: GoNutsLevelPurple_MeshPart24
+    400038: GoNutsLevelPurple_MeshPart25
+    400040: GoNutsLevelPurple_MeshPart26
+    400042: GoNutsLevelPurple_MeshPart3
+    400044: GoNutsLevelPurple_MeshPart4
+    400046: GoNutsLevelPurple_MeshPart5
+    400048: GoNutsLevelPurple_MeshPart6
+    400050: GoNutsLevelPurple_MeshPart7
+    400052: GoNutsLevelPurple_MeshPart8
+    400054: GoNutsLevelPurple_MeshPart9
+    2300000: GoNutsLevelPurple_MeshPart0
+    2300002: GoNutsLevelPurple_MeshPart1
+    2300004: GoNutsLevelPurple_MeshPart10
+    2300006: GoNutsLevelPurple_MeshPart11
+    2300008: GoNutsLevelPurple_MeshPart12
+    2300010: GoNutsLevelPurple_MeshPart13
+    2300012: GoNutsLevelPurple_MeshPart14
+    2300014: GoNutsLevelPurple_MeshPart15
+    2300016: GoNutsLevelPurple_MeshPart16
+    2300018: GoNutsLevelPurple_MeshPart17
+    2300020: GoNutsLevelPurple_MeshPart18
+    2300022: GoNutsLevelPurple_MeshPart19
+    2300024: GoNutsLevelPurple_MeshPart2
+    2300026: GoNutsLevelPurple_MeshPart20
+    2300028: GoNutsLevelPurple_MeshPart21
+    2300030: GoNutsLevelPurple_MeshPart22
+    2300032: GoNutsLevelPurple_MeshPart23
+    2300034: GoNutsLevelPurple_MeshPart24
+    2300036: GoNutsLevelPurple_MeshPart25
+    2300038: GoNutsLevelPurple_MeshPart26
+    2300040: GoNutsLevelPurple_MeshPart3
+    2300042: GoNutsLevelPurple_MeshPart4
+    2300044: GoNutsLevelPurple_MeshPart5
+    2300046: GoNutsLevelPurple_MeshPart6
+    2300048: GoNutsLevelPurple_MeshPart7
+    2300050: GoNutsLevelPurple_MeshPart8
+    2300052: GoNutsLevelPurple_MeshPart9
+    3300000: GoNutsLevelPurple_MeshPart0
+    3300002: GoNutsLevelPurple_MeshPart1
+    3300004: GoNutsLevelPurple_MeshPart10
+    3300006: GoNutsLevelPurple_MeshPart11
+    3300008: GoNutsLevelPurple_MeshPart12
+    3300010: GoNutsLevelPurple_MeshPart13
+    3300012: GoNutsLevelPurple_MeshPart14
+    3300014: GoNutsLevelPurple_MeshPart15
+    3300016: GoNutsLevelPurple_MeshPart16
+    3300018: GoNutsLevelPurple_MeshPart17
+    3300020: GoNutsLevelPurple_MeshPart18
+    3300022: GoNutsLevelPurple_MeshPart19
+    3300024: GoNutsLevelPurple_MeshPart2
+    3300026: GoNutsLevelPurple_MeshPart20
+    3300028: GoNutsLevelPurple_MeshPart21
+    3300030: GoNutsLevelPurple_MeshPart22
+    3300032: GoNutsLevelPurple_MeshPart23
+    3300034: GoNutsLevelPurple_MeshPart24
+    3300036: GoNutsLevelPurple_MeshPart25
+    3300038: GoNutsLevelPurple_MeshPart26
+    3300040: GoNutsLevelPurple_MeshPart3
+    3300042: GoNutsLevelPurple_MeshPart4
+    3300044: GoNutsLevelPurple_MeshPart5
+    3300046: GoNutsLevelPurple_MeshPart6
+    3300048: GoNutsLevelPurple_MeshPart7
+    3300050: GoNutsLevelPurple_MeshPart8
+    3300052: GoNutsLevelPurple_MeshPart9
+    4300000: GoNutsLevelPurple_MeshPart0
+    4300002: GoNutsLevelPurple_MeshPart1
+    4300004: GoNutsLevelPurple_MeshPart2
+    4300006: GoNutsLevelPurple_MeshPart3
+    4300008: GoNutsLevelPurple_MeshPart4
+    4300010: GoNutsLevelPurple_MeshPart5
+    4300012: GoNutsLevelPurple_MeshPart6
+    4300014: GoNutsLevelPurple_MeshPart7
+    4300016: GoNutsLevelPurple_MeshPart8
+    4300018: GoNutsLevelPurple_MeshPart9
+    4300020: GoNutsLevelPurple_MeshPart10
+    4300022: GoNutsLevelPurple_MeshPart11
+    4300024: GoNutsLevelPurple_MeshPart12
+    4300026: GoNutsLevelPurple_MeshPart13
+    4300028: GoNutsLevelPurple_MeshPart14
+    4300030: GoNutsLevelPurple_MeshPart15
+    4300032: GoNutsLevelPurple_MeshPart16
+    4300034: GoNutsLevelPurple_MeshPart17
+    4300036: GoNutsLevelPurple_MeshPart18
+    4300038: GoNutsLevelPurple_MeshPart19
+    4300040: GoNutsLevelPurple_MeshPart20
+    4300042: GoNutsLevelPurple_MeshPart21
+    4300044: GoNutsLevelPurple_MeshPart22
+    4300046: GoNutsLevelPurple_MeshPart23
+    4300048: GoNutsLevelPurple_MeshPart24
+    4300050: GoNutsLevelPurple_MeshPart25
+    4300052: GoNutsLevelPurple_MeshPart26
+    6400000: GoNutsLevelPurple_MeshPart0
+    6400002: GoNutsLevelPurple_MeshPart1
+    6400004: GoNutsLevelPurple_MeshPart10
+    6400006: GoNutsLevelPurple_MeshPart11
+    6400008: GoNutsLevelPurple_MeshPart12
+    6400010: GoNutsLevelPurple_MeshPart13
+    6400012: GoNutsLevelPurple_MeshPart14
+    6400014: GoNutsLevelPurple_MeshPart15
+    6400016: GoNutsLevelPurple_MeshPart16
+    6400018: GoNutsLevelPurple_MeshPart17
+    6400020: GoNutsLevelPurple_MeshPart18
+    6400022: GoNutsLevelPurple_MeshPart19
+    6400024: GoNutsLevelPurple_MeshPart2
+    6400026: GoNutsLevelPurple_MeshPart20
+    6400028: GoNutsLevelPurple_MeshPart21
+    6400030: GoNutsLevelPurple_MeshPart22
+    6400032: GoNutsLevelPurple_MeshPart23
+    6400034: GoNutsLevelPurple_MeshPart24
+    6400036: GoNutsLevelPurple_MeshPart25
+    6400038: GoNutsLevelPurple_MeshPart26
+    6400040: GoNutsLevelPurple_MeshPart3
+    6400042: GoNutsLevelPurple_MeshPart4
+    6400044: GoNutsLevelPurple_MeshPart5
+    6400046: GoNutsLevelPurple_MeshPart6
+    6400048: GoNutsLevelPurple_MeshPart7
+    6400050: GoNutsLevelPurple_MeshPart8
+    6400052: GoNutsLevelPurple_MeshPart9
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 2
+    meshCompression: 0
+    addColliders: 1
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 1
+    tangentImportMode: 3
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
