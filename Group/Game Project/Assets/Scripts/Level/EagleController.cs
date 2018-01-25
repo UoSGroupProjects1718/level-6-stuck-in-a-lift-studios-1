@@ -17,6 +17,7 @@ namespace Level {
 		public float maxLiftHeight = 50.0f;
 		public float playerStunDuration = 3.0f;
 		public GameObject[] waypoints;
+		public AudioSource screechAudioSource;
 
 		private bool isAttacking;
 		private int playerPoints;
@@ -115,12 +116,14 @@ namespace Level {
 						return null;
 					}
 					if (IsPlayerVisible(playerList[i])){
+						screechAudioSource.Play();
 						return playerList[i];
 					}
 					Debug.Log("Player not visible. Keep looking");
 				}
 			} else {
 				if (IsPlayerVisible(playerList[0])){
+					screechAudioSource.Play();
 					return playerList[0];
 				}
 			}

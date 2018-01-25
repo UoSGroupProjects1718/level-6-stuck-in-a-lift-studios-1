@@ -23,6 +23,12 @@ namespace Player {
 		public LineRenderer lineRenderer;
 		public Transform hand;
 
+		public AudioSource grappleAudioSource;
+		public AudioSource jumpAudioSource;
+		public AudioSource movementAudioSource;
+		public AudioSource nutPickupAudioSource;
+		public AudioSource scoreAudioSource;
+
 		private bool menuToggled = false;
 		private bool canMove = true;
 		private bool canJump;
@@ -53,7 +59,6 @@ namespace Player {
 			if (!isLocalPlayer){
 				return;
 			}
-
 			playerData = transform.gameObject.GetComponent<PlayerDataForClients>();
 
 			camera = Camera.main;
@@ -100,6 +105,7 @@ namespace Player {
 
 			if (Input.GetMouseButtonDown(0)){
 				if (!grappleOnCooldown){
+					grappleAudioSource.Play();
 					StartCoroutine(GrappleCooldown());
 				}
 			}
@@ -162,7 +168,11 @@ namespace Player {
 				moveVector = inputRotation * moveVector;
 				moveVector *= groundSpeed;
 
-				if (input.z > 0) { //Increase Momentum when moving forward on the ground
+				if (input.z > 0) {
+					if (!movementAudioSource.isPlaying){
+						movementAudioSource.Play();
+					}
+					//Increase Momentum when moving forward on the ground
 					momentumMeter += 0.2f;
 					if(momentumMeter > maxMeter){
 						momentumMeter = maxMeter;
@@ -186,12 +196,14 @@ namespace Player {
 			verticalVelocity += (-gravityStrength) * Time.deltaTime;
 			if (Input.GetButtonDown("Jump")){
 				if (onWall && !wallJumped){
+					jumpAudioSource.Play();
 					Vector3 reflection = Vector3.Reflect(velocity, wallNormal);
 					Vector3 projected = Vector3.ProjectOnPlane(reflection, Vector3.up);
 					groundedVelocity = (projected.normalized + wallNormal)/10f * aerialSpeed;
 					wallJumped = true;
 				}
 				if (canJump){
+					jumpAudioSource.Play();
 					verticalVelocity += jumpPower;
 				}
 			}
@@ -314,6 +326,7 @@ namespace Player {
 				if (playerData.GetHasNutFlag()){
 					return;
 				}
+				nutPickupAudioSource.Play();
 				playerData.CmdSetHasNutFlag(true);
 				CmdDestroyObject(col.gameObject.GetComponentInParent<NetworkIdentity>().netId);
 				scoreText.text = "Nutted!";
@@ -328,6 +341,7 @@ namespace Player {
 		}
 
 		private IEnumerator ScoreTextCooldown(){
+			scoreAudioSource.Play();
 			scoreText.text = "Score!";
 			float elapsed = 0.0f;
 			while (elapsed < 3f){

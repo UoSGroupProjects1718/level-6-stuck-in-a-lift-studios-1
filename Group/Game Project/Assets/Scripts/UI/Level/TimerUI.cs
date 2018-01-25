@@ -18,6 +18,8 @@ namespace UI.Level {
 		[SyncVar]
 		public bool trafficLightsVisible = false;
 
+		public AudioSource musicAudioSource;
+		public AudioSource countdownAudioSource;
 		public Text timerText;
 		public Image trafficLights;
 		public Sprite redLight;
@@ -99,6 +101,9 @@ namespace UI.Level {
 		private void RpcUpdateTrafficLights(){
 			if (State.GetInstance().Level() == State.LEVEL_READY){
 //			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_READY), () => {
+				if (!countdownAudioSource.isPlaying){
+					countdownAudioSource.Play();
+				}
 				trafficLightsVisible = true;
 			}
 		}
@@ -108,6 +113,9 @@ namespace UI.Level {
 			if (State.GetInstance().Level() == State.LEVEL_PLAYING){
 //			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_PLAYING), () => {
 				trafficLightsVisible = false;
+				if (!musicAudioSource.isPlaying){
+					musicAudioSource.Play();
+				}
 				if (goNuts){
 					timerText.text = "Go Nuts!";
 				} else {
