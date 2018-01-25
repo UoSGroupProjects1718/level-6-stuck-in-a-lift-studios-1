@@ -40,7 +40,7 @@ namespace UI.Level {
 		[ServerCallback]
 		private void SubscribeToServerReady(){
 			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_READY), StartTimer);
-        }
+		}
 
 		[Server]
 		private void StartTimer(){
@@ -64,6 +64,7 @@ namespace UI.Level {
 		[Server]
 		private IEnumerator GameClock(){
 			while (true) {
+				RpcUpdateTrafficLights();
 				yield return new WaitForSeconds(1);
 				if (State.GetInstance().Level() == State.LEVEL_PLAYING){
 					time++;
