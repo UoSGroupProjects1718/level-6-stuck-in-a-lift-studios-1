@@ -31,7 +31,6 @@ namespace UI.Level {
 
 		public void Update (){
 			ServerKeepTime();
-			UpdateTrafficLights();
 		}
 
 		public void OnDestroy(){
@@ -53,9 +52,11 @@ namespace UI.Level {
 		[Server]
 		private IEnumerator WaitForTimerToEnd(){
 			while (countdown > 0) {
+				RpcUpdateTrafficLights();
 				yield return new WaitForSeconds(1);
 				countdown --;
 			}
+			RpcUpdateTrafficLights();
 			RpcStartTheGame();
 			StartCoroutine(this.GameClock());
 		}
@@ -77,7 +78,8 @@ namespace UI.Level {
 			niceTime = string.Format("{0:0}:{1:00}", minutes, seconds);
 		}
 
-		private void UpdateTrafficLights(){
+		[ClientRpc]
+		private void RpcUpdateTrafficLights(){
 			if (State.GetInstance().Level() == State.LEVEL_READY){
 //			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_READY), () => {
 				trafficLights.gameObject.SetActive(true);
@@ -105,6 +107,8 @@ namespace UI.Level {
 					timerText.text = niceTime;
 				}
 //			} );
+			} else {
+				tafficLights.gameObject.SetActive(false);
 			}
 		}
 
