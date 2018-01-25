@@ -123,7 +123,9 @@ namespace Level {
 				}
 			} else {
 				if (IsPlayerVisible(playerList[0])){
-					screechAudioSource.Play();
+					if (!screechAudioSource.isPlaying){
+						screechAudioSource.Play();
+					}
 					return playerList[0];
 				}
 			}
@@ -199,10 +201,7 @@ namespace Level {
 				targetPlayer = null;
 				//reset all player's eagle target scores
 				playersInScene = GameObject.FindGameObjectsWithTag("Player");
-				foreach (GameObject p in playersInScene){
-					PlayerDataForClients playerData = p.GetComponent<PlayerDataForClients>();
-					playerData.SetEagleTarget(0);
-				}
+				ResetPlayers();
 				StartCoroutine(this.AttackTimer(Random.Range(attackIntervalMinSec, attackIntervalMaxSec)));
 				isAttacking = false;
 			}
@@ -214,8 +213,17 @@ namespace Level {
 			if (col.gameObject.tag != "Player"){
 				//break off attack and start looking to attack again
 				isAttacking = false;
+				ResetPlayers();
 				targetPlayer.GetComponent<PlayerDataForClients>().SetCanMoveFlag(true);
 				StartCoroutine(this.AttackTimer(Random.Range(attackIntervalMinSec, attackIntervalMaxSec)));
+			}
+		}
+
+		private void ResetPlayers(){
+			playersInScene = GameObject.FindGameObjectsWithTag("Player");
+			foreach (GameObject p in playersInScene){
+				PlayerDataForClients playerData = p.GetComponent<PlayerDataForClients>();
+				playerData.SetEagleTarget(0);
 			}
 		}
 
