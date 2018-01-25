@@ -15,6 +15,8 @@ namespace UI.Level {
 		public string niceTime;
 		[SyncVar]
 		public bool goNuts = false;
+		[SyncVar]
+		public bool trafficLightsVisible = false;
 
 		public Text timerText;
 		public Image trafficLights;
@@ -31,6 +33,20 @@ namespace UI.Level {
 
 		public void Update (){
 			ServerKeepTime();
+			trafficLights.gameObject.SetActive(trafficLightsVisible);
+			switch (countdown){
+					case 3:
+						trafficLights.sprite = redLight;
+					break;
+					case 2:
+						trafficLights.sprite = amberLight;
+					break;
+					case 1:
+						trafficLights.sprite = greenLight;
+					break;
+					default:
+					break;
+				}
 		}
 
 		public void OnDestroy(){
@@ -55,8 +71,8 @@ namespace UI.Level {
 				RpcUpdateTrafficLights();
 				yield return new WaitForSeconds(1);
 				countdown --;
+				RpcUpdateTrafficLights();
 			}
-			RpcUpdateTrafficLights();
 			RpcStartTheGame();
 			StartCoroutine(this.GameClock());
 		}
@@ -64,7 +80,7 @@ namespace UI.Level {
 		[Server]
 		private IEnumerator GameClock(){
 			while (true) {
-				RpcUpdateTrafficLights();
+				RpcUpdateClock();
 				yield return new WaitForSeconds(1);
 				if (State.GetInstance().Level() == State.LEVEL_PLAYING){
 					time++;
@@ -83,24 +99,15 @@ namespace UI.Level {
 		private void RpcUpdateTrafficLights(){
 			if (State.GetInstance().Level() == State.LEVEL_READY){
 //			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_READY), () => {
-				trafficLights.gameObject.SetActive(true);
-				switch (countdown){
-					case 3:
-						trafficLights.sprite = redLight;
-					break;
-					case 2:
-						trafficLights.sprite = amberLight;
-					break;
-					case 1:
-						trafficLights.sprite = greenLight;
-					break;
-					default:
-					break;
-				}
-//			} );
-			} else if (State.GetInstance().Level() == State.LEVEL_PLAYING){
+				trafficLightsVisible = true;
+			}
+		}
+
+		[ClientRpc]
+		private void RpcUpdateClock(){
+			if (State.GetInstance().Level() == State.LEVEL_PLAYING){
 //			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_PLAYING), () => {
-				trafficLights.gameObject.SetActive(false);
+				trafficLightsVisible = false;
 				if (goNuts){
 					timerText.text = "Go Nuts!";
 				} else {
@@ -109,7 +116,7 @@ namespace UI.Level {
 				}
 //			} );
 			} else {
-				trafficLights.gameObject.SetActive(false);
+				trafficLightsVisible = false;
 			}
 		}
 
