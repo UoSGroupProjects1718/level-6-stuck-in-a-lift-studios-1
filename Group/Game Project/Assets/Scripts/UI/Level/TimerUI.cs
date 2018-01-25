@@ -108,7 +108,7 @@ namespace UI.Level {
 				}
 //			} );
 			} else {
-				tafficLights.gameObject.SetActive(false);
+				trafficLights.gameObject.SetActive(false);
 			}
 		}
 
