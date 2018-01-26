@@ -105,7 +105,6 @@ namespace Player {
 
 			if (Input.GetMouseButtonDown(0)){
 				if (!grappleOnCooldown){
-					grappleAudioSource.Play();
 					StartCoroutine(GrappleCooldown());
 				}
 			}
@@ -149,7 +148,6 @@ namespace Player {
 
 			if (groundPlane.Raycast(ray, out rayDistance)){
 				Vector3 point = ray.GetPoint(rayDistance);
-//				Debug.DrawLine(ray.origin, point, Color.red);
 				transform.LookAt(point);
 			}
 
@@ -250,6 +248,7 @@ namespace Player {
 
 		private IEnumerator GrappleCooldown(){
 			if (Findspot()){
+				grappleAudioSource.Play();
 				grappleOnCooldown = true;
 				cooldownImage.fillAmount = 1f;
 				float elapsed = 0.0f;
@@ -266,7 +265,6 @@ namespace Player {
 		bool Findspot() {
 			if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, maxDistance, cullingmask)){
 				if (hit.transform.gameObject.tag == "Nut"){
-					Debug.Log("Hit Nut");
 					if (playerData.GetHasNutFlag()){
 						return false;
 					}
@@ -309,7 +307,6 @@ namespace Player {
 
 		void ToggleCrosshair(bool enabled) {
 			if (crosshairPrefab != null) {
-//				crosshairPrefab.SetActive(enabled);
 				if (enabled){
 					crosshairImage.color = Color.green;
 				} else {

@@ -8,6 +8,7 @@ namespace UI.Menu {
 
 		public int position = -60;
 		public GameObject mainInputField;
+		public AudioSource menuAudioSource;
 
 		void Update () {
 			if (mainInputField.GetComponent<InputField>().isFocused){
@@ -16,11 +17,13 @@ namespace UI.Menu {
 			if (Input.GetKeyDown (KeyCode.UpArrow) || Input.GetKeyDown (KeyCode.W)) {
 				if (position > 0) {
 					position--;
+					menuAudioSource.Play();
 				}
 			}
 			if (Input.GetKeyDown (KeyCode.DownArrow) || Input.GetKeyDown (KeyCode.S)) {
 				if (position < 2) {
 					position++;
+					menuAudioSource.Play();
 				}
 			}
 
