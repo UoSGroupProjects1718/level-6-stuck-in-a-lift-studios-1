@@ -180,7 +180,7 @@ namespace Level {
 		[Server]
 		private void AttackPlayer(GameObject player){
 			var finishedAttack = false;
-			if (Vector3.Distance(transform.position, player.transform.position) <= 2.0f){
+			if (Vector3.Distance(transform.position, player.transform.position) <= 1.0f){
 				player.GetComponent<PlayerDataForClients>().SetCanMoveFlag(false);
 					if (player.transform.position.y >= maxLiftHeight){
 						StartCoroutine(this.PlayerStun(playerStunDuration, player));
