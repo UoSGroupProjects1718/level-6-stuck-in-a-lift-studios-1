@@ -1,0 +1,179 @@
+fileFormatVersion: 2
+guid: 4c8adc0e89fc7014a94347125681c6a4
+timeCreated: 1517676926
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Block_of_Quartz
+    100002: Block_of_Quartz_MeshPart0
+    100004: Block_of_Quartz_MeshPart1
+    100006: Cobblestone
+    100008: Cobblestone_Stairs
+    100010: //RootNode
+    100012: Grass_Block
+    100014: Iron_Bars
+    100016: Quartz_Stairs
+    100018: Stained_Clay__10
+    100020: Stained_Clay__11
+    100022: Stained_Clay__2
+    100024: Stained_Clay__3
+    100026: Stained_Clay__9
+    100028: Stained_Glass_Pane__15
+    100030: Stained_Glass_Pane__15_MeshPart0
+    100032: Stained_Glass_Pane__15_MeshPart1
+    100034: Stone__6
+    100036: Stone_Slab
+    400000: Block_of_Quartz
+    400002: Block_of_Quartz_MeshPart0
+    400004: Block_of_Quartz_MeshPart1
+    400006: Cobblestone
+    400008: Cobblestone_Stairs
+    400010: //RootNode
+    400012: Grass_Block
+    400014: Iron_Bars
+    400016: Quartz_Stairs
+    400018: Stained_Clay__10
+    400020: Stained_Clay__11
+    400022: Stained_Clay__2
+    400024: Stained_Clay__3
+    400026: Stained_Clay__9
+    400028: Stained_Glass_Pane__15
+    400030: Stained_Glass_Pane__15_MeshPart0
+    400032: Stained_Glass_Pane__15_MeshPart1
+    400034: Stone__6
+    400036: Stone_Slab
+    2300000: Block_of_Quartz_MeshPart0
+    2300002: Block_of_Quartz_MeshPart1
+    2300004: Cobblestone
+    2300006: Cobblestone_Stairs
+    2300008: Grass_Block
+    2300010: Iron_Bars
+    2300012: Quartz_Stairs
+    2300014: Stained_Clay__10
+    2300016: Stained_Clay__11
+    2300018: Stained_Clay__2
+    2300020: Stained_Clay__3
+    2300022: Stained_Clay__9
+    2300024: Stained_Glass_Pane__15_MeshPart0
+    2300026: Stained_Glass_Pane__15_MeshPart1
+    2300028: Stone__6
+    2300030: Stone_Slab
+    3300000: Block_of_Quartz_MeshPart0
+    3300002: Block_of_Quartz_MeshPart1
+    3300004: Cobblestone
+    3300006: Cobblestone_Stairs
+    3300008: Grass_Block
+    3300010: Iron_Bars
+    3300012: Quartz_Stairs
+    3300014: Stained_Clay__10
+    3300016: Stained_Clay__11
+    3300018: Stained_Clay__2
+    3300020: Stained_Clay__3
+    3300022: Stained_Clay__9
+    3300024: Stained_Glass_Pane__15_MeshPart0
+    3300026: Stained_Glass_Pane__15_MeshPart1
+    3300028: Stone__6
+    3300030: Stone_Slab
+    4300000: Stone__6
+    4300002: Grass_Block
+    4300004: Cobblestone
+    4300006: Stone_Slab
+    4300008: Cobblestone_Stairs
+    4300010: Iron_Bars
+    4300012: Block_of_Quartz_MeshPart0
+    4300014: Block_of_Quartz_MeshPart1
+    4300016: Quartz_Stairs
+    4300018: Stained_Clay__2
+    4300020: Stained_Clay__3
+    4300022: Stained_Clay__9
+    4300024: Stained_Clay__10
+    4300026: Stained_Clay__11
+    4300028: Stained_Glass_Pane__15_MeshPart0
+    4300030: Stained_Glass_Pane__15_MeshPart1
+    6400000: Block_of_Quartz_MeshPart0
+    6400002: Block_of_Quartz_MeshPart1
+    6400004: Cobblestone
+    6400006: Cobblestone_Stairs
+    6400008: Grass_Block
+    6400010: Iron_Bars
+    6400012: Quartz_Stairs
+    6400014: Stained_Clay__10
+    6400016: Stained_Clay__11
+    6400018: Stained_Clay__2
+    6400020: Stained_Clay__3
+    6400022: Stained_Clay__9
+    6400024: Stained_Glass_Pane__15_MeshPart0
+    6400026: Stained_Glass_Pane__15_MeshPart1
+    6400028: Stone__6
+    6400030: Stone_Slab
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 2
+    meshCompression: 0
+    addColliders: 1
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 1
+    tangentImportMode: 3
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
