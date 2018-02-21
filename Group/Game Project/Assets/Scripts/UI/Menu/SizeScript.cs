@@ -12,15 +12,15 @@ namespace UI.Menu {
 		public GameObject three;
 
 		public Color frontFocusColor = new Color(0,0,0,1f);
-		public Color midFocusColor = new Color(0,0,0,0.5f);
-		public Color backFocusColor = new Color(0,0,0,0.25f);
+		public Color midFocusColor = new Color(0,0,0,0.9f);
+		public Color backFocusColor = new Color(0,0,0,0.7f);
 
 		void Update () {
 			switch (Focus.position) {
 				case 0:
 					one.transform.localScale = new Vector3 (1.5f, 1.5f, 0);
 					two.transform.localScale = new Vector3 (1, 1, 0);
-					three.transform.localScale = new Vector3 (0.5f, 0.5f, 0);
+					three.transform.localScale = new Vector3 (0.75f, 0.75f, 0);
 					one.GetComponentInChildren<Text> ().color = frontFocusColor;
 					two.GetComponentInChildren<Text> ().color = midFocusColor;
 					three.GetComponentInChildren<Text> ().color = backFocusColor;
@@ -34,7 +34,7 @@ namespace UI.Menu {
 					three.GetComponentInChildren<Text> ().color = midFocusColor;
 					break;
 				case 2:
-					one.transform.localScale = new Vector3 (0.5f, 0.5f, 0);
+					one.transform.localScale = new Vector3 (0.75f, 0.75f, 0);
 					two.transform.localScale = new Vector3 (1, 1, 0);
 					three.transform.localScale = new Vector3 (1.5f, 1.5f, 0);
 					one.GetComponentInChildren<Text> ().color = backFocusColor;
@@ -44,7 +44,7 @@ namespace UI.Menu {
 				default:
 					one.transform.localScale = new Vector3 (1.5f, 1.5f, 0);
 					two.transform.localScale = new Vector3 (1, 1, 0);
-					three.transform.localScale = new Vector3 (0.5f, 0.5f, 0);
+					three.transform.localScale = new Vector3 (0.75f, 0.75f, 0);
 					one.GetComponentInChildren<Text> ().color = frontFocusColor;
 					two.GetComponentInChildren<Text> ().color = midFocusColor;
 					three.GetComponentInChildren<Text> ().color = backFocusColor;
