@@ -55,6 +55,10 @@ namespace UI.Level {
 			StopAllCoroutines();
 		}
 
+		public int GetTime(){
+			return time;
+		}
+
 		[ServerCallback]
 		private void SubscribeToServerReady(){
 			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_READY), StartTimer);
@@ -94,7 +98,7 @@ namespace UI.Level {
 		private void ServerKeepTime(){
 			minutes = Mathf.FloorToInt(time/60F);
 			seconds = Mathf.FloorToInt(time - minutes * 60);
-			niceTime = string.Format("{0:0}:{1:00}", minutes, seconds);
+			niceTime = string.Format("{00:00}:{1:00}", minutes, seconds);
 		}
 
 		[ClientRpc]

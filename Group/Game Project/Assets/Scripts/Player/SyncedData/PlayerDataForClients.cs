@@ -43,6 +43,9 @@ namespace Player.SyncedData {
 		public delegate void CanMoveFlagUpdated (GameObject player, bool canMove);
 		public event CanMoveFlagUpdated OnCanMoveFlagUpdated;
 
+		public delegate void NutTimeUpdated (GameObject player, int time);
+		public event NutTimeUpdated OnNutTimeUpdated;
+
 		[SyncVar(hook = "UpdateName")]
 		private string playerName;
 		[SyncVar(hook = "UpdateTeam")]
@@ -65,6 +68,8 @@ namespace Player.SyncedData {
 		private int eagleTarget;
 		[SyncVar (hook="UpdateCanMoveFlag")]
 		private bool canMoveFlag;
+		[SyncVar (hook="UpdateNutTime")]
+		private int nutTime;
 
 		public override void OnStartClient(){
 			if (!isLocalPlayer && !isServer){
@@ -79,6 +84,7 @@ namespace Player.SyncedData {
 				UpdatePosition(position);
 				UpdateEagleTarget(eagleTarget);
 				UpdateCanMoveFlag(canMoveFlag);
+				UpdateNutTime(nutTime);
 			}
 		}
 
@@ -292,6 +298,22 @@ namespace Player.SyncedData {
 			canMoveFlag = newCanMove;
 			if (this.OnCanMoveFlagUpdated != null){
 				this.OnCanMoveFlagUpdated(gameObject, newCanMove);
+			}
+		}
+
+		//Player Nut Time
+		public int GetNutTime (){
+			return nutTime;
+		}
+		[Command]
+		public void CmdSetNutTime(int newNutTime){
+			nutTime = newNutTime;
+		}
+		[Client]
+		public void UpdateNutTime (int newNutTime){
+			nutTime = newNutTime;
+			if (this.OnNutTimeUpdated != null){
+				this.OnNutTimeUpdated(gameObject, newNutTime);
 			}
 		}
 	}
