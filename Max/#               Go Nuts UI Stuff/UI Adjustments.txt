@@ -1,0 +1,30 @@
+Make all text the same colour as their avatar - e.g. green in 
+example, and give them all the black outline (aside from 
+position 1st etc. as this is similar to an 'objective' marker,
+so the same colour as flag/tree). 
+
+The outline will make them easier to see against the backdrop
+and the sky in particular, but also with the colouration being
+the same it means we have consistency of UI assets.
+
+Make the player's avatar on the 'map' larger than everyone
+elses, however put them on the furthest back layer. 
+It will make it easier for them to see where everyone else is
+in comparison to them, and it means they won't get lost behind
+anyone else, nor block their own vision of where other players
+are if they are behind them.
+
+I have also moved the squirrel picture in the top left and the
+player's position text in a bit. Keeping them closer together 
+should make it clearer that they're meant to be read together
+and it lines them up a bit better with all the other 'edge' UI.
+
+I have moved the lap timers in towards the centre of the screen
+as well, for much the same reason.
+
+I tried playing the game for a few hours and honestly this is
+the best I could come up with. The current UI assets work well,
+I can see why Elliot and Zack struggled to work it. I've only
+tried to make minor adjustments that don't cause any clarity
+issues, or rather fix them where possible.
+
