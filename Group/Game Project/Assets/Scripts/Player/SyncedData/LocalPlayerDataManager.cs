@@ -7,7 +7,7 @@ namespace Player.SyncedData {
 
 		public PlayerDataForClients clientData;
 
-		private string[] names = new string[] {"Rebecca", "Max", "Joe", "The Virgin Elliot", "Zak", "The Chad Rob", "Will"};
+		private string[] names = new string[] {"Rebecca", "Max", "Joe", "Elliot", "Zak", "Will"};
 		private int[] teams = new int[] {
 			PlayerDataForClients.PLAYER_A,
 			PlayerDataForClients.PLAYER_B,
