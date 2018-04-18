@@ -16,6 +16,7 @@ namespace Player {
 		public float baseJumpPower = 9;
 		public float jumpPowerModifier = 1;
 		public float aerialSpeed = 0.1f;
+		[HideInInspector]
 		public float momentumMeter;
 		public float grappleSpeed = 10f;
 		public float grappleCooldownTime = 2f;
@@ -31,6 +32,7 @@ namespace Player {
 		public AudioSource nutPickupAudioSource;
 		public AudioSource scoreAudioSource;
 
+		private Animator animator;
 		private bool menuToggled = false;
 		private bool canMove = true;
 		private bool canJump;
@@ -70,6 +72,8 @@ namespace Player {
 
 			camera = Camera.main;
 			controller = GetComponent<CharacterController>();
+
+			animator = GetComponentInChildren<Animator>();
 
 			if (crosshairPrefab != null) {
 				crosshairPrefab = Instantiate(crosshairPrefab);
@@ -158,12 +162,16 @@ namespace Player {
 				transform.LookAt(point);
 			}
 
+			animator.SetBool("isGrounded", controller.isGrounded);
+
 			if (!canMove || !playerData.GetCanMoveFlag()){
 				return;
 			}
 			if (!wallJumped){
 				input.x = Input.GetAxisRaw("Horizontal");
 				input.z = Input.GetAxisRaw("Vertical");
+				animator.SetFloat("Speed_forwardback", input.z);
+				animator.SetFloat("Speed_leftright", input.x);
 			}
 			input = Vector3.ClampMagnitude(input, 1f);
 
@@ -172,17 +180,18 @@ namespace Player {
 				inputRotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(camera.transform.forward, Vector3.up), Vector3.up);
 				moveVector = inputRotation * moveVector;
 				moveVector *= groundSpeed;
-
-				if (input.z > 0) {
+				
+				if (input.z > 0 || input.y > 0) {
 					if (!movementAudioSource.isPlaying){
 						movementAudioSource.Play();
 					}
 					//Increase Momentum when moving forward on the ground
-					momentumMeter += 0.2f;
+					momentumMeter += 0.03f;
 					if(momentumMeter > maxMeter){
 						momentumMeter = maxMeter;
 					}
 				} else { //If on the ground and not moving
+					
 					DrainMomentumMeter();
 				}
 				if(canGlide){
@@ -229,6 +238,7 @@ namespace Player {
 
 			verticalVelocity -= gravityStrength*Time.deltaTime;
 			if (Input.GetButtonDown("Jump")){
+				animator.SetTrigger("Jump");
 				if (onWall && !wallJumped){
 					jumpAudioSource.Play();
 					Vector3 reflection = Vector3.Reflect(velocity, wallNormal);
@@ -252,6 +262,8 @@ namespace Player {
 			CollisionFlags flags = controller.Move(moveVector);
 			velocity = moveVector / Time.deltaTime;
 
+			animator.SetFloat("Vertical", moveVector.y);
+
 			if ((flags & CollisionFlags.Below) != 0){
 				//groundedVelocity = Vector3.ProjectOnPlane(velocity, Vector3.up);
 				canJump = true;
@@ -274,7 +286,7 @@ namespace Player {
 		}
 
 		private void DrainMomentumMeter(){
-			momentumMeter -= 0.05f;
+			momentumMeter -= 1f;
 			if(momentumMeter < 0){
 				momentumMeter = 0;
 			}
@@ -286,6 +298,7 @@ namespace Player {
 
 		private IEnumerator GrappleCooldown(){
 			if (Findspot()){
+				animator.SetBool("Grapple", true);
 				grappleAudioSource.Play();
 				grappleOnCooldown = true;
 				cooldownImage.fillAmount = 1f;
@@ -329,6 +342,7 @@ namespace Player {
 
 			if (Vector3.Distance(transform.position, location) < 1f){
 				verticalVelocity += jumpPower;
+				animator.SetBool("Grapple", false);
 				isFlying = false;
 				canMove = true;
 				lineRenderer.enabled = false;
@@ -361,6 +375,7 @@ namespace Player {
 				if (playerData.GetHasNutFlag()){
 					return;
 				}
+				animator.SetBool("Grapple", false);
 				nutPickupAudioSource.Play();
 				playerData.CmdSetHasNutFlag(true);
 				CmdDestroyObject(col.gameObject.GetComponentInParent<NetworkIdentity>().netId);

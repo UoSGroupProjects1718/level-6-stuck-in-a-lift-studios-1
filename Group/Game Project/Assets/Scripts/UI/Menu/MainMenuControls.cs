@@ -13,18 +13,15 @@ namespace UI.Menu {
 			switch (Focus.position) {
 				case 0:
 					//Play Menu
-					Debug.Log("Play!");
 					playMenu.SetActive(true);
 					settingsMenu.SetActive(false);
 					break;
 				case 1:
 					//Options Menu
-					Debug.Log("Options!");
 					playMenu.SetActive(false);
 					settingsMenu.SetActive(true);
 					break;
 				case 2:
-					Debug.Log("Exit");
 					playMenu.SetActive(false);
 					settingsMenu.SetActive(false);
 					if (Input.GetButtonDown("Submit")){

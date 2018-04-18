@@ -123,7 +123,6 @@ namespace UI.Level {
 				if (goNuts){
 					timerText.text = "Go Nuts!";
 				} else {
-					Debug.Log(niceTime);
 					timerText.text = niceTime;
 				}
 //			} );
@@ -133,7 +132,6 @@ namespace UI.Level {
 		}
 
 		private IEnumerator NutTime(int nutTimer){
-			Debug.Log("Starting Nut Time");
 			while (nutTimer > 0) {
 				yield return new WaitForSeconds(1);
 				nutTimer --;
@@ -145,7 +143,6 @@ namespace UI.Level {
 		private void RpcStartTheGame(){
 			goNuts = true;
 			timerText.text = "Go Nuts!";
-			Debug.Log("RpcStartTheGame");
 			StartCoroutine(this.NutTime(3));
 			State.GetInstance().Level(State.LEVEL_PLAYING).Publish();
 		}
