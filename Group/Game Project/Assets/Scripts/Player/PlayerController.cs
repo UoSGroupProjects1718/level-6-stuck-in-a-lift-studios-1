@@ -12,9 +12,7 @@ namespace Player {
 		public float baseGroundSpeed = 8;
 		public float groundSpeedModifier = 1;
 		public float baseGravityStrength = 12;
-		public float gravityStrengthModifier = 1;
 		public float baseJumpPower = 9;
-		public float jumpPowerModifier = 1;
 		public float aerialSpeed = 0.1f;
 		[HideInInspector]
 		public float momentumMeter;
@@ -46,11 +44,11 @@ namespace Player {
 		private float verticalVelocity;
 		private float groundSpeed;
 		private float gravityStrength;
-		private float jumpPower;
+		private float jumpInputTime = 0f;
 		private Image cooldownImage;
 		private Image crosshairImage;
 		private int maxMeter = 100;
-		private int mSpeed = 16;
+		private int maxSpeed = 16;
 		private int mAirSpeed = 20;
 		private PlayerDataForClients playerData;
 		private Quaternion inputRotation;
@@ -170,74 +168,56 @@ namespace Player {
 			if (!wallJumped){
 				input.x = Input.GetAxisRaw("Horizontal");
 				input.z = Input.GetAxisRaw("Vertical");
-				animator.SetFloat("Speed_forwardback", input.z);
-				animator.SetFloat("Speed_leftright", input.x);
 			}
 			input = Vector3.ClampMagnitude(input, 1f);
 
-			if (controller.isGrounded){
-				moveVector = input;
-				inputRotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(camera.transform.forward, Vector3.up), Vector3.up);
-				moveVector = inputRotation * moveVector;
-				moveVector *= groundSpeed;
-				
-				if (input.z > 0 || input.y > 0) {
+			//Do the running part
+			if (controller.isGrounded){ //On the ground
+				if (controller.velocity.magnitude > 0) { //Are we on the ground and moving?
 					if (!movementAudioSource.isPlaying){
 						movementAudioSource.Play();
 					}
 					//Increase Momentum when moving forward on the ground
-					momentumMeter += 0.03f;
+//					momentumMeter += 0.03f;
+					momentumMeter +=0.1f;
 					if(momentumMeter > maxMeter){
 						momentumMeter = maxMeter;
 					}
 				} else { //If on the ground and not moving
-					
 					DrainMomentumMeter();
 				}
-				if(canGlide){
-					gravityStrength = baseGravityStrength;
-				groundSpeed = baseGroundSpeed + (momentumMeter / 10);
-					if (mSpeed < groundSpeed) {
-						groundSpeed = mSpeed;
-					}
-
-					if (momentumMeter <= 10){
-						jumpPower = baseJumpPower;
-					} else {
-						jumpPower = baseJumpPower + (jumpPowerModifier * (momentumMeter/20f));
-					}
-				}
-			} else {
-				DrainMomentumMeter();
-				if (canGlide) {
-					gravityStrength = baseGravityStrength;
-					if (Input.GetKeyDown(KeyCode.E)){
-						canGlide = false;
-					}
-				} else {
+			} else { //In the Air
+				DrainMomentumMeter(); //We lose momentum when not on the ground
 				groundSpeed = (baseGroundSpeed-1) + (momentumMeter / 10);
-					if (mAirSpeed < groundSpeed) {
-						groundSpeed = mAirSpeed;
-					}
-
-					if (momentumMeter <= 10) {
-						gravityStrength = baseGravityStrength;
-						momentumMeter = 0;
-					} else {
-						gravityStrength = baseGravityStrength - (gravityStrengthModifier * (momentumMeter/10f));
-					}
+				if (mAirSpeed < groundSpeed) {
+					groundSpeed = mAirSpeed;
 				}
-
-				moveVector = input;
-				inputRotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(camera.transform.forward, Vector3.up), Vector3.up);
-				moveVector = inputRotation * moveVector;
-				moveVector *= groundSpeed;
 			}
-			moveVector = Vector3.ClampMagnitude(moveVector, groundSpeed);
-			moveVector *= Time.deltaTime;
 
-			verticalVelocity -= gravityStrength*Time.deltaTime;
-			if (Input.GetButtonDown("Jump")){
+			if (controller.velocity.y > 0){ // Going UP
+				gravityStrength = baseGravityStrength;
+			} else if (controller.velocity.y < 0){ // Coming DOWN
+				if (!Input.GetButton("Jump")){ // drop faster when not gliding
+					gravityStrength = baseGravityStrength * 2f;
+				} else { // drop slower when gliding
+					gravityStrength = baseGravityStrength * (0.7f - (momentumMeter/10f));
+				}
+			}
+
+			//Do the jump part
+			if ((controller.isGrounded || jumpInputTime > 0f) && Input.GetButton("Jump") && jumpInputTime < 0.3f) {
+				jumpInputTime += Time.deltaTime;
+			} else {
+				jumpInputTime = 0f;
+			}
+
+			if (jumpInputTime > 0f){
+				verticalVelocity += baseJumpPower;
+			}else {
+				verticalVelocity -= gravityStrength * Time.deltaTime;
+			}
+
+			if (canJump){
 				animator.SetTrigger("Jump");
 				if (onWall && !wallJumped){
 					jumpAudioSource.Play();
@@ -246,23 +226,37 @@ namespace Player {
 					groundedVelocity = (projected.normalized + wallNormal)/15f * aerialSpeed;
 					wallJumped = true;
 				}
-				if (canJump){
-					verticalVelocity = jumpPower;
-					moveVector.y = verticalVelocity;
-				}
 			}
+
+			moveVector = input;
+			inputRotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(camera.transform.forward, Vector3.up), Vector3.up);
+			moveVector = inputRotation * moveVector;
+			moveVector *= groundSpeed;
+
+			moveVector = Vector3.ClampMagnitude(moveVector, groundSpeed);
+			moveVector *= Time.deltaTime;
 
 			if (!onWall && wallJumped){
 				wallJumped = false;
 			}
 
 			moveVector.y = verticalVelocity * Time.deltaTime;
-			moveVector += groundedVelocity;
+			moveVector.x += groundedVelocity.x;
+			moveVector.z += groundedVelocity.z;
+
 
 			CollisionFlags flags = controller.Move(moveVector);
 			velocity = moveVector / Time.deltaTime;
 
-			animator.SetFloat("Vertical", moveVector.y);
+			animator.SetFloat("Speed", controller.velocity.magnitude);
+
+			RaycastHit hit = new RaycastHit();
+			if (Physics.Raycast (transform.position, -Vector3.up, out hit)) {
+				var distanceToGround = hit.distance;
+				float timeToGround = Mathf.Abs(distanceToGround / controller.velocity.y);
+				Debug.Log("Time to Ground = " + timeToGround);
+				animator.SetFloat("Vertical", timeToGround);
+			}
 
 			if ((flags & CollisionFlags.Below) != 0){
 				//groundedVelocity = Vector3.ProjectOnPlane(velocity, Vector3.up);
@@ -341,7 +335,7 @@ namespace Player {
 			lineRenderer.SetPosition(0, hand.position);
 
 			if (Vector3.Distance(transform.position, location) < 1f){
-				verticalVelocity += jumpPower;
+				verticalVelocity += baseJumpPower;
 				animator.SetBool("Grapple", false);
 				isFlying = false;
 				canMove = true;
