@@ -13,14 +13,13 @@ namespace Player {
 		public float groundSpeedModifier = 1;
 		public float baseGravityStrength = 12;
 		public float baseJumpPower = 9;
-        public float jumpTime = 0.3f;
 		public float aerialSpeed = 0.1f;
+		[HideInInspector]
 		public float momentumMeter;
 		public float grappleSpeed = 10f;
 		public float grappleCooldownTime = 2f;
-        public int maxDistance;
-
-        public GameObject crosshairPrefab;
+		public GameObject crosshairPrefab;
+		public int maxDistance;
 		public LayerMask cullingmask;
 		public LineRenderer lineRenderer;
 		public Transform hand;
@@ -48,20 +47,22 @@ namespace Player {
 		private float jumpInputTime = 0f;
 		private Image cooldownImage;
 		private Image crosshairImage;
-        private int airSpeed = 20;
-        private int maxMeter = 100;
+		private int maxMeter = 100;
+		private int maxSpeed = 16;
+		private int mAirSpeed = 20;
 		private PlayerDataForClients playerData;
 		private Quaternion inputRotation;
 		private RaycastHit hit;
 		private Text scoreText;
 		private Transform nutTransform;
-        private Vector3 groundedVelocity;
-        private Vector3 input;
-        private Vector3 location;
+		private Vector3 location;
+		private Vector3 input;
+		private Vector3 groundedVelocity;
+		private Vector3 moveVector;
+		private Vector3 wallNormal;
 		private Vector3 velocity;
-        private Vector3 wallNormal;
 
-        void Start () {
+		void Start () {
 			if (!isLocalPlayer){
 				return;
 			}
@@ -109,20 +110,7 @@ namespace Player {
 				Cursor.lockState = CursorLockMode.None;
 			}
 
-            LookInput();
-
-            animator.SetFloat("Speed", controller.velocity.magnitude);
-
-            RaycastHit hit = new RaycastHit();
-            if (Physics.Raycast(transform.position, -Vector3.up, out hit))
-            {
-                var distanceToGround = hit.distance;
-                float timeToGround = Mathf.Abs(distanceToGround / controller.velocity.y);
-                Debug.Log("Time to Ground = " + timeToGround);
-                animator.SetFloat("Vertical", timeToGround);
-            }
-
-            MovePlayer();
+			MovePlayer();
 
 			if (Input.GetMouseButtonDown(0)){
 				if (!grappleOnCooldown){
@@ -130,14 +118,14 @@ namespace Player {
 				}
 			}
 
-			if (isFlying) {
+			if (isFlying){
 				Flying();
-				if (Input.GetMouseButtonDown(1)) {
-				    isFlying = false;
-				    canMove = true;
-				    lineRenderer.enabled = false;
+				if (Input.GetMouseButtonDown(1)){
+				isFlying = false;
+				canMove = true;
+				lineRenderer.enabled = false;
 				}
-			} else if (playerData.GetHasNutFlag()) {
+			} else if (playerData.GetHasNutFlag()){
 				lineRenderer.enabled = false;
 			}
 
@@ -154,130 +142,123 @@ namespace Player {
 			}
 		}
 
-        private void LookInput()
-        {
-            //Look Input
-            if (Input.GetButtonDown("Cancel"))
-            {
-                menuToggled = !menuToggled;
-            }
-            if (menuToggled)
-            {
-                //TODO Show options to quit game
-                return;
-            }
-
-            Ray ray = new Ray(camera.transform.position, camera.transform.forward); //camera.ScreenPointToRay(Input.mousePosition);
-            Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-            float rayDistance;
-
-            if (groundPlane.Raycast(ray, out rayDistance))
-            {
-                Vector3 point = ray.GetPoint(rayDistance);
-                transform.LookAt(point);
-            }
-        }
-
 		private void MovePlayer(){
-			animator.SetBool("isGrounded", controller.isGrounded);
-
-			if (!canMove || !playerData.GetCanMoveFlag()) {
+			//Look Input
+			if (Input.GetButtonDown("Cancel")){
+				menuToggled = !menuToggled;
+			}
+			if (menuToggled){
 				return;
 			}
-			if (!wallJumped) {
+
+			Ray ray = new Ray(camera.transform.position, camera.transform.forward); //camera.ScreenPointToRay(Input.mousePosition);
+			Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+			float rayDistance;
+
+			if (groundPlane.Raycast(ray, out rayDistance)){
+				Vector3 point = ray.GetPoint(rayDistance);
+				transform.LookAt(point);
+			}
+
+			animator.SetBool("isGrounded", controller.isGrounded);
+
+			if (!canMove || !playerData.GetCanMoveFlag()){
+				return;
+			}
+			if (!wallJumped){
 				input.x = Input.GetAxisRaw("Horizontal");
 				input.z = Input.GetAxisRaw("Vertical");
 			}
 			input = Vector3.ClampMagnitude(input, 1f);
 
-            #region Momentum
-            //Do the running part
-            if (controller.isGrounded){ //On the ground
-                groundSpeed = baseGroundSpeed + (momentumMeter / 10);
-				if (controller.velocity.magnitude > 0) {
+			//Do the running part
+			if (controller.isGrounded){ //On the ground
+				if (controller.velocity.magnitude > 0) { //Are we on the ground and moving?
 					if (!movementAudioSource.isPlaying){
 						movementAudioSource.Play();
 					}
 					//Increase Momentum when moving forward on the ground
 //					momentumMeter += 0.03f;
-					momentumMeter += 0.1f;
-					if (momentumMeter > maxMeter){
+					momentumMeter +=0.1f;
+					if(momentumMeter > maxMeter){
 						momentumMeter = maxMeter;
 					}
 				} else { //If on the ground and not moving
 					DrainMomentumMeter();
 				}
-			} else { //We lose momentum when not on the ground
-				DrainMomentumMeter();
-				groundSpeed = (baseGroundSpeed - 1) + (momentumMeter / 10);
-				if (airSpeed < groundSpeed) {
-					groundSpeed = airSpeed;
+			} else { //In the Air
+				DrainMomentumMeter(); //We lose momentum when not on the ground
+				groundSpeed = (baseGroundSpeed-1) + (momentumMeter / 10);
+				if (mAirSpeed < groundSpeed) {
+					groundSpeed = mAirSpeed;
 				}
 			}
-            #endregion
 
-            #region Gravity
-            if (controller.velocity.y > 0) { // Going UP
-                //normal gravity when going up
+			if (controller.velocity.y > 0){ // Going UP
 				gravityStrength = baseGravityStrength;
 			} else if (controller.velocity.y < 0){ // Coming DOWN
-				if (!Input.GetButton("Jump")) {
-                    // drop faster when falling
-					gravityStrength = baseGravityStrength * 1.5f;
-				} else {
-                    // drop slower when gliding
+				if (!Input.GetButton("Jump")){ // drop faster when not gliding
+					gravityStrength = baseGravityStrength * 2f;
+				} else { // drop slower when gliding
 					gravityStrength = baseGravityStrength * (0.7f - (momentumMeter/10f));
 				}
 			}
-            #endregion
 
-            #region Jumping
-            if ((controller.isGrounded || jumpInputTime > 0f) && Input.GetButton("Jump") && jumpInputTime < jumpTime) {
+			//Do the jump part
+			if ((controller.isGrounded || jumpInputTime > 0f) && Input.GetButton("Jump") && jumpInputTime < 0.3f) {
 				jumpInputTime += Time.deltaTime;
 			} else {
 				jumpInputTime = 0f;
 			}
 
-			if (jumpInputTime > 0f) {
-                animator.SetTrigger("Jump");
-                jumpAudioSource.Play();
-                verticalVelocity += baseJumpPower;
-
-                //Walljumping
-                if (canJump) {
-                    if (onWall && !wallJumped) {
-                        Vector3 reflection = Vector3.Reflect(velocity, wallNormal);
-                        Vector3 projected = Vector3.ProjectOnPlane(reflection, Vector3.up);
-                        groundedVelocity = (projected.normalized + wallNormal) / 15f * aerialSpeed;
-                        wallJumped = true;
-                    }
-                }
-            } else {
+			if (jumpInputTime > 0f){
+				verticalVelocity += baseJumpPower;
+			}else {
 				verticalVelocity -= gravityStrength * Time.deltaTime;
 			}
 
-            if (!onWall && wallJumped) {
-                wallJumped = false;
-            }
-            #endregion
+			if (canJump){
+				animator.SetTrigger("Jump");
+				if (onWall && !wallJumped){
+					jumpAudioSource.Play();
+					Vector3 reflection = Vector3.Reflect(velocity, wallNormal);
+					Vector3 projected = Vector3.ProjectOnPlane(reflection, Vector3.up);
+					groundedVelocity = (projected.normalized + wallNormal)/15f * aerialSpeed;
+					wallJumped = true;
+				}
+			}
 
-            Vector3 moveVector = input;
+			moveVector = input;
 			inputRotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(camera.transform.forward, Vector3.up), Vector3.up);
 			moveVector = inputRotation * moveVector;
+			moveVector *= groundSpeed;
 
-            moveVector *= groundSpeed;
-//			moveVector = Vector3.ClampMagnitude(moveVector, groundSpeed); //Not sure this is helping
+			moveVector = Vector3.ClampMagnitude(moveVector, groundSpeed);
+			moveVector *= Time.deltaTime;
 
-            moveVector.y = verticalVelocity;// * Time.deltaTime;
+			if (!onWall && wallJumped){
+				wallJumped = false;
+			}
+
+			moveVector.y = verticalVelocity * Time.deltaTime;
 			moveVector.x += groundedVelocity.x;
 			moveVector.z += groundedVelocity.z;
 
-            moveVector *= Time.deltaTime; //moved this down from being after clamp magnitude
 
-            CollisionFlags flags = controller.Move(moveVector);
-            velocity = moveVector / Time.deltaTime;
+			CollisionFlags flags = controller.Move(moveVector);
+			velocity = moveVector / Time.deltaTime;
 
-            if ((flags & CollisionFlags.Below) != 0){
+			animator.SetFloat("Speed", controller.velocity.magnitude);
+
+			RaycastHit hit = new RaycastHit();
+			if (Physics.Raycast (transform.position, -Vector3.up, out hit)) {
+				var distanceToGround = hit.distance;
+				float timeToGround = Mathf.Abs(distanceToGround / controller.velocity.y);
+				Debug.Log("Time to Ground = " + timeToGround);
+				animator.SetFloat("Vertical", timeToGround);
+			}
+
+			if ((flags & CollisionFlags.Below) != 0){
 				//groundedVelocity = Vector3.ProjectOnPlane(velocity, Vector3.up);
 				canJump = true;
 				canGlide = true;
@@ -296,9 +277,9 @@ namespace Player {
 					verticalVelocity = 0f;
 				}
 			}
-        }
+		}
 
-        private void DrainMomentumMeter(){
+		private void DrainMomentumMeter(){
 			momentumMeter -= 1f;
 			if(momentumMeter < 0){
 				momentumMeter = 0;
