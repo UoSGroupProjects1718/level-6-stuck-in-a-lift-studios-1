@@ -2,6 +2,7 @@ using GameState;
 using Player.SyncedData;
 using System.Collections;
 using System.Collections.Generic;
+using UI.Level;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -146,6 +147,9 @@ namespace Level {
 				Debug.Log("Target Player Found! Attacking!");
 				targetPlayer = player;
 				isAttacking = true;
+				foreach (GameObject p in playersInScene){
+					p.GetComponent<Hint>().ShowHintEagle(true);
+				}
 			} else {
 				Debug.Log("No Target Found :(");
 				StartCoroutine(this.AttackTimer(Random.Range(attackIntervalMinSec, attackIntervalMaxSec)));
@@ -224,6 +228,7 @@ namespace Level {
 			foreach (GameObject p in playersInScene){
 				PlayerDataForClients playerData = p.GetComponent<PlayerDataForClients>();
 				playerData.SetEagleTarget(0);
+				p.GetComponent<Hint>().ShowHintEagle(false);
 			}
 		}
 

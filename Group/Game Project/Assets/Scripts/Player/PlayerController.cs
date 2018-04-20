@@ -2,6 +2,7 @@
 using Nut;
 using Player.SyncedData;
 using System.Collections;
+using UI.Level;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -107,9 +108,12 @@ namespace Player {
 					Cursor.lockState = CursorLockMode.None;
 				}
 			} else {
+				GetComponent<Hint>().ShowHintObjective(true);
+				StartCoroutine(ShowHintCooldown("Objective"));
 				Cursor.lockState = CursorLockMode.None;
 			}
 
+			GetComponent<Hint>().ShowHintMove(true);
 			MovePlayer();
 
 			if (Input.GetMouseButtonDown(0)){
@@ -140,6 +144,17 @@ namespace Player {
 				lineRenderer.SetPosition(0, hand.position);
 				lineRenderer.SetPosition(1, nutTransform.position);
 			}
+
+			animator.SetFloat("Speed", controller.velocity.magnitude);
+			float timeToGround = 0;
+			if (!controller.isGrounded){
+			RaycastHit hit = new RaycastHit();
+				if (Physics.Raycast (transform.position, -Vector3.up, out hit)) {
+					var distanceToGround = hit.distance;
+					timeToGround = Mathf.Abs(distanceToGround / controller.velocity.y);
+				}
+			}
+			animator.SetFloat("Vertical", timeToGround);
 		}
 
 		private void MovePlayer(){
@@ -174,6 +189,8 @@ namespace Player {
 			//Do the running part
 			if (controller.isGrounded){ //On the ground
 				if (controller.velocity.magnitude > 0) { //Are we on the ground and moving?
+					GetComponent<Hint>().ShowHintMove(false);
+					GetComponent<Hint>().ShowHintJump(true);
 					if (!movementAudioSource.isPlaying){
 						movementAudioSource.Play();
 					}
@@ -212,20 +229,22 @@ namespace Player {
 			}
 
 			if (jumpInputTime > 0f){
-				verticalVelocity += baseJumpPower;
-			}else {
-				verticalVelocity -= gravityStrength * Time.deltaTime;
-			}
-
-			if (canJump){
+				verticalVelocity = baseJumpPower;
 				animator.SetTrigger("Jump");
+				GetComponent<Hint>().ShowHintJump(false);
+				GetComponent<Hint>().ShowHintGlide(true);
+				StartCoroutine(ShowHintCooldown("Glide"));
+				jumpAudioSource.Play();
+				if (canJump){
 				if (onWall && !wallJumped){
-					jumpAudioSource.Play();
 					Vector3 reflection = Vector3.Reflect(velocity, wallNormal);
 					Vector3 projected = Vector3.ProjectOnPlane(reflection, Vector3.up);
 					groundedVelocity = (projected.normalized + wallNormal)/15f * aerialSpeed;
 					wallJumped = true;
 				}
+			}
+			}else {
+				verticalVelocity -= gravityStrength * Time.deltaTime;
 			}
 
 			moveVector = input;
@@ -247,16 +266,6 @@ namespace Player {
 
 			CollisionFlags flags = controller.Move(moveVector);
 			velocity = moveVector / Time.deltaTime;
-
-			animator.SetFloat("Speed", controller.velocity.magnitude);
-
-			RaycastHit hit = new RaycastHit();
-			if (Physics.Raycast (transform.position, -Vector3.up, out hit)) {
-				var distanceToGround = hit.distance;
-				float timeToGround = Mathf.Abs(distanceToGround / controller.velocity.y);
-				Debug.Log("Time to Ground = " + timeToGround);
-				animator.SetFloat("Vertical", timeToGround);
-			}
 
 			if ((flags & CollisionFlags.Below) != 0){
 				//groundedVelocity = Vector3.ProjectOnPlane(velocity, Vector3.up);
@@ -295,6 +304,7 @@ namespace Player {
 				animator.SetBool("Grapple", true);
 				grappleAudioSource.Play();
 				grappleOnCooldown = true;
+				GetComponent<Hint>().ShowHintGrappleButton(false);
 				cooldownImage.fillAmount = 1f;
 				float elapsed = 0.0f;
 				while (elapsed < grappleCooldownTime){
@@ -304,6 +314,9 @@ namespace Player {
 				}
 				grappleOnCooldown = false;
 				cooldownImage.fillAmount = 0f;
+			} else {
+				GetComponent<Hint>().ShowHintGrappleNope(true);
+				StartCoroutine(ShowHintCooldown("Nope"));
 			}
 		}
 
@@ -311,8 +324,11 @@ namespace Player {
 			if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, maxDistance, cullingmask)){
 				if (hit.transform.gameObject.tag == "Nut"){
 					if (playerData.GetHasNutFlag()){
+						GetComponent<Hint>().ShowHintOnlyOne(true);
+						StartCoroutine(ShowHintCooldown("One"));
 						return false;
 					}
+					GetComponent<Hint>().ShowHintGrappleNut(true);
 					nutTransform = hit.transform;
 					nutTransform.gameObject.GetComponentInParent<NutSpin>().ToggleRotation(false);
 					nutTransform.rotation = Quaternion.identity;
@@ -355,6 +371,7 @@ namespace Player {
 			if (crosshairPrefab != null) {
 				if (enabled){
 					crosshairImage.color = Color.green;
+					GetComponent<Hint>().ShowHintGrappleButton(true);
 				} else {
 					crosshairImage.color = Color.red;
 				}
@@ -373,14 +390,47 @@ namespace Player {
 				nutPickupAudioSource.Play();
 				playerData.CmdSetHasNutFlag(true);
 				CmdDestroyObject(col.gameObject.GetComponentInParent<NetworkIdentity>().netId);
+				GetComponent<Hint>().ShowHintGrappleNut(false);
 				scoreText.text = "Nutted!";
+				GetComponent<Hint>().ShowHintBack(true);
+				StartCoroutine(ShowHintCooldown("Back"));
 			}
 			if (col.transform.tag == "Checkpoint"){
 				if (playerData.GetHasNutFlag()){
 					StartCoroutine(ScoreTextCooldown());
 					playerData.CmdIncrementScore();
 					playerData.CmdSetHasNutFlag(false);
+					GetComponent<Hint>().ShowHintAnother(true);
+					StartCoroutine(ShowHintCooldown("Another"));
 				}
+			}
+		}
+
+		private IEnumerator ShowHintCooldown(string name){
+			float elapsed = 0.0f;
+			while (elapsed < 1f){
+				elapsed += Time.deltaTime;
+				yield return null;
+			}
+			switch (name){
+				case "One":
+					GetComponent<Hint>().ShowHintOnlyOne(false);
+					break;
+				case "Nope":
+					GetComponent<Hint>().ShowHintGrappleNope(false);
+					break;
+				case "Back":
+					GetComponent<Hint>().ShowHintBack(false);
+					break;
+				case "Another":
+					GetComponent<Hint>().ShowHintAnother(false);
+					break;
+				case "Glide":
+					GetComponent<Hint>().ShowHintGlide(false);
+					break;
+				case "Objective":
+					GetComponent<Hint>().ShowHintObjective(false);
+					break;
 			}
 		}
 
