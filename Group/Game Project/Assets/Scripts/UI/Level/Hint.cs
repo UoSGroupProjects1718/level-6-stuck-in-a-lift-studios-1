@@ -21,7 +21,7 @@ namespace UI.Level {
 
 		public int maxPanelOpacity;
 		public int maxTextOpacity;
-		public int fadeTime;
+		public float fadeTime;
 
 		private Text hintText;
 		private Image hintPanel;
@@ -31,6 +31,7 @@ namespace UI.Level {
 		private int showJumpCount = 0;
 		private int showGlideCount = 0;
 		private int showGrappleButtonCount = 0;
+		private int showGrappleNopeCount = 0;
 		private int showObjectiveCount = 0;
 		private int showOnlyOneCount = 0;
 		private int showGrappleNutCount = 0;
@@ -81,7 +82,7 @@ namespace UI.Level {
 		}
 
 		public void ShowHintGrappleButton(bool show){
-			if (showGrappleButtonCount++ > 4){
+			if (showGrappleButtonCount++ > 3){
 				return;
 			}
 			hintText.text = grappleButton;
@@ -89,6 +90,9 @@ namespace UI.Level {
 		}
 
 		public void ShowHintGrappleNope(bool show){
+			if (showGrappleNopeCount++ > 3){
+				return;
+			}
 			hintText.text = grappleNope;
 			Fade(show);
 		}
@@ -126,7 +130,7 @@ namespace UI.Level {
 		}
 
 		public void ShowHintAnother(bool show){
-			if (showAnotherCount++ > 2){
+			if (showAnotherCount++ > 1){
 				return;
 			}
 			hintText.text = another;

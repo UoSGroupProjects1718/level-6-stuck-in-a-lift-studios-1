@@ -14,6 +14,9 @@ namespace UI.Level {
 		public Sprite withoutNut;
 		public Sprite withNutIcon;
 		public Sprite withoutNutIcon;
+		public Color treeIconColour;
+		public Color spawnIconColour;
+		public Color disabledColour;
 		public Color[] playerColours = new Color[5];
 
 		private PlayerDataForClients playerData;
@@ -23,6 +26,9 @@ namespace UI.Level {
 		private Text positionText;
 		private RectTransform spawnIcon;
 		private RectTransform treeIcon;
+
+		private bool spawnFlashing = false;
+		private bool treeFlashing = false;
 
         void Start () {
 			if (!isLocalPlayer){
@@ -86,6 +92,18 @@ namespace UI.Level {
 				SetTeamColour(pData.GetTeam(), playerIconListObjs[i]);
 				i++;
 			}
+
+			float alpha = (Mathf.PingPong(Time.time, 0.5f) / 0.5f) + 0.1f;
+			Image spawnImage = spawnIcon.gameObject.GetComponent<Image>();
+			Image treeImage = treeIcon.gameObject.GetComponent<Image>();
+
+			if (GetComponent<PlayerDataForClients>().GetHasNutFlag()){
+					spawnImage.color = new Color(spawnIconColour.r, spawnIconColour.g, spawnIconColour.b, alpha);
+					treeImage.color = disabledColour;
+				} else {
+					spawnImage.color = disabledColour;
+					treeImage.color = new Color(treeIconColour.r, treeIconColour.g, treeIconColour.b, alpha);
+				}
 		}
 
 		private void SetRank(){

@@ -125,9 +125,10 @@ namespace Player {
 			if (isFlying){
 				Flying();
 				if (Input.GetMouseButtonDown(1)){
-				isFlying = false;
-				canMove = true;
-				lineRenderer.enabled = false;
+					animator.SetBool("Grapple", false);
+					isFlying = false;
+					canMove = true;
+					lineRenderer.enabled = false;
 				}
 			} else if (playerData.GetHasNutFlag()){
 				lineRenderer.enabled = false;
@@ -166,7 +167,7 @@ namespace Player {
 				return;
 			}
 
-			Ray ray = new Ray(camera.transform.position, camera.transform.forward); //camera.ScreenPointToRay(Input.mousePosition);
+			Ray ray = new Ray(camera.transform.position, camera.transform.forward);
 			Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
 			float rayDistance;
 
@@ -181,8 +182,8 @@ namespace Player {
 				return;
 			}
 			if (!wallJumped){
-				input.x = Input.GetAxisRaw("Horizontal");
 				input.z = Input.GetAxisRaw("Vertical");
+				input.x = Input.GetAxisRaw("Horizontal");
 			}
 			input = Vector3.ClampMagnitude(input, 1f);
 
@@ -196,7 +197,7 @@ namespace Player {
 					}
 					//Increase Momentum when moving forward on the ground
 //					momentumMeter += 0.03f;
-					momentumMeter +=0.1f;
+					momentumMeter += 0.1f;
 					if(momentumMeter > maxMeter){
 						momentumMeter = maxMeter;
 					}
@@ -217,11 +218,20 @@ namespace Player {
 				if (!Input.GetButton("Jump")){ // drop faster when not gliding
 					gravityStrength = baseGravityStrength * 2f;
 				} else { // drop slower when gliding
-					gravityStrength = baseGravityStrength * (0.7f - (momentumMeter/10f));
+					gravityStrength = baseGravityStrength * (0.5f - (momentumMeter/10f));
 				}
 			}
 
 			//Do the jump part
+			if (Input.GetButtonDown("Jump")){
+				if (onWall && !wallJumped){
+					Vector3 reflection = Vector3.Reflect(velocity, wallNormal);
+					Vector3 projected = Vector3.ProjectOnPlane(reflection, Vector3.up);
+					groundedVelocity = (projected.normalized + wallNormal)/15f * aerialSpeed;
+					wallJumped = true;
+				}
+			}
+
 			if ((controller.isGrounded || jumpInputTime > 0f) && Input.GetButton("Jump") && jumpInputTime < 0.3f) {
 				jumpInputTime += Time.deltaTime;
 			} else {
@@ -230,21 +240,15 @@ namespace Player {
 
 			if (jumpInputTime > 0f){
 				verticalVelocity = baseJumpPower;
+				groundSpeed = (baseGroundSpeed + (momentumMeter / 10)) * 1.5f;
 				animator.SetTrigger("Jump");
 				GetComponent<Hint>().ShowHintJump(false);
 				GetComponent<Hint>().ShowHintGlide(true);
 				StartCoroutine(ShowHintCooldown("Glide"));
 				jumpAudioSource.Play();
-				if (canJump){
-				if (onWall && !wallJumped){
-					Vector3 reflection = Vector3.Reflect(velocity, wallNormal);
-					Vector3 projected = Vector3.ProjectOnPlane(reflection, Vector3.up);
-					groundedVelocity = (projected.normalized + wallNormal)/15f * aerialSpeed;
-					wallJumped = true;
-				}
-			}
-			}else {
+			} else {
 				verticalVelocity -= gravityStrength * Time.deltaTime;
+				groundSpeed = baseGroundSpeed + (momentumMeter / 10);
 			}
 
 			moveVector = input;
@@ -260,15 +264,13 @@ namespace Player {
 			}
 
 			moveVector.y = verticalVelocity * Time.deltaTime;
-			moveVector.x += groundedVelocity.x;
-			moveVector.z += groundedVelocity.z;
-
+			moveVector += groundedVelocity;
 
 			CollisionFlags flags = controller.Move(moveVector);
 			velocity = moveVector / Time.deltaTime;
 
 			if ((flags & CollisionFlags.Below) != 0){
-				//groundedVelocity = Vector3.ProjectOnPlane(velocity, Vector3.up);
+//				groundedVelocity = Vector3.ProjectOnPlane(velocity, Vector3.up);
 				canJump = true;
 				canGlide = true;
 				onWall = false;
@@ -337,6 +339,13 @@ namespace Player {
 					isFlying = true;
 					groundedVelocity = Vector3.zero;
 					canMove = false;
+					GameObject grappleTarget = hit.transform.gameObject;
+					grappleTarget.GetComponent<Collider>().enabled = false;
+					float distance = Vector3.Distance(transform.position, hit.point) + 1;
+					float velocity = controller.velocity.magnitude + 1;
+					int timeToTarget = (int)(distance/velocity) + 1;
+					StartCoroutine(GrappleTargetCooldown(grappleTarget, timeToTarget + 1));
+					Debug.Log("Grapple Target: " + grappleTarget.name + " Distance: " + distance +  " Velocity: " + velocity + " TimeToTarget: " + timeToTarget);
 				}
 				location = hit.point;
 				lineRenderer.enabled = true;
@@ -351,7 +360,7 @@ namespace Player {
 			lineRenderer.SetPosition(0, hand.position);
 
 			if (Vector3.Distance(transform.position, location) < 1f){
-				verticalVelocity += baseJumpPower;
+				verticalVelocity += 10f;
 				animator.SetBool("Grapple", false);
 				isFlying = false;
 				canMove = true;
@@ -404,6 +413,16 @@ namespace Player {
 					StartCoroutine(ShowHintCooldown("Another"));
 				}
 			}
+		}
+
+		private IEnumerator GrappleTargetCooldown(GameObject grappleTarget, int time){
+			Debug.Log("Disabling collider");
+			float elapsed = 0.0f;
+			while (elapsed < time){
+				elapsed += Time.deltaTime;
+				yield return null;
+			}
+			grappleTarget.gameObject.GetComponent<Collider>().enabled = true;
 		}
 
 		private IEnumerator ShowHintCooldown(string name){
