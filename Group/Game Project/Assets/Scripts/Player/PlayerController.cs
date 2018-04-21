@@ -345,7 +345,6 @@ namespace Player {
 					float velocity = controller.velocity.magnitude + 1;
 					int timeToTarget = (int)(distance/velocity) + 1;
 					StartCoroutine(GrappleTargetCooldown(grappleTarget, timeToTarget + 1));
-					Debug.Log("Grapple Target: " + grappleTarget.name + " Distance: " + distance +  " Velocity: " + velocity + " TimeToTarget: " + timeToTarget);
 				}
 				location = hit.point;
 				lineRenderer.enabled = true;
@@ -416,7 +415,6 @@ namespace Player {
 		}
 
 		private IEnumerator GrappleTargetCooldown(GameObject grappleTarget, int time){
-			Debug.Log("Disabling collider");
 			float elapsed = 0.0f;
 			while (elapsed < time){
 				elapsed += Time.deltaTime;
