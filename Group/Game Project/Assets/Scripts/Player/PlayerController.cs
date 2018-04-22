@@ -46,6 +46,7 @@ namespace Player {
 		private float groundSpeed;
 		private float gravityStrength;
 		private float jumpInputTime = 0f;
+		private float idleTime = 0f;
 		private Image cooldownImage;
 		private Image crosshairImage;
 		private int maxMeter = 100;
@@ -159,6 +160,7 @@ namespace Player {
 				}
 			}
 			animator.SetFloat("Vertical", timeToGround);
+			animator.SetBool("isIdle", idleTime > 2f);
 		}
 
 		private void MovePlayer(){
@@ -204,10 +206,13 @@ namespace Player {
 					if(momentumMeter > maxMeter){
 						momentumMeter = maxMeter;
 					}
+					idleTime = 0f;
 				} else { //If on the ground and not moving
 					DrainMomentumMeter();
+					idleTime += Time.deltaTime;
 				}
 			} else { //In the Air
+				idleTime = 0f;
 				DrainMomentumMeter(); //We lose momentum when not on the ground
 				groundSpeed = (baseGroundSpeed-1) + (momentumMeter / 10);
 				if (mAirSpeed < groundSpeed) {
@@ -270,7 +275,9 @@ namespace Player {
 			moveVector += groundedVelocity;
 
 			CollisionFlags flags = controller.Move(moveVector);
-			transform.rotation = Quaternion.LookRotation(moveVector);
+			if (controller.velocity.magnitude > 0.1f && controller.isGrounded){
+				transform.rotation = Quaternion.LookRotation(moveVector);
+			}
 			velocity = moveVector / Time.deltaTime;
 
 			if ((flags & CollisionFlags.Below) != 0){
