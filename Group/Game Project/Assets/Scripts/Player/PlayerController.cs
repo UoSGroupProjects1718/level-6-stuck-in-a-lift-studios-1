@@ -150,16 +150,10 @@ namespace Player {
 				lineRenderer.SetPosition(1, nutTransform.position);
 			}
 
-			animator.SetFloat("Speed", controller.velocity.magnitude);
-			float timeToGround = 0;
-			if (!controller.isGrounded){
-			RaycastHit hit = new RaycastHit();
-				if (Physics.Raycast (transform.position, -Vector3.up, out hit)) {
-					var distanceToGround = hit.distance;
-					timeToGround = Mathf.Abs(distanceToGround / controller.velocity.y);
-				}
+			if (controller.isGrounded){
+				animator.SetFloat("Speed", controller.velocity.magnitude);
 			}
-			animator.SetFloat("Vertical", timeToGround);
+			animator.SetFloat("Vertical", controller.velocity.y);
 			animator.SetBool("isIdle", idleTime > 2f);
 		}
 
@@ -247,14 +241,17 @@ namespace Player {
 			}
 
 			if (jumpInputTime > 0f){
+				if (jumpInputTime > 0.02f) {
+					animator.SetBool("isJumping", true);
+				}
 				verticalVelocity = baseJumpPower;
 				groundSpeed = (baseGroundSpeed + (momentumMeter / 10)) * 1.5f;
-				animator.SetTrigger("Jump");
 				GetComponent<Hint>().ShowHintJump(false);
 				GetComponent<Hint>().ShowHintGlide(true);
 				StartCoroutine(ShowHintCooldown("Glide"));
 				jumpAudioSource.Play();
 			} else {
+				animator.SetBool("isJumping", false);
 				verticalVelocity -= gravityStrength * Time.deltaTime;
 				groundSpeed = baseGroundSpeed + (momentumMeter / 10);
 			}

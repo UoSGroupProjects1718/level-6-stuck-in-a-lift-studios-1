@@ -34,6 +34,9 @@ namespace UI.Menu {
 		}
 
 		public void SetVolume (float volume){
+			if  (volume < -19.5f){
+				volume = -80;
+			}
 			audioMixer.SetFloat("volume", volume);
 		}
 
