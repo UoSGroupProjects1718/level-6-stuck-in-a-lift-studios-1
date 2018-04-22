@@ -46,6 +46,9 @@ namespace Player.SyncedData {
 		public delegate void NutTimeUpdated (GameObject player, int time);
 		public event NutTimeUpdated OnNutTimeUpdated;
 
+		public delegate void TotalNutTimeUpdated (GameObject player, int time);
+		public event TotalNutTimeUpdated OnTotalNutTimeUpdated;
+
 		[SyncVar(hook = "UpdateName")]
 		private string playerName;
 		[SyncVar(hook = "UpdateTeam")]
@@ -64,12 +67,14 @@ namespace Player.SyncedData {
 		private int rank;
 		[SyncVar (hook = "UpdatePosition")]
 		private float position;
-		[SyncVar (hook= "UpdateEagleTarget")]
+		[SyncVar (hook = "UpdateEagleTarget")]
 		private int eagleTarget;
-		[SyncVar (hook="UpdateCanMoveFlag")]
+		[SyncVar (hook = "UpdateCanMoveFlag")]
 		private bool canMoveFlag;
-		[SyncVar (hook="UpdateNutTime")]
+		[SyncVar (hook = "UpdateNutTime")]
 		private int nutTime;
+		[SyncVar (hook = "UpdateTotalNutTime")]
+		private int totalNutTime;
 
 		public override void OnStartClient(){
 			if (!isLocalPlayer && !isServer){
@@ -85,6 +90,7 @@ namespace Player.SyncedData {
 				UpdateEagleTarget(eagleTarget);
 				UpdateCanMoveFlag(canMoveFlag);
 				UpdateNutTime(nutTime);
+				UpdateTotalNutTime(totalNutTime);
 			}
 		}
 
@@ -314,6 +320,22 @@ namespace Player.SyncedData {
 			nutTime = newNutTime;
 			if (this.OnNutTimeUpdated != null){
 				this.OnNutTimeUpdated(gameObject, newNutTime);
+			}
+		}
+
+		//Player Total Nut Time
+		public int GetTotalNutTime (){
+			return totalNutTime;
+		}
+		[Command]
+		public void CmdSetTotalNutTime(int newNutTime){
+			totalNutTime = newNutTime;
+		}
+		[Client]
+		public void UpdateTotalNutTime (int newNutTime){
+			totalNutTime = newNutTime;
+			if (this.OnTotalNutTimeUpdated != null){
+				this.OnTotalNutTimeUpdated(gameObject, newNutTime);
 			}
 		}
 	}

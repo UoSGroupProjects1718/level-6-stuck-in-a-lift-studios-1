@@ -17,6 +17,7 @@ namespace UI.Level {
 		private int nut1Time = 0;
 		private int nut2Time = 0;
 		private bool firstLapDone = false;
+		private bool secondLapDone = false;
 
 		void Start () {
 			if (!isLocalPlayer){
@@ -54,6 +55,9 @@ namespace UI.Level {
 				if (!firstLapDone){
 					playerData.CmdSetNutTime(nut1Time);
 					firstLapDone = true;
+				} else {
+					playerData.CmdSetTotalNutTime(nut1Time + nut2Time);
+					secondLapDone = true;
 				}
 				nut2Time = timerUI.GetTime() - (nut1Time + 1);
 				lapTimeText1.text = "Nut 1: " + TimeToNiceTime(nut1Time);

@@ -13,6 +13,7 @@ namespace Level {
 		public int maxNuts = 2;
 
 		private bool keepScoring = false;
+		private int playerMaxCount = 0;
 
 		public void Awake(){
 			if (State.GetInstance().Network() == State.NETWORK_SERVER){
@@ -35,8 +36,18 @@ namespace Level {
 			List<GameObject> playerList = PlayerTracker.GetInstance().GetPlayers();
 			RankPlayers(playerList);
 			//This is horrible. But it works. Horrible horrible hack. Sorry Chris.
+			playerMaxCount = 0;
 			foreach (GameObject player in playerList){
 				CheckScore(player, player.GetComponent<PlayerDataForClients>().GetScore());
+			}
+			if (playerList.Count == 1){
+				if (playerMaxCount == playerList.Count){
+					keepScoring = false;
+					StartCoroutine(WaitForClientSync());
+				}
+			} else if (playerMaxCount >= playerList.Count -1){
+				keepScoring = false;
+				StartCoroutine(WaitForClientSync());
 			}
 
 		}
@@ -59,8 +70,7 @@ namespace Level {
 			}
 			UpdateScoreUI(player, score);
 			if (score >= maxNuts){
-				keepScoring = false;
-				StartCoroutine(WaitForClientSync());
+				playerMaxCount ++;
 			}
 		}
 

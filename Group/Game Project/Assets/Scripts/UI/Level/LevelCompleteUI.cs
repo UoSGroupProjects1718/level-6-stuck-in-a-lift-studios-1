@@ -59,9 +59,11 @@ namespace UI.Level {
 				GameObject entry = Instantiate(scoreboarEntryPrefab);
 				ScoreboardEntryUI ui = entry.GetComponent<ScoreboardEntryUI>();
 				int score = player.GetComponent<PlayerDataForClients>().GetScore();
+				
 
 				ui.SetName(player.GetComponent<PlayerDataForClients>().GetName());
-				ui.SetScore(score);
+//				ui.SetScore(score);
+				ui.SetTime(player.GetComponent<PlayerDataForClients>().GetTotalNutTime());
 				if (player == PlayerTracker.GetInstance().GetLocalPlayer()){
 					ui.FlagCurrentPlayer();
 				}

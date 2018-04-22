@@ -81,6 +81,7 @@ namespace GameState {
 				previousLevelState = levelState;
 				levelState = newLevelState;
 				isLevelDirty = true;
+				Debug.Log("Saving Level State: " + newLevelState);
 			}
 			return this;
 		}

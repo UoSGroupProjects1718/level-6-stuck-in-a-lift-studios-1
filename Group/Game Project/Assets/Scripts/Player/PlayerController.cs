@@ -70,9 +70,7 @@ namespace Player {
 			}
 			playerData = transform.gameObject.GetComponent<PlayerDataForClients>();
 
-			camera = Camera.main;
 			controller = GetComponent<CharacterController>();
-
 			animator = GetComponentInChildren<Animator>();
 
 			if (crosshairPrefab != null) {
@@ -95,11 +93,22 @@ namespace Player {
 			}
 
 			animator.SetTrigger("Warmup");
+			gravityStrength = baseGravityStrength;
 		}
 
 		void Update () {
+			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_READY), () => {
+				camera = Camera.main;
+			});
+			Debug.Log("Level State: "+ State.GetInstance().Level());
 			if (!isLocalPlayer || State.GetInstance().Level() != State.LEVEL_PLAYING){
 				crosshairPrefab.SetActive(false);
+				State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_COMPLETE), () => {
+					if (crosshairPrefab != null){
+						crosshairPrefab.SetActive(false);
+					}
+					Cursor.lockState = CursorLockMode.None;
+				} );
 				return;
 			} else {
 				animator.SetTrigger("Startgame");
@@ -218,7 +227,7 @@ namespace Player {
 				gravityStrength = baseGravityStrength;
 			} else if (controller.velocity.y < 0){ // Coming DOWN
 				if (!Input.GetButton("Jump")){ // drop faster when not gliding
-					gravityStrength = baseGravityStrength * 2f;
+					gravityStrength = baseGravityStrength * 2.5f;
 				} else { // drop slower when gliding
 					gravityStrength = baseGravityStrength * (0.5f - (momentumMeter/10f));
 				}
@@ -335,6 +344,8 @@ namespace Player {
 						GetComponent<Hint>().ShowHintOnlyOne(true);
 						StartCoroutine(ShowHintCooldown("One"));
 						return false;
+					} else if (playerData.GetScore() == 2){
+						return false;
 					}
 					GetComponent<Hint>().ShowHintGrappleNut(true);
 					nutTransform = hit.transform;
@@ -414,8 +425,10 @@ namespace Player {
 					StartCoroutine(ScoreTextCooldown());
 					playerData.CmdIncrementScore();
 					playerData.CmdSetHasNutFlag(false);
-					GetComponent<Hint>().ShowHintAnother(true);
-					StartCoroutine(ShowHintCooldown("Another"));
+					if (playerData.GetScore() < 2){
+						GetComponent<Hint>().ShowHintAnother(true);
+						StartCoroutine(ShowHintCooldown("Another"));
+					}
 				}
 			}
 		}

@@ -26,6 +26,7 @@ namespace UI.Level {
 		public Sprite amberLight;
 		public Sprite greenLight;
 
+		private bool gameOver = false;
 		private int minutes;
 		private int seconds;
 
@@ -85,11 +86,13 @@ namespace UI.Level {
 
 		[Server]
 		private IEnumerator GameClock(){
-			while (true) {
+			while (!gameOver) {
 				RpcUpdateClock();
 				yield return new WaitForSeconds(1);
 				if (State.GetInstance().Level() == State.LEVEL_PLAYING){
 					time++;
+				} else if (State.GetInstance().Level() == State.LEVEL_COMPLETE){
+					gameOver = true;
 				}
 			}
 		}
@@ -103,19 +106,20 @@ namespace UI.Level {
 
 		[ClientRpc]
 		private void RpcUpdateTrafficLights(){
-			if (State.GetInstance().Level() == State.LEVEL_READY){
-//			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_READY), () => {
-				if (!countdownAudioSource.isPlaying){
-					countdownAudioSource.Play();
-				}
-				trafficLightsVisible = true;
-			}
+//			if (State.GetInstance().Level() == State.LEVEL_READY){
+				State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_READY), () => {
+					if (!countdownAudioSource.isPlaying){
+						countdownAudioSource.Play();
+					}
+					trafficLightsVisible = true;
+				} );
+//			}
 		}
 
 		[ClientRpc]
 		private void RpcUpdateClock(){
-			if (State.GetInstance().Level() == State.LEVEL_PLAYING){
-//			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_PLAYING), () => {
+//			if (State.GetInstance().Level() == State.LEVEL_PLAYING){
+			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_PLAYING), () => {
 				trafficLightsVisible = false;
 				if (!musicAudioSource.isPlaying){
 					musicAudioSource.Play();
@@ -125,10 +129,13 @@ namespace UI.Level {
 				} else {
 					timerText.text = niceTime;
 				}
-//			} );
-			} else {
+			} );
+//			} else {
+			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_COMPLETE), () => {
+				gameOver = true;
 				trafficLightsVisible = false;
-			}
+//			}
+			} );
 		}
 
 		private IEnumerator NutTime(int nutTimer){
