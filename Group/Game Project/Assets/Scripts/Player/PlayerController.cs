@@ -92,6 +92,8 @@ namespace Player {
 			if (scoreTextObj != null){
 				scoreText = scoreTextObj.GetComponent<Text>();
 			}
+
+			animator.SetTrigger("Warmup");
 		}
 
 		void Update () {
@@ -99,6 +101,7 @@ namespace Player {
 				crosshairPrefab.SetActive(false);
 				return;
 			} else {
+				animator.SetTrigger("Startgame");
 				crosshairPrefab.SetActive(true);
 			}
 			if (State.GetInstance().Level() == State.LEVEL_PLAYING){
@@ -196,8 +199,8 @@ namespace Player {
 						movementAudioSource.Play();
 					}
 					//Increase Momentum when moving forward on the ground
-//					momentumMeter += 0.03f;
-					momentumMeter += 0.1f;
+					momentumMeter += 0.03f;
+//					momentumMeter += 0.1f;
 					if(momentumMeter > maxMeter){
 						momentumMeter = maxMeter;
 					}
@@ -267,6 +270,7 @@ namespace Player {
 			moveVector += groundedVelocity;
 
 			CollisionFlags flags = controller.Move(moveVector);
+			transform.rotation = Quaternion.LookRotation(moveVector);
 			velocity = moveVector / Time.deltaTime;
 
 			if ((flags & CollisionFlags.Below) != 0){
