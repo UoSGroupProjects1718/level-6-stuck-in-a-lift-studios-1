@@ -90,7 +90,7 @@ namespace UI.Level {
 		}
 
 		public void ShowHintGrappleNope(bool show){
-			if (showGrappleNopeCount++ > 3){
+			if (showGrappleNopeCount++ > 2){
 				return;
 			}
 			hintText.text = grappleNope;

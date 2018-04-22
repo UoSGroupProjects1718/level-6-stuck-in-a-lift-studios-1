@@ -241,9 +241,7 @@ namespace Player {
 			}
 
 			if (jumpInputTime > 0f){
-				if (jumpInputTime > 0.02f) {
-					animator.SetBool("isJumping", true);
-				}
+				animator.SetBool("isJumping", true);
 				verticalVelocity = baseJumpPower;
 				groundSpeed = (baseGroundSpeed + (momentumMeter / 10)) * 1.5f;
 				GetComponent<Hint>().ShowHintJump(false);

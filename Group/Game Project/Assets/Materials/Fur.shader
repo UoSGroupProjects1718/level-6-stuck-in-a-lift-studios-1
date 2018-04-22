@@ -19,7 +19,7 @@
         inline fixed4 LambertDiffuse(float3 worldNormal)
         {
             float3 lightDir = -normalize(_WorldSpaceLightPos0.xyz);
-            float NdotL = max(0.2, dot(worldNormal, lightDir));
+            float NdotL = max(0.15, dot(worldNormal, lightDir));
             return NdotL * _Diffuse;
         }
  
