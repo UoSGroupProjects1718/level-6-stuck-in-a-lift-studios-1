@@ -162,6 +162,7 @@ namespace Level {
 				yield return new WaitForSeconds(1);
 				stunDuration --;
 			}
+			RpcUpdatePlayerMoveState(player, true);
 			player.GetComponent<PlayerDataForClients>().SetCanMoveFlag(true);
 		}
 
@@ -185,6 +186,7 @@ namespace Level {
 		private void AttackPlayer(GameObject player){
 			var finishedAttack = false;
 			if (Vector3.Distance(transform.position, player.transform.position) <= 1.5f){
+				RpcUpdatePlayerMoveState(player, false);
 				player.GetComponent<PlayerDataForClients>().SetCanMoveFlag(false);
 					if (player.transform.position.y >= maxLiftHeight){
 						StartCoroutine(this.PlayerStun(playerStunDuration, player));
@@ -219,8 +221,19 @@ namespace Level {
 				isAttacking = false;
 				ResetPlayers();
 				targetPlayer.GetComponent<PlayerDataForClients>().SetCanMoveFlag(true);
+				RpcUpdatePlayerMoveState(targetPlayer, true);
 				StartCoroutine(this.AttackTimer(Random.Range(attackIntervalMinSec, attackIntervalMaxSec)));
 			}
+		}
+
+		[ClientRpc]
+		private void RpcWarnPlayers(GameObject player){
+			player.GetComponent<Hint>().ShowHintEagle(false);
+		}
+
+		[ClientRpc]
+		private void RpcUpdatePlayerMoveState(GameObject player, bool canMove){
+			player.GetComponent<PlayerDataForClients>().SetCanMoveFlag(canMove);
 		}
 
 		private void ResetPlayers(){
@@ -229,6 +242,7 @@ namespace Level {
 				PlayerDataForClients playerData = p.GetComponent<PlayerDataForClients>();
 				playerData.SetEagleTarget(0);
 				p.GetComponent<Hint>().ShowHintEagle(false);
+				RpcWarnPlayers(p);
 			}
 		}
 

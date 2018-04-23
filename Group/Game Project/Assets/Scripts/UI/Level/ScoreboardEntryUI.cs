@@ -17,10 +17,14 @@ namespace UI.Level {
 		}
 
 		public void SetTime(int time){
-			var minutes = Mathf.FloorToInt(time/60F);
-			var seconds = Mathf.FloorToInt(time - minutes * 60);
-			var niceTime = string.Format("{00:00}:{1:00}", minutes, seconds);
-			scoreText.text = niceTime;
+			if (time == float.MaxValue){
+				scoreText.text = "DNF";
+			} else {
+				var minutes = Mathf.FloorToInt(time/60F);
+				var seconds = Mathf.FloorToInt(time - minutes * 60);
+				var niceTime = string.Format("{00:00}:{1:00}", minutes, seconds);
+				scoreText.text = niceTime;
+			}
 		}
 
 		public void FlagCurrentPlayer(){

@@ -49,7 +49,10 @@ namespace UI.Level {
 					break;
 					default:
 					break;
-				}
+			}
+			if (gameOver){
+				trafficLightsVisible = false;
+			}
 		}
 
 		public void OnDestroy(){
@@ -95,6 +98,7 @@ namespace UI.Level {
 					gameOver = true;
 				}
 			}
+			RpcUpdateClock();
 		}
 
 		[Server]
@@ -149,6 +153,7 @@ namespace UI.Level {
 		[ClientRpc]
 		private void RpcStartTheGame(){
 			goNuts = true;
+			trafficLightsVisible = false;
 			timerText.text = "Go Nuts!";
 			StartCoroutine(this.NutTime(3));
 			State.GetInstance().Level(State.LEVEL_PLAYING).Publish();

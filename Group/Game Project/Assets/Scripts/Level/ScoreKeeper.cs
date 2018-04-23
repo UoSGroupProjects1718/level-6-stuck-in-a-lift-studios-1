@@ -45,7 +45,8 @@ namespace Level {
 					keepScoring = false;
 					StartCoroutine(WaitForClientSync());
 				}
-			} else if (playerMaxCount >= playerList.Count -1){
+			}
+			else if (playerMaxCount >= playerList.Count -1){
 				keepScoring = false;
 				StartCoroutine(WaitForClientSync());
 			}
@@ -98,7 +99,7 @@ namespace Level {
 
 		private IEnumerator WaitForClientSync(){
 			//This adds a delay to allow the clients to sync scores before displaying end screen
-			yield return new WaitForSeconds(0.1f);
+			yield return new WaitForSeconds(0.5f);
 			RpcEndTheGame();
 		}
 

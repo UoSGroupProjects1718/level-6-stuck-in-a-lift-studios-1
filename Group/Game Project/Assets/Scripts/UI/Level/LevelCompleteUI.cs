@@ -14,6 +14,12 @@ namespace UI.Level {
 		}
 	}
 
+	class AscendingComparer<T> : IComparer<T> where T : IComparable<T> {
+		public int Compare(T x, T y){
+			return x.CompareTo(y);
+		}
+	}
+
 	public class LevelCompleteUI : MonoBehaviour {
 
 		public GameObject levelComplete;
@@ -35,6 +41,7 @@ namespace UI.Level {
 				Cursor.lockState = CursorLockMode.Locked;
 			} else {
 				Cursor.lockState = CursorLockMode.None;
+				Cursor.visible = true;
 			}
 			if (levelComplete == null || clientLevelComplete == null || serverLevelComplete == null){
 				return;
@@ -53,13 +60,16 @@ namespace UI.Level {
 		}
 
 		private void UpdateScoreboard() {
-			SortedDictionary<int, List<GameObject>> scores = new SortedDictionary<int, List<GameObject>>(new DescendingComparer<int>());
+			SortedDictionary<int, List<GameObject>> scores = new SortedDictionary<int, List<GameObject>>(new AscendingComparer<int>());
 
 			foreach (GameObject player in PlayerTracker.GetInstance().GetPlayers()){
 				GameObject entry = Instantiate(scoreboarEntryPrefab);
 				ScoreboardEntryUI ui = entry.GetComponent<ScoreboardEntryUI>();
-				int score = player.GetComponent<PlayerDataForClients>().GetScore();
-				
+//				int score = player.GetComponent<PlayerDataForClients>().GetScore();
+				int score = player.GetComponent<PlayerDataForClients>().GetTotalNutTime();
+				if (score == 0 || player.GetComponent<PlayerDataForClients>().GetScore < 2){
+					score = float.MaxValue;
+				}
 
 				ui.SetName(player.GetComponent<PlayerDataForClients>().GetName());
 //				ui.SetScore(score);

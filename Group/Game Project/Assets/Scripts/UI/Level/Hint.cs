@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace UI.Level {
-	public class Hint : MonoBehaviour {
+	public class Hint : NetworkBehaviour {
 
 		public string moveForward = "Press W to run forward";
 		public string turning = "Move the MOUSE to turn";
@@ -129,8 +130,8 @@ namespace UI.Level {
 			Fade(show);
 		}
 
-		public void ShowHintAnother(bool show){
-			if (showAnotherCount++ > 1){
+		public void ShowHintAnother(bool show ){
+			if (showAnotherCount++ > 2){
 				return;
 			}
 			hintText.text = another;

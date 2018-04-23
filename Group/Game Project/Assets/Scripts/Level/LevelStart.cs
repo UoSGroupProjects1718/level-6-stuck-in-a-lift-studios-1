@@ -37,15 +37,26 @@ namespace Level {
 
 		[Server]
 		private void CheckIfPlayersReady(){
-			if (State.GetInstance().Level() == State.LEVEL_PLAYING){
+			if (State.GetInstance().Level() == State.LEVEL_PLAYING || State.GetInstance().Level() == State.LEVEL_READY){
 				return;
 			}
 			playersFromLobbyCount = State.GetInstance().GetPlayerCount();
 			playersInSceneCount = GameObject.FindGameObjectsWithTag("Player").Length;
 			if (playersFromLobbyCount == playersInSceneCount){
 				AssignTeams();
-				State.GetInstance().Level(State.LEVEL_READY).Publish();
+				StartCoroutine(WaitForClientSync());
 			}
+		}
+
+		private IEnumerator WaitForClientSync(){
+			//This adds a delay to allow the clients to sync scores before starting the game
+			yield return new WaitForSeconds(0.5f);
+			RpcStartTheGame();
+		}
+
+		[ClientRpc]
+		private void RpcStartTheGame(){
+			State.GetInstance().Level(State.LEVEL_READY).Publish();
 		}
 
 		[Server]

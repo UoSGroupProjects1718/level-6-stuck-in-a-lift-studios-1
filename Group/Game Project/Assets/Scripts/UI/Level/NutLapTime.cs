@@ -56,8 +56,12 @@ namespace UI.Level {
 					playerData.CmdSetNutTime(nut1Time);
 					firstLapDone = true;
 				} else {
-					playerData.CmdSetTotalNutTime(nut1Time + nut2Time);
-					secondLapDone = true;
+					if (!secondLapDone){
+						int totalNutTime = nut1Time + nut2Time;
+						playerData.CmdSetTotalNutTime(totalNutTime);
+						secondLapDone = true;
+						return;
+					}
 				}
 				nut2Time = timerUI.GetTime() - (nut1Time + 1);
 				lapTimeText1.text = "Nut 1: " + TimeToNiceTime(nut1Time);

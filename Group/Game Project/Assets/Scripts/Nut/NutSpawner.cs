@@ -23,6 +23,15 @@ namespace Nut {
 		private Vector3 finalBeamScale;
 
 		public void Start(){
+			RpcNutStart();
+		}
+
+		public void Update () {
+			RpcNutUpdate();
+		}
+
+		[ClientRpc]
+		private void RpcNutStart(){
 			nutList = new List<GameObject>();
 			beamMat = treeBeam.GetComponent<Renderer>().material;
 			beamMat.EnableKeyword("_EMISSION");
@@ -30,7 +39,8 @@ namespace Nut {
 			finalBeamScale = new Vector3(0, 0, 0);
 		}
 
-		public void Update () {
+		[ClientRpc]
+		private void RpcNutUpdate(){
 			if (hasSpawned){
 				if (inactiveNutCount < initialNutCount){
 					foreach(GameObject nut in nutList){

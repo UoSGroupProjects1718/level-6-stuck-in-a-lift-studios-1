@@ -2,9 +2,11 @@
 using Nut;
 using Player.SyncedData;
 using System.Collections;
+using UI;
 using UI.Level;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Player {
@@ -40,6 +42,7 @@ namespace Player {
 		private bool canGlide = true;
 		private bool wallJumped;
 		private bool grappleOnCooldown = false;
+		private bool started = false;
 		private Camera camera;
 		private CharacterController controller;
 		private float verticalVelocity;
@@ -54,6 +57,7 @@ namespace Player {
 		private int mAirSpeed = 20;
 		private PlayerDataForClients playerData;
 		private Quaternion inputRotation;
+		private Quaternion startRot;
 		private RaycastHit hit;
 		private Text scoreText;
 		private Transform nutTransform;
@@ -61,6 +65,7 @@ namespace Player {
 		private Vector3 input;
 		private Vector3 groundedVelocity;
 		private Vector3 moveVector;
+		private Vector3 startPos;
 		private Vector3 wallNormal;
 		private Vector3 velocity;
 
@@ -97,22 +102,39 @@ namespace Player {
 		}
 
 		void Update () {
+			if (!isLocalPlayer){
+				return;
+			}
+			if (playerData.GetScore() == 2){
+				animator.SetTrigger("Victory");
+				transform.position = startPos;
+				transform.rotation = startRot;
+				return;
+			}
 			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_READY), () => {
 				camera = Camera.main;
+				if (this != null){
+					startPos = transform.position;
+					startRot = transform.rotation;
+				}
 			});
-			Debug.Log("Level State: "+ State.GetInstance().Level());
-			if (!isLocalPlayer || State.GetInstance().Level() != State.LEVEL_PLAYING){
+			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_COMPLETE), () => {
+				if (crosshairPrefab != null){
+					crosshairPrefab.SetActive(false);
+				}
+				ToggleCrosshair(false);
+				Cursor.lockState = CursorLockMode.None;
+			} );
+			Debug.Log("Level State: " + State.GetInstance().Level());
+			if ( State.GetInstance().Level() != State.LEVEL_PLAYING){
 				crosshairPrefab.SetActive(false);
-				State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_COMPLETE), () => {
-					if (crosshairPrefab != null){
-						crosshairPrefab.SetActive(false);
-					}
-					Cursor.lockState = CursorLockMode.None;
-				} );
 				return;
 			} else {
-				animator.SetTrigger("Startgame");
-				crosshairPrefab.SetActive(true);
+				if (!started){
+					animator.SetTrigger("Startgame");
+					crosshairPrefab.SetActive(true);
+					started = true;
+				}
 			}
 			if (State.GetInstance().Level() == State.LEVEL_PLAYING){
 				if (!menuToggled){
@@ -425,7 +447,7 @@ namespace Player {
 					StartCoroutine(ScoreTextCooldown());
 					playerData.CmdIncrementScore();
 					playerData.CmdSetHasNutFlag(false);
-					if (playerData.GetScore() < 2){
+					if (playerData.GetScore() < 1){
 						GetComponent<Hint>().ShowHintAnother(true);
 						StartCoroutine(ShowHintCooldown("Another"));
 					}

@@ -40,7 +40,6 @@ namespace UnityStandardAssets.Cameras
 			m_TransformTargetRot = transform.localRotation;
         }
 
-
         protected void Update()
         {
             HandleRotationMovement();
@@ -50,7 +49,6 @@ namespace UnityStandardAssets.Cameras
                 Cursor.visible = !m_LockCursor;
             }
         }
-
 
         private void OnDisable()
         {
