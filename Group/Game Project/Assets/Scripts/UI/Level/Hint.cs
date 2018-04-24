@@ -123,7 +123,7 @@ namespace UI.Level {
 		}
 
 		public void ShowHintBack(bool show){
-			if (showBringBackCount++ > 2){
+			if (showBringBackCount++ > 4){
 				return;
 			}
 			hintText.text = bringBack;
@@ -131,7 +131,7 @@ namespace UI.Level {
 		}
 
 		public void ShowHintAnother(bool show ){
-			if (showAnotherCount++ > 2){
+			if (showAnotherCount++ > 4){
 				return;
 			}
 			hintText.text = another;

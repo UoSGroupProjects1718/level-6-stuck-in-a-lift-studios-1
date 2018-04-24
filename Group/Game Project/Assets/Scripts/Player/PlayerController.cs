@@ -243,7 +243,8 @@ namespace Player {
 				if (!Input.GetButton("Jump")){ // drop faster when not gliding
 					gravityStrength = baseGravityStrength * 3.5f;
 				} else { // drop slower when gliding
-					gravityStrength = 5f - (momentumMeter/10f);
+                    animator.SetBool("isJumping", true);
+                    gravityStrength = 5f - (momentumMeter/10f);
 				}
 			}
 
@@ -441,7 +442,7 @@ namespace Player {
 					StartCoroutine(ScoreTextCooldown());
 					playerData.CmdIncrementScore();
 					playerData.CmdSetHasNutFlag(false);
-					if (playerData.GetScore() < 1){
+					if (playerData.GetScore() < 2){
 						GetComponent<Hint>().ShowHintAnother(true);
 						StartCoroutine(ShowHintCooldown("Another"));
 					}
