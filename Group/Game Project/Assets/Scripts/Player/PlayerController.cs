@@ -43,6 +43,7 @@ namespace Player {
 		private bool wallJumped;
 		private bool grappleOnCooldown = false;
 		private bool started = false;
+		private bool isJumping = false;
 		private Camera camera;
 		private CharacterController controller;
 		private float verticalVelocity;
@@ -119,10 +120,10 @@ namespace Player {
 				}
 			});
 			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_COMPLETE), () => {
+				ToggleCrosshair(false);
 				if (crosshairPrefab != null){
 					crosshairPrefab.SetActive(false);
 				}
-				ToggleCrosshair(false);
 				Cursor.lockState = CursorLockMode.None;
 			} );
 			Debug.Log("Level State: " + State.GetInstance().Level());
@@ -135,17 +136,6 @@ namespace Player {
 					crosshairPrefab.SetActive(true);
 					started = true;
 				}
-			}
-			if (State.GetInstance().Level() == State.LEVEL_PLAYING){
-				if (!menuToggled){
-					Cursor.lockState = CursorLockMode.Locked;
-				} else {
-					Cursor.lockState = CursorLockMode.None;
-				}
-			} else {
-				GetComponent<Hint>().ShowHintObjective(true);
-				StartCoroutine(ShowHintCooldown("Objective"));
-				Cursor.lockState = CursorLockMode.None;
 			}
 
 			GetComponent<Hint>().ShowHintMove(true);
@@ -246,12 +236,14 @@ namespace Player {
 			}
 
 			if (controller.velocity.y > 0){ // Going UP
-				gravityStrength = baseGravityStrength;
+				if (isJumping){
+					gravityStrength = baseGravityStrength * 1.5f;
+				}
 			} else if (controller.velocity.y < 0){ // Coming DOWN
 				if (!Input.GetButton("Jump")){ // drop faster when not gliding
-					gravityStrength = baseGravityStrength * 2.5f;
+					gravityStrength = baseGravityStrength * 3.5f;
 				} else { // drop slower when gliding
-					gravityStrength = baseGravityStrength * (0.5f - (momentumMeter/10f));
+					gravityStrength = 5f - (momentumMeter/10f);
 				}
 			}
 
@@ -267,7 +259,9 @@ namespace Player {
 
 			if ((controller.isGrounded || jumpInputTime > 0f) && Input.GetButton("Jump") && jumpInputTime < 0.3f) {
 				jumpInputTime += Time.deltaTime;
+				isJumping = true;
 			} else {
+				isJumping = false;
 				jumpInputTime = 0f;
 			}
 

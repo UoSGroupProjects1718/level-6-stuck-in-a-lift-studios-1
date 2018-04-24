@@ -37,18 +37,20 @@ namespace UI.Level {
 		public void Update (){
 			ServerKeepTime();
 			trafficLights.gameObject.SetActive(trafficLightsVisible);
-			switch (countdown){
-					case 3:
-						trafficLights.sprite = redLight;
-					break;
-					case 2:
-						trafficLights.sprite = amberLight;
-					break;
-					case 1:
-						trafficLights.sprite = greenLight;
-					break;
-					default:
-					break;
+			if (trafficLightsVisible){
+				switch (countdown){
+						case 3:
+							trafficLights.sprite = redLight;
+						break;
+						case 2:
+							trafficLights.sprite = amberLight;
+						break;
+						case 1:
+							trafficLights.sprite = greenLight;
+						break;
+						default:
+						break;
+				}
 			}
 			if (gameOver){
 				trafficLightsVisible = false;
@@ -68,8 +70,22 @@ namespace UI.Level {
 			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_READY), StartTimer);
 		}
 
+		[ServerCallback]
+		private void SubscribeToGameover(){
+			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_COMPLETE), EndTimer);
+		}
+
+		[Server]
+		private void EndTimer(){
+			gameOver = true;
+			trafficLightsVisible = false;
+		}
+
 		[Server]
 		private void StartTimer(){
+			if (gameOver){
+				return;
+			}
 			if (this != null) {
 				StartCoroutine(this.WaitForTimerToEnd());
 			}
@@ -77,7 +93,7 @@ namespace UI.Level {
 
 		[Server]
 		private IEnumerator WaitForTimerToEnd(){
-			while (countdown > 0) {
+			while (countdown > 0 && !gameOver) {
 				RpcUpdateTrafficLights();
 				yield return new WaitForSeconds(1);
 				countdown --;
@@ -98,7 +114,7 @@ namespace UI.Level {
 					gameOver = true;
 				}
 			}
-			RpcUpdateClock();
+			trafficLightsVisible = false;
 		}
 
 		[Server]
@@ -110,6 +126,9 @@ namespace UI.Level {
 
 		[ClientRpc]
 		private void RpcUpdateTrafficLights(){
+			if (gameOver){
+				return;
+			}
 //			if (State.GetInstance().Level() == State.LEVEL_READY){
 				State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_READY), () => {
 					if (!countdownAudioSource.isPlaying){
@@ -122,7 +141,10 @@ namespace UI.Level {
 
 		[ClientRpc]
 		private void RpcUpdateClock(){
-//			if (State.GetInstance().Level() == State.LEVEL_PLAYING){
+			if (gameOver){
+				return;
+			}
+			if (State.GetInstance().Level() == State.LEVEL_PLAYING){
 			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_PLAYING), () => {
 				trafficLightsVisible = false;
 				if (!musicAudioSource.isPlaying){
@@ -134,16 +156,16 @@ namespace UI.Level {
 					timerText.text = niceTime;
 				}
 			} );
-//			} else {
+			} else {
 			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_COMPLETE), () => {
 				gameOver = true;
 				trafficLightsVisible = false;
-//			}
 			} );
+			}
 		}
 
 		private IEnumerator NutTime(int nutTimer){
-			while (nutTimer > 0) {
+			while (nutTimer > 0 && !gameOver) {
 				yield return new WaitForSeconds(1);
 				nutTimer --;
 			}
@@ -152,6 +174,9 @@ namespace UI.Level {
 
 		[ClientRpc]
 		private void RpcStartTheGame(){
+			if (gameOver){
+				return;
+			}
 			goNuts = true;
 			trafficLightsVisible = false;
 			timerText.text = "Go Nuts!";

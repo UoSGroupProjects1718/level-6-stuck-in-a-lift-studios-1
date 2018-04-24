@@ -67,8 +67,8 @@ namespace UI.Level {
 				ScoreboardEntryUI ui = entry.GetComponent<ScoreboardEntryUI>();
 //				int score = player.GetComponent<PlayerDataForClients>().GetScore();
 				int score = player.GetComponent<PlayerDataForClients>().GetTotalNutTime();
-				if (score == 0 || player.GetComponent<PlayerDataForClients>().GetScore < 2){
-					score = float.MaxValue;
+				if (score == 0 || player.GetComponent<PlayerDataForClients>().GetScore() < 2){
+					score = int.MaxValue;
 				}
 
 				ui.SetName(player.GetComponent<PlayerDataForClients>().GetName());
