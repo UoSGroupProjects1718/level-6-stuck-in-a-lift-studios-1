@@ -8,6 +8,7 @@ namespace UI.Menu {
 		public RotateScript Focus;
 		public GameObject playMenu;
 		public GameObject settingsMenu;
+        public GameObject credits;
 
 		void Update () {
 			switch (Focus.position) {
@@ -15,15 +16,18 @@ namespace UI.Menu {
 					//Play Menu
 					playMenu.SetActive(true);
 					settingsMenu.SetActive(false);
+                    credits.SetActive(false);
 					break;
 				case 1:
 					//Options Menu
 					playMenu.SetActive(false);
 					settingsMenu.SetActive(true);
+                    credits.SetActive(false);
 					break;
 				case 2:
 					playMenu.SetActive(false);
 					settingsMenu.SetActive(false);
+                    credits.SetActive(true);
 					if (Input.GetButtonDown("Submit")){
 						//Exit the Game
 						ModalManager.GetInstance().Show(

@@ -42,11 +42,11 @@ namespace UI {
 			float step = speed * Time.deltaTime;
 			if (!returning) {
 				transform.position = Vector3.MoveTowards(transform.position, target.position, step);
-				transform.LookAt(target.position);
+				transform.LookAt(startPos);
 			}
 			else {
 				transform.position = Vector3.MoveTowards(transform.position, startPos, step);
-				transform.LookAt(startPos);
+				transform.LookAt(target.position);
 			}
 			if (Vector3.Distance(transform.position, target.position) < 5f){
 				returning = true;
