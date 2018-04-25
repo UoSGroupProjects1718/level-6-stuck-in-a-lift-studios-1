@@ -40,7 +40,7 @@ namespace Level {
 				CalculateTargetablePlayers();
 				MoveEagle();
 			} else {
-				AttackPlayer(targetPlayer);
+				RpcAttackPlayer(targetPlayer);
 			}
 		}
 
@@ -166,7 +166,6 @@ namespace Level {
 			player.GetComponent<PlayerDataForClients>().SetCanMoveFlag(true);
 		}
 
-		[Server]
 		private void MoveEagle(){
 			if (Vector3.Distance(transform.position, targetWaypoint.transform.position) <= 1f){
 				if (waypointIndex < waypoints.Length){
@@ -182,8 +181,8 @@ namespace Level {
 			}
 		}
 
-		[Server]
-		private void AttackPlayer(GameObject player){
+		[ClientRpc]
+		private void RpcAttackPlayer(GameObject player){
 			var finishedAttack = false;
 			if (Vector3.Distance(transform.position, player.transform.position) <= 1.5f){
 				RpcUpdatePlayerMoveState(player, false);
@@ -213,7 +212,7 @@ namespace Level {
 			}
 		}
 
-		[Server]
+//		[Server]
 		private void EagleBonk(Collision col){
 			//if eagle has collided with anything that isn't the player
 			if (col.gameObject.tag != "Player"){

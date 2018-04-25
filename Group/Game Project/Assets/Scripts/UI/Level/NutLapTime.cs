@@ -9,6 +9,8 @@ namespace UI.Level {
 
 		public int fontSizeLarge = 24;
 		public int fontSizeSmall = 18;
+        public Color currentLapColor;
+        public Color otherLapColor;
 
 		private PlayerDataForClients playerData;
 		private Text lapTimeText1;
@@ -51,24 +53,31 @@ namespace UI.Level {
 				lapTimeText2.text = "Nut 2: --:--";
 				lapTimeText1.fontSize = fontSizeLarge;
 				lapTimeText2.fontSize = fontSizeSmall;
+                lapTimeText1.color = currentLapColor;
+                lapTimeText2.color = otherLapColor;
 			} else {
 				if (!firstLapDone){
 					playerData.CmdSetNutTime(nut1Time);
 					firstLapDone = true;
 				} else {
-					if (!secondLapDone){
+					if (playerData.GetScore() == 2 && !secondLapDone){
 						int totalNutTime = nut1Time + nut2Time;
 						playerData.CmdSetTotalNutTime(totalNutTime);
 						secondLapDone = true;
 						return;
 					}
 				}
+                if (secondLapDone){
+                    return;
+                }
 				nut2Time = timerUI.GetTime() - (nut1Time + 1);
 				lapTimeText1.text = "Nut 1: " + TimeToNiceTime(nut1Time);
 				lapTimeText2.text = "Nut 2: " + TimeToNiceTime(nut2Time);
 				lapTimeText1.fontSize = fontSizeSmall;
 				lapTimeText2.fontSize = fontSizeLarge;
-			}
+                lapTimeText1.color = otherLapColor;
+                lapTimeText2.color = currentLapColor;
+            }
 		}
 
 		private string TimeToNiceTime(int time){

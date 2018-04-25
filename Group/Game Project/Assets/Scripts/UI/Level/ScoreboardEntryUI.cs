@@ -17,7 +17,7 @@ namespace UI.Level {
 		}
 
 		public void SetTime(int time){
-			if (time == float.MaxValue){
+			if (time == int.MaxValue){
 				scoreText.text = "DNF";
 			} else {
 				var minutes = Mathf.FloorToInt(time/60F);
