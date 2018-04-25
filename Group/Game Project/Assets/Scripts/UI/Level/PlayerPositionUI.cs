@@ -18,6 +18,7 @@ namespace UI.Level {
 		public Color spawnIconColour;
 		public Color disabledColour;
 		public Color[] playerColours = new Color[5];
+        public GameObject backpack;
 
 		private PlayerDataForClients playerData;
 		private List<GameObject> playerList;
@@ -81,7 +82,7 @@ namespace UI.Level {
 			} else {
 				positionImage.sprite = withoutNut;
 			}
-			SetTeamColour(playerData.GetTeam(), positionImage.gameObject);
+		    SetTeamColour(gameObject, playerData.GetTeam(), positionImage.gameObject);
 			SetRank();
 
 			int i = 0;
@@ -89,7 +90,7 @@ namespace UI.Level {
 				PlayerDataForClients pData = player.GetComponent<PlayerDataForClients>();
 				SetUIPosition(playerIconListObjs[i], pData.GetPosition());
 				SetSprite(playerIconListObjs[i], pData.GetHasNutFlag());
-				SetTeamColour(pData.GetTeam(), playerIconListObjs[i]);
+				SetTeamColour(player, pData.GetTeam(), playerIconListObjs[i]);
 				i++;
 			}
 
@@ -130,23 +131,45 @@ namespace UI.Level {
 			positionText.text = rankString;
 		}
 
-		private void SetTeamColour(int team, GameObject image){
-			switch (team){
+		private void SetTeamColour(GameObject player, int team, GameObject image){
+            if (player != gameObject)
+            {
+               backpack = player.transform.Find("Backpack").gameObject;
+            }
+            SkinnedMeshRenderer mesh = backpack.GetComponent<SkinnedMeshRenderer>();
+            Material mat = mesh.material;
+
+            switch (team){
 				case PlayerDataForClients.PLAYER_A:
 					image.GetComponent<Image>().color = playerColours[0];
+                    if (mat != null){
+                        mat.color = playerColours[0];
+                    }
 					break;
 				case PlayerDataForClients.PLAYER_B:
 					image.GetComponent<Image>().color = playerColours[1];
-					break;
+                    if (mat != null){
+                        mat.color = playerColours[1];
+                    }
+                    break;
 				case PlayerDataForClients.PLAYER_C:
 					image.GetComponent<Image>().color = playerColours[2];
-					break;
+                    if (mat != null) {
+                        mat.color = playerColours[2];
+                    }
+                    break;
 				case PlayerDataForClients.PLAYER_D:
 					image.GetComponent<Image>().color = playerColours[3];
-					break;
+                    if (mat != null) {
+                        mat.color = playerColours[3];
+                    }
+                    break;
 				case PlayerDataForClients.PLAYER_E:
 					image.GetComponent<Image>().color = playerColours[4];
-					break;
+                    if (mat != null) {
+                        mat.color = playerColours[4];
+                    }
+                    break;
 				default:
 					//Set invisible
 					var tempColour = image.GetComponent<Image>().color;
@@ -155,8 +178,8 @@ namespace UI.Level {
 					break;
 			}
 		}
-		
-		private void SetSprite(GameObject image, bool hasNut){
+
+        private void SetSprite(GameObject image, bool hasNut){
 			if (hasNut){
 				image.GetComponent<Image>().sprite = withNutIcon;
 			} else {
@@ -170,5 +193,6 @@ namespace UI.Level {
 			Vector2 newPosition = new Vector3(spawnIcon.anchoredPosition.x, spawnIcon.anchoredPosition.y - distance);
 			image.GetComponent<Image>().gameObject.GetComponent<RectTransform>().anchoredPosition = newPosition;
 		}
-	}
+
+    }
 }
