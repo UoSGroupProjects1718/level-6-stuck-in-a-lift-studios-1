@@ -1,4 +1,7 @@
-﻿using GameState;
+﻿/**
+ * This is based on the tutorial series found here: https://ditt.to/game-dev/multiplayer-1
+ **/
+using GameState;
 using Player.SyncedData;
 using Player.Tracking;
 using System.Collections;

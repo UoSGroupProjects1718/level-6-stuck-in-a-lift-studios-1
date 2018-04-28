@@ -1,4 +1,7 @@
-﻿using Player.Tracking;
+﻿/**
+ * This is based on the tutorial series found here: https://ditt.to/game-dev/multiplayer-1
+ **/
+using Player.Tracking;
 using System.Collections.Generic;
 using UI.Lobby.Player;
 using UnityEngine;

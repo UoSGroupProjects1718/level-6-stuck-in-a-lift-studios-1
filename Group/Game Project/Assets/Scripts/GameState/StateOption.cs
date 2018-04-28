@@ -1,4 +1,7 @@
-﻿namespace GameState {
+﻿/**
+ * This is based on the tutorial series found here: https://ditt.to/game-dev/multiplayer-1
+ **/
+namespace GameState {
 	public struct StateOption {
 
 		public string oldNetwork;

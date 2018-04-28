@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿/**
+ * This is based on the tutorial series found here: https://ditt.to/game-dev/multiplayer-1
+ **/
+using UnityEngine;
 using UnityEngine.UI;
 
 public class ModalUI : MonoBehaviour {

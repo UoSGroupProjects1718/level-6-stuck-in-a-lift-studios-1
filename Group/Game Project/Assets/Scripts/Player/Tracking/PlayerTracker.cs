@@ -1,3 +1,6 @@
+/**
+ * This is based on the tutorial series found here: https://ditt.to/game-dev/multiplayer-1
+ **/
 using System.Collections.Generic;
 using UnityEngine;
 
