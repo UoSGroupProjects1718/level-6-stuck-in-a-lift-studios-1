@@ -16,6 +16,9 @@ namespace UI {
 		private bool menuVisible = false;
 
 		public void Update(){
+			if (State.GetInstance().Level() != State.LEVEL_PLAYING){
+				return;
+			}
 			if (Input.GetKey(KeyCode.Escape)){
 				menuVisible = !menuVisible;
 			}

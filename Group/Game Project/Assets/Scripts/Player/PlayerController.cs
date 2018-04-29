@@ -97,8 +97,9 @@ namespace Player {
 			if (scoreTextObj != null){
 				scoreText = scoreTextObj.GetComponent<Text>();
 			}
-
-			animator.SetTrigger("Warmup");
+			if (playerData.GetScore() != 2){
+				animator.SetTrigger("Warmup");
+			}
 			gravityStrength = baseGravityStrength;
 		}
 
@@ -131,7 +132,6 @@ namespace Player {
 				if (crosshairPrefab != null){
 					crosshairPrefab.SetActive(false);
 				}
-//				Cursor.lockState = CursorLockMode.None;
 			} );
 			Debug.Log("Level State: " + State.GetInstance().Level());
 			if ( State.GetInstance().Level() != State.LEVEL_PLAYING){
