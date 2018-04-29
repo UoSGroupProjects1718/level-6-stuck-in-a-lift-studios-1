@@ -22,8 +22,7 @@ namespace UI {
 			if (menuVisible){
 				Cursor.lockState = CursorLockMode.None;
 				Cursor.visible = true;
-			}
-			else {
+			} else {
 				Cursor.lockState = CursorLockMode.Locked;
 				Cursor.visible = false;
 			}
@@ -31,7 +30,11 @@ namespace UI {
 				client.SetActive(menuVisible);
 			}
 			if (State.GetInstance().Network() == State.NETWORK_SERVER){
-				server.SetActive(menuVisible);
+				if (State.GetInstance().GetPlayerCount() == 1){
+					client.SetActive(menuVisible);
+				} else {
+					server.SetActive(menuVisible);
+				}
 			}
 		}
 
