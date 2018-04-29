@@ -112,6 +112,13 @@ namespace Player {
 				transform.rotation = startRot;
 				return;
 			}
+			//Look Input
+			if (Input.GetButtonDown("Cancel")){
+				menuToggled = !menuToggled;
+			}
+			if (menuToggled){
+				return;
+			}
 			State.GetInstance().Subscribe(new StateOption().LevelState(State.LEVEL_READY), () => {
 				camera = Camera.main;
 				if (this != null){
@@ -124,7 +131,7 @@ namespace Player {
 				if (crosshairPrefab != null){
 					crosshairPrefab.SetActive(false);
 				}
-				Cursor.lockState = CursorLockMode.None;
+//				Cursor.lockState = CursorLockMode.None;
 			} );
 			Debug.Log("Level State: " + State.GetInstance().Level());
 			if ( State.GetInstance().Level() != State.LEVEL_PLAYING){
@@ -179,13 +186,6 @@ namespace Player {
 		}
 
 		private void MovePlayer(){
-			//Look Input
-			if (Input.GetButtonDown("Cancel")){
-				menuToggled = !menuToggled;
-			}
-			if (menuToggled){
-				return;
-			}
 
 			Ray ray = new Ray(camera.transform.position, camera.transform.forward);
 			Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
