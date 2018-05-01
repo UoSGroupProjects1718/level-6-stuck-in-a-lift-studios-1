@@ -26,7 +26,10 @@ namespace UI.Level {
 
 		private Text hintText;
 		private Image hintPanel;
+		private GameObject hintPanelObj;
+		private GameObject.hintTextObj;
 
+		private bool gameOver = false;
 		private int showMoveCount = 0;
 		private int showTurningCount = 0;
 		private int showJumpCount = 0;
@@ -40,18 +43,26 @@ namespace UI.Level {
 		private int showAnotherCount = 0;
 
 		void Start () {
-			GameObject hintTextObj = GameObject.FindGameObjectWithTag("HintText");
+			gameOver = false;
+			hintTextObj = GameObject.FindGameObjectWithTag("HintText");
 			if (hintTextObj != null){
 				hintText = hintTextObj.GetComponent<Text>();
 			}
-			GameObject hintPanelObj = GameObject.FindGameObjectWithTag("HintPanel");
+			hintPanelObj = GameObject.FindGameObjectWithTag("HintPanel");
 			if (hintPanelObj != null){
 				hintPanel = hintPanelObj.GetComponent<Image>();
 			}
 		}
 
+		void Update () {
+			if ( State.GetInstance().Level() != State.LEVEL_COMPLETE ){
+				hintPanelObj.SetActive(false);
+				gameOver = true;
+			}
+		}
+
 		public void ShowHintMove(bool show){
-			if (showMoveCount++ > 2){
+			if (gameOver || showMoveCount++ > 2){
 				return;
 			}
 			hintText.text = moveForward;
@@ -59,7 +70,7 @@ namespace UI.Level {
 		}
 
 		public void ShowHintTurning(bool show){
-			if (showTurningCount++ > 2){
+			if (gameOver || showTurningCount++ > 2){
 				return;
 			}
 			hintText.text = turning;
@@ -67,7 +78,7 @@ namespace UI.Level {
 		}
 
 		public void ShowHintJump(bool show){
-			if (showJumpCount++ > 2){
+			if (gameOver || showJumpCount++ > 2){
 				return;
 			}
 			hintText.text = jump;
@@ -75,7 +86,7 @@ namespace UI.Level {
 		}
 
 		public void ShowHintGlide(bool show){
-			if (showGlideCount++ > 2){
+			if (gameOver || showGlideCount++ > 2){
 				return;
 			}
 			hintText.text = glide;
@@ -83,7 +94,7 @@ namespace UI.Level {
 		}
 
 		public void ShowHintGrappleButton(bool show){
-			if (showGrappleButtonCount++ > 3){
+			if (gameOver || showGrappleButtonCount++ > 3){
 				return;
 			}
 			hintText.text = grappleButton;
@@ -91,7 +102,7 @@ namespace UI.Level {
 		}
 
 		public void ShowHintGrappleNope(bool show){
-			if (showGrappleNopeCount++ > 2){
+			if (gameOver || showGrappleNopeCount++ > 2){
 				return;
 			}
 			hintText.text = grappleNope;
@@ -99,7 +110,7 @@ namespace UI.Level {
 		}
 
 		public void ShowHintObjective(bool show){
-			if (showObjectiveCount++ > 2){
+			if (gameOver || showObjectiveCount++ > 2){
 				return;
 			}
 			hintText.text = objective;
@@ -107,7 +118,7 @@ namespace UI.Level {
 		}
 
 		public void ShowHintOnlyOne(bool show){
-			if (showOnlyOneCount++ > 2){
+			if (gameOver || showOnlyOneCount++ > 2){
 				return;
 			}
 			hintText.text = onlyOne;
@@ -115,7 +126,7 @@ namespace UI.Level {
 		}
 
 		public void ShowHintGrappleNut(bool show){
-			if (showGrappleNutCount++ > 2){
+			if (gameOver || showGrappleNutCount++ > 2){
 				return;
 			}
 			hintText.text = grappleNut;
@@ -123,7 +134,7 @@ namespace UI.Level {
 		}
 
 		public void ShowHintBack(bool show){
-			if (showBringBackCount++ > 4){
+			if (gameOver || showBringBackCount++ > 4){
 				return;
 			}
 			hintText.text = bringBack;
@@ -131,7 +142,7 @@ namespace UI.Level {
 		}
 
 		public void ShowHintAnother(bool show ){
-			if (showAnotherCount++ > 4){
+			if (gameOver || showAnotherCount++ > 4){
 				return;
 			}
 			hintText.text = another;
@@ -139,6 +150,9 @@ namespace UI.Level {
 		}
 
 		public void ShowHintEagle(bool show){
+			if (gameOver){
+				return;
+			}
 			hintText.text = eagle;
 			Fade(show);
 		}
