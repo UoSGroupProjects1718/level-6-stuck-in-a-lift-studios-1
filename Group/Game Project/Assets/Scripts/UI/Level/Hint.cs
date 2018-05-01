@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using GameState;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -27,7 +28,7 @@ namespace UI.Level {
 		private Text hintText;
 		private Image hintPanel;
 		private GameObject hintPanelObj;
-		private GameObject.hintTextObj;
+		private GameObject hintTextObj;
 
 		private bool gameOver = false;
 		private int showMoveCount = 0;
