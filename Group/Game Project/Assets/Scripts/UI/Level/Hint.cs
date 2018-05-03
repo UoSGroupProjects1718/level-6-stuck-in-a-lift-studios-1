@@ -56,7 +56,7 @@ namespace UI.Level {
 		}
 
 		void Update () {
-			if ( State.GetInstance().Level() != State.LEVEL_COMPLETE ){
+			if (State.GetInstance().Level() == State.LEVEL_COMPLETE){
 				hintPanelObj.SetActive(false);
 				gameOver = true;
 			}
